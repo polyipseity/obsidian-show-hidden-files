@@ -1,14 +1,14 @@
 {
 	"author": "polyipseity",
-	"description": "PLACEHOLDER",
+	"description": "Show dotfiles in Obsidian.",
 	"fundingUrl": {
 		"Buy Me a Coffee": "https://buymeacoffee.com/polyipseity",
 		"GitHub Sponsors": "https://github.com/sponsors/polyipseity"
 	},
 	"version": "latest",
 	"authorUrl": "https://github.com/polyipseity",
-	"id": "PLACEHOLDER",
+	"id": "show-dotfiles",
 	"isDesktopOnly": false,
 	"minAppVersion": "1.2.5",
-	"name": "PLACEHOLDER"
+	"name": "Show Dotfiles"
 }

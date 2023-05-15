@@ -14,7 +14,7 @@ import { loadDocumentations } from "./documentations.js"
 import { loadIcons } from "./icons.js"
 import { loadSettings } from "./settings.js"
 
-export class PLACEHOLDERPlugin
+export class ShowDotfilesPlugin
 	extends Plugin
 	implements PluginContext<Settings> {
 	public readonly version
@@ -79,4 +79,4 @@ export class PLACEHOLDERPlugin
 	}
 }
 // Needed for loading
-export default PLACEHOLDERPlugin
+export default ShowDotfilesPlugin

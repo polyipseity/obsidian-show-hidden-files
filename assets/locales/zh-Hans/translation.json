@@ -13,7 +13,7 @@
 		},
 		"donate": "捐赠"
 	},
-	"name": "PLACEHOLDER",
+	"name": "显示点文件",
 	"settings": {
 		"documentation": "$t(generic.documentation)",
 		"documentations": {

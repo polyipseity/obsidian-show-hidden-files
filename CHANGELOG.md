@@ -1,8 +1,8 @@
-# Changelog for PLACEHOLDER
+# Changelog for Show Dotfiles
 
 [Buy Me a Coffee]: https://buymeacoffee.com/polyipseity
 [Buy Me a Coffee/embed]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=polyipseity&button_colour=40DCA5&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00
-[readme]: https://github.com/polyipseity/obsidian-plugin-template/blob/main/README.md
+[readme]: https://github.com/polyipseity/obsidian-show-dotfiles/blob/main/README.md
 
 [![Buy Me a Coffee/embed]][Buy Me a Coffee]
 
@@ -14,4 +14,4 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
-__Full changelog__: [`758424a8d4174f67fc20bdd308060db168eeec34...main`](https://github.com/polyipseity/obsidian-plugin-template/compare/758424a8d4174f67fc20bdd308060db168eeec34...main)
+__Full changelog__: [`758424a8d4174f67fc20bdd308060db168eeec34...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/758424a8d4174f67fc20bdd308060db168eeec34...main)

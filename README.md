@@ -1,18 +1,16 @@
-# PLACEHOLDER for Obsidian [![release](https://img.shields.io/github/v/release/polyipseity/obsidian-plugin-template)][latest release] [![Obsidian downloads](https://img.shields.io/badge/dynamic/json?logo=Obsidian&color=%238b6cef&label=downloads&query=$["PLACEHOLDER"].downloads&url=https://raw.githubusercontent.com/obsidianmd/obsidian-releases/master/community-plugin-stats.json)][community plugin]
-
-To apply this template, replace all occurences of `PLACEHOLDER` and `obsidian-plugin-template`.
+# Show Dotfiles for Obsidian [![release](https://img.shields.io/github/v/release/polyipseity/obsidian-show-dotfiles)][latest release] [![Obsidian downloads](https://img.shields.io/badge/dynamic/json?logo=Obsidian&color=%238b6cef&label=downloads&query=$["show-dotfiles"].downloads&url=https://raw.githubusercontent.com/obsidianmd/obsidian-releases/master/community-plugin-stats.json)][community plugin]
 
 [Buy Me a Coffee]: https://buymeacoffee.com/polyipseity
 [Buy Me a Coffee/embed]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=polyipseity&button_colour=40DCA5&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00
 [Obsidian]: https://obsidian.md/
-[changelog]: https://github.com/polyipseity/obsidian-plugin-template/blob/main/CHANGELOG.md
-[community plugin]: https://obsidian.md/plugins?id=PLACEHOLDER
-[latest release]: https://github.com/polyipseity/obsidian-plugin-template/releases/latest
+[changelog]: https://github.com/polyipseity/obsidian-show-dotfiles/blob/main/CHANGELOG.md
+[community plugin]: https://obsidian.md/plugins?id=show-dotfiles
+[latest release]: https://github.com/polyipseity/obsidian-show-dotfiles/releases/latest
 [plugin library]: https://github.com/polyipseity/obsidian-plugin-library
-[repository]: https://github.com/polyipseity/obsidian-plugin-template
-[trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-plugin-template/main/assets/trailer.png
+[repository]: https://github.com/polyipseity/obsidian-show-dotfiles
+[trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-dotfiles/main/assets/trailer.png
 
-PLACEHOLDER
+Show dotfiles in [Obsidian].
 
 [![Buy Me a Coffee/embed]][Buy Me a Coffee]
 
@@ -38,7 +36,7 @@ This file is automatically opened on first install. You can reopen it in setting
 	- Community plugins
 		1. Install the [plugin][community plugin] from community plugins directly.
 	- Manual
-		1. Create directory `PLACEHOLDER` under `.obsidian/plugins` of your vault.
+		1. Create directory `show-dotfiles` under `.obsidian/plugins` of your vault.
 		2. Place `manifest.json`, `main.js`, and `styles.css` from the [latest release] into the directory.
 	- Building (latest)
 		1. Clone this repository, including its submodules.
@@ -62,7 +60,7 @@ Contributions are welcome!
 
 The todos here, ordered alphabetically, are things planned for the plugin. There are no guarantees that they will be completed. However, we are likely to accept contributions for them.
 
-- PLACEHOLDER
+- (None)
 
 ### Translating
 

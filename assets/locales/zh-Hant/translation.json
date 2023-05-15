@@ -13,7 +13,7 @@
 		},
 		"donate": "贊助"
 	},
-	"name": "PLACEHOLDER",
+	"name": "顯示點文件",
 	"settings": {
 		"documentation": "$t(generic.documentation)",
 		"documentations": {

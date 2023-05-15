@@ -5,14 +5,14 @@ import {
 	registerSettingsCommands,
 	resetButton,
 } from "obsidian-plugin-library"
-import type { PLACEHOLDERPlugin } from "./main.js"
+import type { ShowDotfilesPlugin } from "./main.js"
 import { Settings } from "./settings-data.js"
 import type { loadDocumentations } from "./documentations.js"
 import semverLt from "semver/functions/lt.js"
 
 export class SettingTab extends AdvancedSettingTab<Settings> {
 	public constructor(
-		context: PLACEHOLDERPlugin,
+		context: ShowDotfilesPlugin,
 		docs: loadDocumentations.Loaded,
 	) {
 		super(context)
@@ -93,7 +93,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 }
 
 export function loadSettings(
-	context: PLACEHOLDERPlugin,
+	context: ShowDotfilesPlugin,
 	docs: loadDocumentations.Loaded,
 ): void {
 	context.addSettingTab(new SettingTab(context, docs))

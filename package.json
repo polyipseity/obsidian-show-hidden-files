@@ -8,7 +8,7 @@
 		"semver": "^7.5.0",
 		"ts-essentials": "^9.3.2"
 	},
-	"description": "PLACEHOLDER",
+	"description": "Show dotfiles in Obsidian.",
 	"devDependencies": {
 		"@tsconfig/esm": "^1.0.3",
 		"@tsconfig/node16": "^1.0.4",
@@ -35,7 +35,7 @@
 		"typescript": "^5.0.4",
 		"typescript-svelte-plugin": "^0.3.25"
 	},
-	"displayName": "PLACEHOLDER",
+	"displayName": "Obsidian Show Dotfiles",
 	"files": [
 		"main.js",
 		"manifest.json",
@@ -52,20 +52,21 @@
 		}
 	],
 	"keywords": [
-		"PLACEHOLDER",
+		"dotfile",
+		"dotfiles",
 		"obsidian",
 		"obsidian-plugin",
 		"plugin"
 	],
 	"license": "MIT",
 	"main": "main.js",
-	"name": "PLACEHOLDER",
+	"name": "obsidian-show-dotfiles",
 	"obsidian": {
 		"authorUrl": "https://github.com/polyipseity",
-		"id": "PLACEHOLDER",
+		"id": "show-dotfiles",
 		"isDesktopOnly": false,
 		"minAppVersion": "1.2.5",
-		"name": "PLACEHOLDER"
+		"name": "Show Dotfiles"
 	},
 	"overrides": {
 		"tsconfig-paths": "^4.0.0"
