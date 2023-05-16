@@ -1,3 +1,4 @@
+import { identity, zip } from "lodash-es"
 import stacktraceJs, { type StackFrame } from "stacktrace-js"
 import { APP_FILENAME } from "./magic.js"
 import type { DeepReadonly } from "ts-essentials"
@@ -6,9 +7,17 @@ import { around } from "monkey-around"
 import { aroundIdentityFactory } from "obsidian-plugin-library"
 import deepEqual from "deep-equal"
 
-function getSelfFrames(stacktrace: readonly StackFrame[]): number {
-	return Math.max(0, stacktrace
-		.findIndex(({ fileName }) => fileName?.endsWith(APP_FILENAME)))
+function getSelfFrames(stacktraces: {
+	readonly pre: readonly StackFrame[]
+	readonly post: readonly StackFrame[]
+}): number {
+	const { pre, post } = stacktraces,
+		zipped = zip(pre, post, stacktraceJs.getSync())
+	let overhead = 1 + zipped.findIndex(sfs => !(sfs.every(identity) &&
+		sfs.every((sf, idx, arr) => idx < 1 ||
+			deepEqual(sf, arr[idx - 1], { strict: true }))))
+	if (overhead <= 0) { overhead = zipped.length }
+	return overhead + post.length - pre.length
 }
 
 function isInterceptingStartsWith(data: {
@@ -29,8 +38,9 @@ function isInterceptingStartsWith(data: {
 
 export function loadShowDotfiles(plugin: Plugin): void {
 	const maxErrors = 10,
-		mem = new Map<readonly StackFrame[], boolean>()
-	let selfFrames = -1 - getSelfFrames(stacktraceJs.getSync({})),
+		mem = new Map<readonly StackFrame[], boolean>(),
+		pre = stacktraceJs.getSync({})
+	let selfFrames = -1,
 		errors = 0
 	plugin.register(around(String.prototype, {
 		startsWith(proto) {
@@ -40,7 +50,10 @@ export function loadShowDotfiles(plugin: Plugin): void {
 			): ReturnType<string["startsWith"]> {
 				if (selfFrames < 0) {
 					try {
-						selfFrames += getSelfFrames(stacktraceJs.getSync({}))
+						selfFrames += getSelfFrames({
+							post: stacktraceJs.getSync({}),
+							pre,
+						})
 					} catch (error) {
 						if (errors++ < maxErrors) {
 							self.console.error(error)
