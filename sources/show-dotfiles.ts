@@ -14,12 +14,12 @@ function isInterceptingStartsWith(data: {
 }): boolean {
 	const { plugin: { manifest: { id } }, stacktrace } = data,
 		stacktrace0 = stacktrace
-			.filter(st => st.getFileName() !== `${PLUGIN_FILENAME_PREFIX}${id}`)
-	if (stacktrace0[0]?.getFileName()
-		.startsWith(PLUGIN_FILENAME_PREFIX) ?? true) { return false }
-	if (stacktrace.some(sf =>
-		sf.getFunctionName().endsWith("validateConfigDir") &&
-		sf.getFileName().endsWith(APP_FILENAME))) { return false }
+			.filter(({ fileName }) => fileName !== `${PLUGIN_FILENAME_PREFIX}${id}`)
+	if (stacktrace0[0]?.fileName
+		?.startsWith(PLUGIN_FILENAME_PREFIX) ?? true) { return false }
+	if (stacktrace.some(({ functionName, fileName }) =>
+		(functionName?.endsWith("validateConfigDir") ?? false) &&
+		fileName?.endsWith(APP_FILENAME))) { return false }
 	return true
 }
 
