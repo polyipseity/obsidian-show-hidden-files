@@ -89,7 +89,14 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 								stacktrace,
 							})
 							mem.set(stacktrace, intercept)
-							self.console.log(intercept, ...stacktrace)
+							self.console.log({
+								args,
+								dynamicOverhead,
+								exception,
+								intercept,
+								overhead,
+								self: this,
+							}, ...stacktrace)
 							return !intercept
 						} finally {
 							baseSt = null
