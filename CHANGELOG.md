@@ -16,7 +16,10 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 __Fixes__
 - Fix heuristics for detecting other plugin calls to `string#startsWith` not working on iOS. (`f98e1e6151e69c1ea15341956455aa6c59c2f837`)
-- Fix `Override config folder` failing on iOS> (`9a70c32a6f0d484f3a15cb0312944db15c4a36ed`..`7d48bad63088b4d6d65c9555373bd2620b193008`)
+- Fix `Override config folder` failing on iOS. (`9a70c32a6f0d484f3a15cb0312944db15c4a36ed`..`7d48bad63088b4d6d65c9555373bd2620b193008`)
+
+__Improvements__
+- Dynamically calculate overhead just in case someone else also patches `string#startsWith`. (`21779a0535de3a7fe9bf628751fd089576ed7001`)
 
 __Full changelog__: [`1.0.0...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.0...main)
 
