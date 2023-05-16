@@ -51,6 +51,9 @@ importers:
       '@tsconfig/svelte':
         specifier: ^4.0.1
         version: 4.0.1
+      '@types/deep-equal':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@types/lodash-es':
         specifier: ^4.17.7
         version: 4.17.7
