@@ -1,3 +1,4 @@
+import { APP_FILENAME, PLUGIN_FILENAME_PREFIX } from "./magic.js"
 import stacktraceJs, { type StackFrame } from "stacktrace-js"
 import type { DeepReadonly } from "ts-essentials"
 import type { Plugin } from "obsidian"
@@ -12,10 +13,13 @@ function isInterceptingStartsWith(data: {
 	readonly stacktrace: readonly StackFrame[]
 }): boolean {
 	const { plugin: { manifest: { id } }, stacktrace } = data,
-		stacktrace0 = stacktrace.filter(st => st.getFileName() !== `plugin:${id}`)
-	if (stacktrace0[0]?.getFileName().startsWith("plugin:") ?? true) {
-		return false
-	}
+		stacktrace0 = stacktrace
+			.filter(st => st.getFileName() !== `${PLUGIN_FILENAME_PREFIX}${id}`)
+	if (stacktrace0[0]?.getFileName()
+		.startsWith(PLUGIN_FILENAME_PREFIX) ?? true) { return false }
+	if (stacktrace.some(sf =>
+		sf.getFunctionName().endsWith("validateConfigDir") &&
+		sf.getFileName().endsWith(APP_FILENAME))) { return false }
 	return true
 }
 
