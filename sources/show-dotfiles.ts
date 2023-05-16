@@ -2,7 +2,7 @@ import { identity, zip } from "lodash-es"
 import stacktraceJs, { type StackFrame } from "stacktrace-js"
 import { APP_FILENAME } from "./magic.js"
 import type { DeepReadonly } from "ts-essentials"
-import type { Plugin } from "obsidian"
+import type { ShowDotfilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 import { aroundIdentityFactory } from "obsidian-plugin-library"
 import deepEqual from "deep-equal"
@@ -23,7 +23,7 @@ function getSelfFrames(stacktraces: {
 function isInterceptingStartsWith(data: {
 	readonly self: string
 	readonly args: DeepReadonly<Parameters<string["startsWith"]>>
-	readonly plugin: Plugin
+	readonly context: ShowDotfilesPlugin
 	readonly selfFrames: number
 	readonly stacktrace: readonly StackFrame[]
 }): boolean {
@@ -36,13 +36,13 @@ function isInterceptingStartsWith(data: {
 	return true
 }
 
-export function loadShowDotfiles(plugin: Plugin): void {
+export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 	const maxErrors = 10,
 		mem = new Map<readonly StackFrame[], boolean>(),
 		pre = stacktraceJs.getSync({})
 	let selfFrames = -1,
 		errors = 0
-	plugin.register(around(String.prototype, {
+	context.register(around(String.prototype, {
 		startsWith(proto) {
 			return function fn(
 				this: string,
@@ -74,7 +74,7 @@ export function loadShowDotfiles(plugin: Plugin): void {
 						}
 						const intercept = isInterceptingStartsWith({
 							args,
-							plugin,
+							context,
 							self: this,
 							selfFrames,
 							stacktrace,
