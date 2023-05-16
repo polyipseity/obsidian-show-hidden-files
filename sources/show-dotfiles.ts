@@ -70,11 +70,11 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 										.findIndex(sf => deepEqual(sf, top, { strict: true }))
 									: -1)
 							dynamicOverhead = offset + stacktrace.length - baseSt.length
-							return ret
+							return true
 						}
 						for (const [key, intercept] of mem) {
 							if (deepEqual(stacktrace, key, { strict: true })) {
-								return intercept ? false : ret
+								return !intercept
 							}
 						}
 						baseSt = stacktrace
@@ -90,7 +90,7 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 							})
 							mem.set(stacktrace, intercept)
 							self.console.log(intercept, ...stacktrace)
-							return intercept ? false : ret
+							return !intercept
 						} finally {
 							baseSt = null
 						}
@@ -106,7 +106,6 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 		toString: aroundIdentityFactory(),
 		valueOf: aroundIdentityFactory(),
 	}))
-	".".startsWith(".")
 	revealPrivate(context, [vault], vault0 => {
 		context.register(around(vault0.constructor, {
 			toString: aroundIdentityFactory(),
