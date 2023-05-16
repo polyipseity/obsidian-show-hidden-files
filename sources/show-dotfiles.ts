@@ -1,10 +1,11 @@
+import { aroundIdentityFactory, revealPrivate } from "obsidian-plugin-library"
 import { identity, zip } from "lodash-es"
 import stacktraceJs, { type StackFrame } from "stacktrace-js"
 import { APP_FILENAME } from "./magic.js"
 import type { DeepReadonly } from "ts-essentials"
 import type { ShowDotfilesPlugin } from "./main.js"
+import type { Vault } from "obsidian"
 import { around } from "monkey-around"
-import { aroundIdentityFactory } from "obsidian-plugin-library"
 import deepEqual from "deep-equal"
 
 function getSelfFrames(stacktraces: {
@@ -24,30 +25,33 @@ function isInterceptingStartsWith(data: {
 	readonly self: string
 	readonly args: DeepReadonly<Parameters<string["startsWith"]>>
 	readonly context: ShowDotfilesPlugin
+	readonly exception: boolean
 	readonly selfFrames: number
 	readonly stacktrace: readonly StackFrame[]
 }): boolean {
-	const { stacktrace, selfFrames } = data,
+	const { stacktrace, selfFrames, exception } = data,
 		stacktrace0 = stacktrace.slice(selfFrames)
-	if (!(stacktrace0[0]?.fileName?.endsWith(APP_FILENAME) ?? false) ||
-		stacktrace0.some(({ functionName, fileName }) =>
-			(functionName?.endsWith("validateConfigDir") ?? false) &&
-			fileName?.endsWith(APP_FILENAME))) { return false }
+	if (exception ||
+		!(stacktrace0[0]?.fileName?.endsWith(APP_FILENAME) ?? false)) {
+		return false
+	}
 	return true
 }
 
 export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
-	const maxErrors = 10,
+	const { app } = context,
+		maxErrors = 10,
 		mem = new Map<readonly StackFrame[], boolean>(),
 		pre = stacktraceJs.getSync({})
 	let selfFrames = -1,
+		exception = false,
 		errors = 0
 	context.register(around(String.prototype, {
 		startsWith(proto) {
 			return function fn(
 				this: string,
-				...args: Parameters<string["startsWith"]>
-			): ReturnType<string["startsWith"]> {
+				...args: Parameters<typeof proto>
+			): ReturnType<typeof proto> {
 				if (selfFrames < 0) {
 					try {
 						selfFrames += getSelfFrames({
@@ -75,6 +79,7 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 						const intercept = isInterceptingStartsWith({
 							args,
 							context,
+							exception,
 							self: this,
 							selfFrames,
 							stacktrace,
@@ -95,4 +100,22 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 		valueOf: aroundIdentityFactory(),
 	}))
 	".".startsWith(".")
+	revealPrivate(context, [app], app0 => {
+		context.register(around(app0.constructor, {
+			toString: aroundIdentityFactory(),
+			validateConfigDir(proto) {
+				return function fn(
+					this: Vault,
+					...args: Parameters<typeof proto>
+				): ReturnType<typeof proto> {
+					exception = true
+					try {
+						return proto.apply(this, args)
+					} finally {
+						exception = false
+					}
+				}
+			},
+		}))
+	}, _error => { })
 }
