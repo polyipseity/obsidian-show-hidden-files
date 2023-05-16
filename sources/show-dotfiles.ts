@@ -18,7 +18,7 @@ function getOverhead(): number {
 			sfs.every((sf, idx, arr) => idx < 1 ||
 				deepEqual(sf, arr[idx - 1], { strict: true }))))
 	if (overhead === -1) { return sts.length }
-	return overhead + 1
+	return overhead
 }
 
 function isInterceptingStartsWith(data: {
