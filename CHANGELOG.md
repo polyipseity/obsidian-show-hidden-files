@@ -14,4 +14,14 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
-__Full changelog__: [`758424a8d4174f67fc20bdd308060db168eeec34...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/758424a8d4174f67fc20bdd308060db168eeec34...main)
+__Full changelog__: [`1.0.0...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.0...main)
+
+## 1.0.0 (2023-05-16)
+
+Initial release! 🥳
+
+Please report any bugs you have found!
+
+Inspired by [this forum post](https://forum.obsidian.md/t/enable-use-of-hidden-files-dotfiles-within-obsidian/26908).
+
+__Full changelog__: [`758424a8d4174f67fc20bdd308060db168eeec34...1.0.0`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/758424a8d4174f67fc20bdd308060db168eeec34...1.0.0)
