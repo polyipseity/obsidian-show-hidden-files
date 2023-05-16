@@ -14,6 +14,9 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
+__Fixes__
+- Fix heuristics for detecting other plugin calls to `string#startsWith` not working on iOS. (`f98e1e6151e69c1ea15341956455aa6c59c2f837`)
+
 __Full changelog__: [`1.0.0...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.0...main)
 
 ## 1.0.0 (2023-05-16)
