@@ -67,7 +67,7 @@ export function loadShowDotfiles(plugin: Plugin): void {
 							stacktrace,
 						})
 						mem.set(stacktrace, intercept)
-						self.console.log(...stacktrace)
+						self.console.log(intercept, ...stacktrace)
 						return intercept ? false : ret
 					} catch (error) {
 						if (errors++ < maxErrors) {
