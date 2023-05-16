@@ -6,6 +6,7 @@
 [changelog]: https://github.com/polyipseity/obsidian-show-dotfiles/blob/main/CHANGELOG.md
 [community plugin]: https://obsidian.md/plugins?id=show-dotfiles
 [latest release]: https://github.com/polyipseity/obsidian-show-dotfiles/releases/latest
+[other things]: https://github.com/polyipseity/obsidian-monorepo
 [plugin library]: https://github.com/polyipseity/obsidian-plugin-library
 [repository]: https://github.com/polyipseity/obsidian-show-dotfiles
 [trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-dotfiles/main/assets/trailer.png
@@ -14,17 +15,13 @@ Show dotfiles in [Obsidian].
 
 [![Buy Me a Coffee/embed]][Buy Me a Coffee]
 
-__[Features](#features) · [Installation](#installation) · [Usage](#usage) · [Contributing](#contributing) · [Security](#security)__
+__[Repository] · [Changelog] · [Community plugin] · [Other things] · [Features](#features) · [Installation](#installation) · [Usage](#usage) · [Contributing](#contributing) · [Security](#security)__
 
 ![Trailer]
 
 For first time users, read the [installation](#installation) section first!
 
 This file is automatically opened on first install. You can reopen it in settings or command palette.
-
-- [Repository]
-- [Changelog]
-- [Community plugin]
 
 ## Features
 
