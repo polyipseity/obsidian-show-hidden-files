@@ -1,6 +1,5 @@
 export const
-	APP_FILENAME = "app.js",
-	PLUGIN_FILENAME_PREFIX = "plugin:"
+	APP_FILENAME = "app.js"
 
 export namespace DOMClasses2 {
 	export const
