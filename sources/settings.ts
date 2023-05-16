@@ -5,8 +5,8 @@ import {
 	registerSettingsCommands,
 	resetButton,
 } from "obsidian-plugin-library"
-import type { ShowDotfilesPlugin } from "./main.js"
 import { Settings } from "./settings-data.js"
+import type { ShowDotfilesPlugin } from "./main.js"
 import type { loadDocumentations } from "./documentations.js"
 import semverLt from "semver/functions/lt.js"
 
