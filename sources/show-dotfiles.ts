@@ -13,7 +13,7 @@ function isInterceptingStartsWith(data: {
 }): boolean {
 	const { plugin: { manifest: { id } }, stacktrace } = data,
 		stacktrace0 = stacktrace.filter(st => st.getFileName() !== `plugin:${id}`)
-	if (stacktrace0.some(sf => sf.getFileName().startsWith("plugin:"))) {
+	if (stacktrace0[0]?.getFileName().startsWith("plugin:") ?? true) {
 		return false
 	}
 	return true
