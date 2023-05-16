@@ -8,17 +8,17 @@ import type { Vault } from "obsidian"
 import { around } from "monkey-around"
 import deepEqual from "deep-equal"
 
-function getSelfFrames(stacktraces: {
-	readonly pre: readonly StackFrame[]
-	readonly post: readonly StackFrame[]
-}): number {
-	const { pre, post } = stacktraces,
-		zipped = zip(pre, post, stacktraceJs.getSync())
-	let overhead = 1 + zipped.findIndex(sfs => !(sfs.every(identity) &&
-		sfs.every((sf, idx, arr) => idx < 1 ||
-			deepEqual(sf, arr[idx - 1], { strict: true }))))
-	if (overhead <= 0) { overhead = zipped.length }
-	return overhead + post.length - pre.length
+function getOverhead(): number {
+	const
+		sts = zip(
+			stacktraceJs.getSync({}),
+			((): stacktraceJs.StackFrame[] => stacktraceJs.getSync({}))(),
+		),
+		overhead = sts.findIndex(sfs => !(sfs.every(identity) &&
+			sfs.every((sf, idx, arr) => idx < 1 ||
+				deepEqual(sf, arr[idx - 1], { strict: true }))))
+	if (overhead === -1) { return sts.length }
+	return overhead + 1
 }
 
 function isInterceptingStartsWith(data: {
@@ -26,11 +26,11 @@ function isInterceptingStartsWith(data: {
 	readonly args: DeepReadonly<Parameters<string["startsWith"]>>
 	readonly context: ShowDotfilesPlugin
 	readonly exception: boolean
-	readonly selfFrames: number
 	readonly stacktrace: readonly StackFrame[]
+	readonly overhead: number
 }): boolean {
-	const { stacktrace, selfFrames, exception } = data,
-		stacktrace0 = stacktrace.slice(selfFrames)
+	const { stacktrace, overhead, exception } = data,
+		stacktrace0 = stacktrace.slice(overhead)
 	if (exception ||
 		!(stacktrace0[0]?.fileName?.endsWith(APP_FILENAME) ?? false)) {
 		return false
@@ -42,8 +42,9 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 	const { app: { vault } } = context,
 		maxErrors = 10,
 		mem = new Map<readonly StackFrame[], boolean>(),
-		pre = stacktraceJs.getSync({})
-	let selfFrames = -1,
+		overhead = getOverhead()
+	let baseSt: readonly StackFrame[] | null = null,
+		dynamicOverhead = 0,
 		exception = false,
 		errors = 0
 	context.register(around(String.prototype, {
@@ -52,41 +53,47 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 				this: string,
 				...args: Parameters<typeof proto>
 			): ReturnType<typeof proto> {
-				if (selfFrames < 0) {
-					try {
-						selfFrames += getSelfFrames({
-							post: stacktraceJs.getSync({}),
-							pre,
-						})
-					} catch (error) {
-						if (errors++ < maxErrors) {
-							self.console.error(error)
-						}
-					} finally {
-						++selfFrames
-					}
-				}
 				const ret = proto.apply(this, args)
 				// Check for performance
 				if (args[0] === "." && ret) {
 					try {
 						const stacktrace = stacktraceJs.getSync({})
+						if (baseSt) {
+							const top = stacktrace.at(-1),
+
+								/*
+								 * Can only handle slightly truncated stacktraces, making some
+								 * room for extra patches on `string#startsWith`.
+								 */
+								offset = Math.max(0, top
+									? [...baseSt].reverse()
+										.findIndex(sf => deepEqual(sf, top, { strict: true }))
+									: -1)
+							dynamicOverhead = offset + stacktrace.length - baseSt.length
+							return ret
+						}
 						for (const [key, intercept] of mem) {
 							if (deepEqual(stacktrace, key, { strict: true })) {
 								return intercept ? false : ret
 							}
 						}
-						const intercept = isInterceptingStartsWith({
-							args,
-							context,
-							exception,
-							self: this,
-							selfFrames,
-							stacktrace,
-						})
-						mem.set(stacktrace, intercept)
-						self.console.log(intercept, ...stacktrace)
-						return intercept ? false : ret
+						baseSt = stacktrace
+						try {
+							".".startsWith(".")
+							const intercept = isInterceptingStartsWith({
+								args,
+								context,
+								exception,
+								overhead: overhead + dynamicOverhead,
+								self: this,
+								stacktrace,
+							})
+							mem.set(stacktrace, intercept)
+							self.console.log(intercept, ...stacktrace)
+							return intercept ? false : ret
+						} finally {
+							baseSt = null
+						}
 					} catch (error) {
 						if (errors++ < maxErrors) {
 							self.console.error(error)
