@@ -13,6 +13,7 @@ import { isNil } from "lodash-es"
 import { loadDocumentations } from "./documentations.js"
 import { loadIcons } from "./icons.js"
 import { loadSettings } from "./settings.js"
+import { loadShowDotfiles } from "./show-dotfiles.js"
 
 export class ShowDotfilesPlugin
 	extends Plugin
@@ -71,6 +72,7 @@ export class ShowDotfilesPlugin
 						const docs = loadDocumentations(this, isNil(await loaded))
 						loadSettings(this, docs)
 					})(),
+					Promise.resolve().then(() => { loadShowDotfiles(this) }),
 				])
 			} catch (error) {
 				self.console.error(error)
