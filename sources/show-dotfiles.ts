@@ -39,7 +39,7 @@ function isInterceptingStartsWith(data: {
 }
 
 export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
-	const { app } = context,
+	const { app: { vault } } = context,
 		maxErrors = 10,
 		mem = new Map<readonly StackFrame[], boolean>(),
 		pre = stacktraceJs.getSync({})
@@ -100,8 +100,8 @@ export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
 		valueOf: aroundIdentityFactory(),
 	}))
 	".".startsWith(".")
-	revealPrivate(context, [app], app0 => {
-		context.register(around(app0.constructor, {
+	revealPrivate(context, [vault], vault0 => {
+		context.register(around(vault0.constructor, {
 			toString: aroundIdentityFactory(),
 			validateConfigDir(proto) {
 				return function fn(

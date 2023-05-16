@@ -11,10 +11,10 @@ declare module "obsidian-plugin-library" {
 }
 
 declare module "obsidian" {
-	interface App extends Private<$App, PrivateKey> { }
+	interface Vault extends Private<$Vault, PrivateKey> { }
 }
 
-interface $App {
+interface $Vault {
 	readonly constructor: {
 		readonly validateConfigDir: (name: string) => boolean
 	}
