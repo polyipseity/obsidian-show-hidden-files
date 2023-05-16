@@ -28,7 +28,9 @@ This file is automatically opened on first install. You can reopen it in setting
 
 ## Features
 
-- PLACEHOLDER
+- Show dotfiles that are forcefully hidden in vanilla Obsidian.
+- Interact with dotfiles normally like normal files.
+- Highly compatible with other plugins.
 
 ## Installation
 
@@ -50,7 +52,7 @@ This file is automatically opened on first install. You can reopen it in setting
 
 ## Usage
 
-- PLACEHOLDER
+- Enable the plugin. Now you can interact with dotfiles normally like other files.
 
 ## Contributing
 
