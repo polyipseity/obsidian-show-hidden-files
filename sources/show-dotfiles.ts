@@ -8,11 +8,11 @@ import type { Vault } from "obsidian"
 import { around } from "monkey-around"
 import deepEqual from "deep-equal"
 
-function getOverhead(): number {
+async function getOverhead(): Promise<number> {
 	const
 		sts = zip(
 			stacktraceJs.getSync({}),
-			((): stacktraceJs.StackFrame[] => stacktraceJs.getSync({}))(),
+			await Promise.resolve().then(() => stacktraceJs.getSync({})),
 		),
 		overhead = sts.findIndex(sfs => !(sfs.every(identity) &&
 			sfs.every((sf, idx, arr) => idx < 1 ||
@@ -38,11 +38,13 @@ function isInterceptingStartsWith(data: {
 	return true
 }
 
-export function loadShowDotfiles(context: ShowDotfilesPlugin): void {
+export async function loadShowDotfiles(
+	context: ShowDotfilesPlugin,
+): Promise<void> {
 	const { app: { vault } } = context,
 		maxErrors = 10,
 		mem = new Map<readonly StackFrame[], boolean>(),
-		overhead = getOverhead()
+		overhead = await getOverhead()
 	let baseSt: readonly StackFrame[] | null = null,
 		dynamicOverhead = 0,
 		exception = false,

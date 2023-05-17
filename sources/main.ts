@@ -72,7 +72,7 @@ export class ShowDotfilesPlugin
 						const docs = loadDocumentations(this, isNil(await loaded))
 						loadSettings(this, docs)
 					})(),
-					Promise.resolve().then(() => { loadShowDotfiles(this) }),
+					loadShowDotfiles(this),
 				])
 			} catch (error) {
 				self.console.error(error)
