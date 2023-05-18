@@ -42,6 +42,7 @@ export async function loadShowDotfiles(
 	context: ShowDotfilesPlugin,
 ): Promise<void> {
 	const { app: { vault } } = context,
+		debug = false,
 		maxErrors = 10,
 		mem = new Map<readonly StackFrame[], boolean>(),
 		overhead = await getOverhead()
@@ -74,9 +75,12 @@ export async function loadShowDotfiles(
 							dynamicOverhead = offset + stacktrace.length - baseSt.length
 							return true
 						}
-						for (const [key, intercept] of mem) {
-							if (deepEqual(stacktrace, key, { strict: true })) {
-								return !intercept
+						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						if (debug) {
+							for (const [key, intercept] of mem) {
+								if (deepEqual(stacktrace, key, { strict: true })) {
+									return !intercept
+								}
 							}
 						}
 						baseSt = stacktrace
@@ -90,15 +94,18 @@ export async function loadShowDotfiles(
 								self: this,
 								stacktrace,
 							})
-							mem.set(stacktrace, intercept)
-							self.console.log({
-								args,
-								dynamicOverhead,
-								exception,
-								intercept,
-								overhead,
-								self: this,
-							}, ...stacktrace)
+							// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+							if (debug) {
+								mem.set(stacktrace, intercept)
+								self.console.log({
+									args,
+									dynamicOverhead,
+									exception,
+									intercept,
+									overhead,
+									self: this,
+								}, ...stacktrace)
+							}
 							return !intercept
 						} finally {
 							baseSt = null
