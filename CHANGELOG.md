@@ -14,7 +14,14 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
-__Full changelog__: [`1.0.1...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.1...main)
+__Full changelog__: [`1.0.2...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.2...main)
+
+## 1.0.2 (2023-05-18)
+
+__Improvements__
+- Improve performance. (`742f9abdd559eca0391769a2adf08da27a8f4496`)
+
+__Full changelog__: [`1.0.1...1.0.2`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.1...1.0.2)
 
 ## 1.0.1 (2023-05-17)
 
