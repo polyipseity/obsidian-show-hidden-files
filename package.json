@@ -97,7 +97,7 @@
 	"sideEffects": false,
 	"style": "styles.css",
 	"type": "module",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"workspaces": [
 		"build/*"
 	]
