@@ -14,11 +14,15 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
+__Full changelog__: [`1.0.3...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.3...main)
+
+## 1.0.3 (2023-07-01)
+
 __Improvements__
 - Remove confusing "Malformed data" notice. (`8b2e50ffcd085625dde0d0262e20fc1bfca90a8d`)
 - Update npm packages to remove vulnerabilities. (`9f72566d714a238f6ea29aa4783816c2704f93dc`)
 
-__Full changelog__: [`1.0.2...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.2...main)
+__Full changelog__: [`1.0.2...1.0.3`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.2...1.0.3)
 
 ## 1.0.2 (2023-05-18)
 
