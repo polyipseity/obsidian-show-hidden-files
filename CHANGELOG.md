@@ -16,6 +16,7 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 __Improvements__
 - Remove confusing "Malformed data" notice. (`8b2e50ffcd085625dde0d0262e20fc1bfca90a8d`)
+- Update npm packages to remove vulnerabilities. (`9f72566d714a238f6ea29aa4783816c2704f93dc`)
 
 __Full changelog__: [`1.0.2...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.2...main)
 
