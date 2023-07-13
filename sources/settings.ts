@@ -4,7 +4,7 @@ import {
 	linkSetting,
 	registerSettingsCommands,
 	resetButton,
-} from "obsidian-plugin-library"
+} from "@polyipseity/obsidian-plugin-library"
 import { Settings } from "./settings-data.js"
 import type { ShowDotfilesPlugin } from "./main.js"
 import type { loadDocumentations } from "./documentations.js"
