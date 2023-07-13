@@ -5,7 +5,7 @@
 	},
 	"dependencies": {
 		"@polyipseity/obsidian-plugin-library": "^1.6.0",
-		"deep-equal": "^2.2.1",
+		"deep-equal": "^2.2.2",
 		"i18next": "^23.2.11",
 		"lodash-es": "^4.17.21",
 		"monkey-around": "^2.3.0",
