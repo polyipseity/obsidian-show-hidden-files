@@ -4,12 +4,12 @@
 		"url": "https://github.com/polyipseity/PLACEHOLDER"
 	},
 	"dependencies": {
+		"@polyipseity/obsidian-plugin-library": "^1.6.0",
 		"deep-equal": "^2.2.1",
 		"i18next": "^23.2.11",
 		"lodash-es": "^4.17.21",
 		"monkey-around": "^2.3.0",
 		"obsidian": "^1.2.8",
-		"@polyipseity/obsidian-plugin-library": "^1.6.0",
 		"semver": "^7.5.4",
 		"stacktrace-js": "^2.0.2",
 		"ts-essentials": "^9.3.2"
