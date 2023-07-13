@@ -1,4 +1,7 @@
-import { aroundIdentityFactory, revealPrivate } from "obsidian-plugin-library"
+import {
+	aroundIdentityFactory,
+	revealPrivate,
+} from "@polyipseity/obsidian-plugin-library"
 import { identity, zip } from "lodash-es"
 import stacktraceJs, { type StackFrame } from "stacktrace-js"
 import { APP_FILENAME } from "./magic.js"
