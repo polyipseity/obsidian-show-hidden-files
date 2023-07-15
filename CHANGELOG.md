@@ -16,6 +16,9 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 - Update minimum Obsidian version to v1.2.8. (`85d498d7cecf28b07e0562c4d9c1c793bf0344c0`)
 
+__Fixes__
+- Fix the command to export settings to clipboard. (`993dff6c94b7e70e53c42afdad3fa8e56324a3aa`)
+
 __Full changelog__: [`1.0.3...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.3...main)
 
 ## 1.0.3 (2023-07-01)
