@@ -25,7 +25,7 @@ async function getOverhead(): Promise<number> {
 }
 
 function isInterceptingStartsWith(data: {
-	readonly self: string
+	readonly this: string
 	readonly args: DeepReadonly<Parameters<string["startsWith"]>>
 	readonly context: ShowDotfilesPlugin
 	readonly exception: boolean
@@ -94,8 +94,8 @@ export async function loadShowDotfiles(
 								context,
 								exception,
 								overhead: overhead + dynamicOverhead,
-								self: this,
 								stacktrace,
+								"this": this,
 							})
 							// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 							if (debug) {
@@ -106,7 +106,7 @@ export async function loadShowDotfiles(
 									exception,
 									intercept,
 									overhead,
-									self: this,
+									"this": this,
 								}, ...stacktrace)
 							}
 							return !intercept
