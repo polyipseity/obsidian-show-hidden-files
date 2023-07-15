@@ -69,7 +69,7 @@ export class ShowDotfilesPlugin
 				await Promise.all([
 					Promise.resolve().then(() => { loadIcons(this) }),
 					(async (): Promise<void> => {
-						const docs = loadDocumentations(this, isNil(await loaded))
+						const docs = loadDocumentations(this, isNil(loaded))
 						loadSettings(this, docs)
 					})(),
 					loadShowDotfiles(this),
