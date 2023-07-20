@@ -16,6 +16,9 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 - Update minimum Obsidian version to v1.2.8. (`85d498d7cecf28b07e0562c4d9c1c793bf0344c0`)
 
+__Features__
+- Add three commands to toggle visibility of hidden files. (`8ccce72c4d35c6aafbc02cec7770a711d278c4f4`)
+
 __Fixes__
 - Fix the command to export settings to clipboard. (`993dff6c94b7e70e53c42afdad3fa8e56324a3aa`)
 - Fix lifecycle management. (`46771b52d6db6c1523a959d8204bc921bd7121ca`)
