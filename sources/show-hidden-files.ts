@@ -1,7 +1,9 @@
 import {
 	type PluginContext,
 	addCommand,
+	anyToError,
 	deepFreeze,
+	printError,
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
@@ -18,6 +20,13 @@ export async function loadShowHiddenFiles(
 			settings,
 		} = context,
 		hiddenPaths = new Set<string>()
+	function onErr(error: unknown): void {
+		printError(
+			anyToError(error),
+			() => i18n.t("errors.error-mutating-settings"),
+			context,
+		)
+	}
 	async function showAll(): Promise<void> {
 		await Promise.all([...hiddenPaths]
 			.map(async path => showFile(context, path)))
@@ -75,28 +84,43 @@ export async function loadShowHiddenFiles(
 		await revealPrivateAsync(context, [adapter], async adapter0 =>
 			adapter0.listAll(), _0 => { })
 	}
-	for (const { type, callback } of deepFreeze([
+	for (const { type, checkCallback } of deepFreeze([
 		{
-			callback: async () => settings.mutate(set => {
-				set.showHiddenFiles = true
-			}),
+			checkCallback: (checking: boolean): boolean => {
+				const ret = !settings.value.showHiddenFiles
+				if (ret && !checking) {
+					settings.mutate(set => { set.showHiddenFiles = true })
+						.catch(onErr)
+				}
+				return ret
+			},
 			type: "show",
 		},
 		{
-			callback: async () => settings.mutate(set => {
-				set.showHiddenFiles = false
-			}),
+			checkCallback: (checking: boolean): boolean => {
+				const ret = settings.value.showHiddenFiles
+				if (ret && !checking) {
+					settings.mutate(set => { set.showHiddenFiles = false })
+						.catch(onErr)
+				}
+				return ret
+			},
 			type: "hide",
 		},
 		{
-			callback: async () => settings.mutate(set => {
-				set.showHiddenFiles = !set.showHiddenFiles
-			}),
+			checkCallback: (checking: boolean): boolean => {
+				if (!checking) {
+					settings.mutate(set => {
+						set.showHiddenFiles = !set.showHiddenFiles
+					}).catch(onErr)
+				}
+				return true
+			},
 			type: "toggle",
 		},
 	])) {
 		addCommand(context, () => i18n.t(`commands.show-hidden-files-${type}`), {
-			callback,
+			checkCallback,
 			icon: i18n.t(`asset:commands.show-hidden-files-${type}-icon`),
 			id: `show-hidden-files.${type}`,
 		})

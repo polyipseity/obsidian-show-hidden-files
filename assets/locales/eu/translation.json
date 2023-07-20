@@ -7,6 +7,9 @@
 		"show-hidden-files-show": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
 		"show-hidden-files-toggle": "$t(generic.toggle, capitalize) $t(generic.hidden-file_other)"
 	},
+	"errors": {
+		"error-mutating-settings": "Error mutating settings"
+	},
 	"generic": {
 		"documentation": "documentation",
 		"documentations": {

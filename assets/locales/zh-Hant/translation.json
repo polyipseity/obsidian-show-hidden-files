@@ -7,6 +7,9 @@
 		"show-hidden-files-show": "$t(generic.show)$t(generic.hidden-file)",
 		"show-hidden-files-toggle": "$t(generic.toggle)$t(generic.hidden-file)"
 	},
+	"errors": {
+		"error-mutating-settings": "更改設置時出錯"
+	},
 	"generic": {
 		"documentation": "文檔",
 		"documentations": {
