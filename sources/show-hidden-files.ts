@@ -91,6 +91,7 @@ export function loadShowHiddenFiles(
 				const ret = !settings.value.showHiddenFiles
 				if (ret && !checking) {
 					settings.mutate(set => { set.showHiddenFiles = true })
+						.then(async () => settings.write())
 						.catch(onErr)
 				}
 				return ret
@@ -102,6 +103,7 @@ export function loadShowHiddenFiles(
 				const ret = settings.value.showHiddenFiles
 				if (ret && !checking) {
 					settings.mutate(set => { set.showHiddenFiles = false })
+						.then(async () => settings.write())
 						.catch(onErr)
 				}
 				return ret
@@ -113,7 +115,8 @@ export function loadShowHiddenFiles(
 				if (!checking) {
 					settings.mutate(set => {
 						set.showHiddenFiles = !set.showHiddenFiles
-					}).catch(onErr)
+					}).then(async () => settings.write())
+						.catch(onErr)
 				}
 				return true
 			},
