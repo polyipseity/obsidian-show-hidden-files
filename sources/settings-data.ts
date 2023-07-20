@@ -19,6 +19,7 @@ import { PluginLocales } from "../assets/locales.js"
 export interface Settings extends PluginContext.Settings {
 	readonly language: Settings.DefaultableLanguage
 	readonly openChangelogOnUpdate: boolean
+	readonly enabled: boolean
 
 	readonly lastReadChangelogVersion: SemVerString
 }
@@ -39,6 +40,7 @@ export namespace Settings {
 	}
 
 	export const DEFAULT: Persistent = deepFreeze({
+		enabled: true,
 		errorNoticeTimeout: NOTICE_NO_TIMEOUT,
 		language: "",
 		noticeTimeout: 5,
@@ -52,6 +54,12 @@ export namespace Settings {
 	export function fix(self0: unknown): Fixed<Settings> {
 		const unc = launderUnchecked<Settings>(self0)
 		return markFixed(self0, {
+			enabled: fixTyped(
+				DEFAULT,
+				unc,
+				"enabled",
+				["boolean"],
+			),
 			errorNoticeTimeout: fixTyped(
 				DEFAULT,
 				unc,
