@@ -5,13 +5,11 @@
 	},
 	"dependencies": {
 		"@polyipseity/obsidian-plugin-library": "^1.10.0",
-		"deep-equal": "^2.2.2",
 		"i18next": "^23.2.11",
 		"lodash-es": "^4.17.21",
 		"monkey-around": "^2.3.0",
 		"obsidian": "^1.2.8",
 		"semver": "^7.5.4",
-		"stacktrace-js": "^2.0.2",
 		"ts-essentials": "^9.3.2"
 	},
 	"description": "Show dotfiles in Obsidian.",
@@ -22,7 +20,6 @@
 		"@tsconfig/recommended": "^1.0.2",
 		"@tsconfig/strictest": "^2.0.1",
 		"@tsconfig/svelte": "^5.0.0",
-		"@types/deep-equal": "^1.0.1",
 		"@types/lodash-es": "^4.17.8",
 		"@types/node": "^20.4.2",
 		"@types/semver": "^7.5.0",
