@@ -19,7 +19,7 @@ import { PluginLocales } from "../assets/locales.js"
 export interface Settings extends PluginContext.Settings {
 	readonly language: Settings.DefaultableLanguage
 	readonly openChangelogOnUpdate: boolean
-	readonly enabled: boolean
+	readonly showHiddenFiles: boolean
 
 	readonly lastReadChangelogVersion: SemVerString
 }
@@ -40,11 +40,11 @@ export namespace Settings {
 	}
 
 	export const DEFAULT: Persistent = deepFreeze({
-		enabled: true,
 		errorNoticeTimeout: NOTICE_NO_TIMEOUT,
 		language: "",
 		noticeTimeout: 5,
 		openChangelogOnUpdate: true,
+		showHiddenFiles: true,
 	})
 
 	export const DEFAULTABLE_LANGUAGES =
@@ -54,12 +54,6 @@ export namespace Settings {
 	export function fix(self0: unknown): Fixed<Settings> {
 		const unc = launderUnchecked<Settings>(self0)
 		return markFixed(self0, {
-			enabled: fixTyped(
-				DEFAULT,
-				unc,
-				"enabled",
-				["boolean"],
-			),
 			errorNoticeTimeout: fixTyped(
 				DEFAULT,
 				unc,
@@ -92,6 +86,12 @@ export namespace Settings {
 			recovery: Object.fromEntries(Object
 				.entries(launderUnchecked(unc.recovery))
 				.map(([key, value]) => [key, String(value)])),
+			showHiddenFiles: fixTyped(
+				DEFAULT,
+				unc,
+				"showHiddenFiles",
+				["boolean"],
+			),
 		})
 	}
 }

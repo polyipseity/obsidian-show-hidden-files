@@ -21,7 +21,7 @@ export async function loadShowHiddenFiles(
 	}
 	context.register(hideAll)
 	context.register(settings.onMutate(
-		setting => setting.enabled,
+		setting => setting.showHiddenFiles,
 		async cur => cur ? showAll() : hideAll(),
 	))
 	async function onRaw(path: string): Promise<void> {
@@ -32,7 +32,7 @@ export async function loadShowHiddenFiles(
 				return
 			}
 			hiddenPaths.add(path)
-			if (settings.value.enabled) { await showFile(context, path) }
+			if (settings.value.showHiddenFiles) { await showFile(context, path) }
 		}
 	}
 	revealPrivate(context, [vault], vault0 => {
@@ -43,7 +43,7 @@ export async function loadShowHiddenFiles(
 					this: typeof adapter,
 					...args: Parameters<typeof proto>
 				): ReturnType<typeof proto> {
-					if (settings.value.enabled) {
+					if (settings.value.showHiddenFiles) {
 						const [realPath, path] = args,
 							pathnames = path.split("/")
 						if (pathnames.some(pn => pn.startsWith(".")) &&
@@ -64,7 +64,7 @@ export async function loadShowHiddenFiles(
 			},
 		}))
 	}, _0 => { })
-	if (settings.value.enabled) {
+	if (settings.value.showHiddenFiles) {
 		await revealPrivateAsync(context, [adapter], async adapter0 =>
 			adapter0.listAll(), _0 => { })
 	}
