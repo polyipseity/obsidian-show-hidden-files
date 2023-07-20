@@ -9,6 +9,7 @@ import {
 } from "@polyipseity/obsidian-plugin-library"
 import type { ShowDotfilesPlugin } from "./main.js"
 import { around } from "monkey-around"
+import { constant } from "lodash-es"
 
 export function loadShowHiddenFiles(
 	context: ShowDotfilesPlugin,
@@ -70,7 +71,7 @@ export function loadShowHiddenFiles(
 								async adapter0 =>
 									// eslint-disable-next-line no-underscore-dangle
 									adapter0._exists(adapter0.getFullPath(realPath), path),
-								_0 => false,
+								constant(false),
 							)) {
 							return
 						}
@@ -79,11 +80,11 @@ export function loadShowHiddenFiles(
 				}
 			},
 		}))
-	}, _0 => { })
+	}, () => { })
 	if (settings.value.showHiddenFiles) {
 		workspace.onLayoutReady(async () =>
 			revealPrivateAsync(context, [adapter], async adapter0 =>
-				adapter0.listAll(), _0 => { }))
+				adapter0.listAll(), () => { }))
 	}
 	for (const { type, checkCallback } of deepFreeze([
 		{
@@ -137,7 +138,7 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 		[context.app.vault.adapter],
 		async adapter0 =>
 			adapter0.reconcileFileInternal(adapter0.getRealPath(path), path),
-		_0 => { },
+		() => { },
 	)
 }
 
@@ -147,6 +148,6 @@ async function hideFile(context: PluginContext, path: string): Promise<void> {
 		[context.app.vault.adapter],
 		async adapter0 =>
 			adapter0.reconcileDeletion(adapter0.getRealPath(path), path),
-		_0 => { },
+		() => { },
 	)
 }
