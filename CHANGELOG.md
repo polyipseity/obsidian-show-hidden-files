@@ -22,6 +22,9 @@ __Fixes__
 - Fix `updateView` not updating the inner title. (`45603f33109f10be0bc7c040fa1addc42153d92f`)
 - Fix failing to load the plugin if settings are malformed. (`45603f33109f10be0bc7c040fa1addc42153d92f`)
 
+__Improvements__
+- Use a new safer approach to show hidden dotfiles. (`c8a40e0ecbcd8e3fbca819aee623855fe6b2287b`)
+
 __Full changelog__: [`1.0.3...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.3...main)
 
 ## 1.0.3 (2023-07-01)
