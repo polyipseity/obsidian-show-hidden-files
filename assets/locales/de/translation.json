@@ -2,7 +2,10 @@
 	"commands": {
 		"open-documentation-changelog": "$t(generic.open, capitalize) $t(generic.documentations.changelog)",
 		"open-documentation-donate": "$t(generic.open, capitalize) $t(generic.documentations.donate)",
-		"open-documentation-readme": "$t(generic.open, capitalize) $t(generic.documentations.readme)"
+		"open-documentation-readme": "$t(generic.open, capitalize) $t(generic.documentations.readme)",
+		"show-hidden-files-hide": "$t(generic.hide, capitalize) $t(generic.hidden-file_other)",
+		"show-hidden-files-show": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
+		"show-hidden-files-toggle": "$t(generic.toggle, capitalize) $t(generic.hidden-file_other)"
 	},
 	"generic": {
 		"documentation": "documentation",
@@ -11,9 +14,15 @@
 			"donate": "$t(generic.donate)",
 			"readme": "readme"
 		},
-		"donate": "donate"
+		"donate": "donate",
+		"hidden-file": "$t(generic.hidden-file_one)",
+		"hidden-file_one": "hidden file",
+		"hidden-file_other": "hidden files",
+		"hide": "hide",
+		"show": "show",
+		"toggle": "toggle"
 	},
-	"name": "Show Dotfiles",
+	"name": "$t(generic.show, capitalize) Dotfiles",
 	"settings": {
 		"documentation": "$t(generic.documentation, capitalize)",
 		"documentations": {

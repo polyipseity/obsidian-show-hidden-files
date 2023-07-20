@@ -1,5 +1,7 @@
 import {
 	type PluginContext,
+	addCommand,
+	deepFreeze,
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
@@ -9,7 +11,12 @@ import { around } from "monkey-around"
 export async function loadShowHiddenFiles(
 	context: ShowDotfilesPlugin,
 ): Promise<void> {
-	const { app: { vault, vault: { adapter } }, settings } = context,
+	const
+		{
+			app: { vault, vault: { adapter } },
+			language: { value: i18n },
+			settings,
+		} = context,
 		hiddenPaths = new Set<string>()
 	async function showAll(): Promise<void> {
 		await Promise.all([...hiddenPaths]
@@ -67,6 +74,32 @@ export async function loadShowHiddenFiles(
 	if (settings.value.showHiddenFiles) {
 		await revealPrivateAsync(context, [adapter], async adapter0 =>
 			adapter0.listAll(), _0 => { })
+	}
+	for (const { type, callback } of deepFreeze([
+		{
+			callback: async () => settings.mutate(set => {
+				set.showHiddenFiles = true
+			}),
+			type: "show",
+		},
+		{
+			callback: async () => settings.mutate(set => {
+				set.showHiddenFiles = false
+			}),
+			type: "hide",
+		},
+		{
+			callback: async () => settings.mutate(set => {
+				set.showHiddenFiles = !set.showHiddenFiles
+			}),
+			type: "toggle",
+		},
+	])) {
+		addCommand(context, () => i18n.t(`commands.show-hidden-files-${type}`), {
+			callback,
+			icon: i18n.t(`asset:commands.show-hidden-files-${type}-icon`),
+			id: `show-hidden-files.${type}`,
+		})
 	}
 }
 

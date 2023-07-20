@@ -2,7 +2,10 @@
 	"commands": {
 		"open-documentation-changelog": "$t(generic.open)$t(generic.documentations.changelog)",
 		"open-documentation-donate": "$t(generic.open)$t(generic.documentations.donate)",
-		"open-documentation-readme": "$t(generic.open)$t(generic.documentations.readme)"
+		"open-documentation-readme": "$t(generic.open)$t(generic.documentations.readme)",
+		"show-hidden-files-hide": "$t(generic.hide)$t(generic.hidden-file)",
+		"show-hidden-files-show": "$t(generic.show)$t(generic.hidden-file)",
+		"show-hidden-files-toggle": "$t(generic.toggle)$t(generic.hidden-file)"
 	},
 	"generic": {
 		"documentation": "文檔",
@@ -11,9 +14,13 @@
 			"donate": "$t(generic.donate)",
 			"readme": "自述文件"
 		},
-		"donate": "贊助"
+		"donate": "贊助",
+		"hidden-file": "$t(generic.hide)文件",
+		"hide": "隱藏",
+		"show": "顯示",
+		"toggle": "切換"
 	},
-	"name": "顯示點文件",
+	"name": "$t(generic.show)點文件",
 	"settings": {
 		"documentation": "$t(generic.documentation)",
 		"documentations": {

@@ -2,13 +2,21 @@
 	"commands": {
 		"open-documentation-changelog-icon": "$t(asset:generic.documentations.changelog-icon)",
 		"open-documentation-donate-icon": "$t(asset:generic.documentations.donate-icon)",
-		"open-documentation-readme-icon": "$t(asset:generic.documentations.readme-icon)"
+		"open-documentation-readme-icon": "$t(asset:generic.documentations.readme-icon)",
+		"show-hidden-files-hide-icon": "$t(asset:generic.show-hidden-files.hide-icon)",
+		"show-hidden-files-show-icon": "$t(asset:generic.show-hidden-files.show-icon)",
+		"show-hidden-files-toggle-icon": "$t(asset:generic.show-hidden-files.toggle-icon)"
 	},
 	"generic": {
 		"documentations": {
 			"changelog-icon": "file-text",
 			"donate-icon": "heart",
 			"readme-icon": "file-question"
+		},
+		"show-hidden-files": {
+			"hide-icon": "eye-off",
+			"show-icon": "eye",
+			"toggle-icon": "view"
 		}
 	},
 	"settings": {
