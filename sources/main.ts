@@ -15,7 +15,7 @@ import { isNil } from "lodash-es"
 import { loadDocumentations } from "./documentations.js"
 import { loadIcons } from "./icons.js"
 import { loadSettings } from "./settings.js"
-import { loadShowDotfiles } from "./show-dotfiles.js"
+import { loadShowHiddenFiles } from "./show-hidden-files.js"
 
 export class ShowDotfilesPlugin
 	extends Plugin
@@ -87,7 +87,7 @@ export class ShowDotfilesPlugin
 					Promise.resolve().then(() => {
 						loadSettings(this, loadDocumentations(this, isNil(loaded)))
 					}),
-					loadShowDotfiles(this),
+					loadShowHiddenFiles(this),
 				])
 			} catch (error) {
 				self.console.error(error)

@@ -12,7 +12,7 @@
 		"semver": "^7.5.4",
 		"ts-essentials": "^9.3.2"
 	},
-	"description": "Show dotfiles in Obsidian.",
+	"description": "Show hidden files in Obsidian.",
 	"devDependencies": {
 		"@polyipseity/obsidian": "^1.2.8",
 		"@tsconfig/esm": "^1.0.4",
@@ -60,6 +60,8 @@
 	"keywords": [
 		"dotfile",
 		"dotfiles",
+		"hidden-file",
+		"hidden-files",
 		"obsidian",
 		"obsidian-plugin",
 		"plugin"

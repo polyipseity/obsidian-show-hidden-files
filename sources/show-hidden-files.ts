@@ -6,17 +6,17 @@ import {
 import type { ShowDotfilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 
-export async function loadShowDotfiles(
+export async function loadShowHiddenFiles(
 	context: ShowDotfilesPlugin,
 ): Promise<void> {
 	const { app: { vault, vault: { adapter } }, settings } = context,
-		dotpaths = new Set<string>()
+		hiddenPaths = new Set<string>()
 	async function showAll(): Promise<void> {
-		await Promise.all([...dotpaths]
+		await Promise.all([...hiddenPaths]
 			.map(async path => showFile(context, path)))
 	}
 	async function hideAll(): Promise<void> {
-		await Promise.all([...dotpaths]
+		await Promise.all([...hiddenPaths]
 			.map(async path => hideFile(context, path)))
 	}
 	context.register(hideAll)
@@ -28,10 +28,10 @@ export async function loadShowDotfiles(
 		const pathnames = path.split("/")
 		if (pathnames.some(pn => pn.startsWith("."))) {
 			if (!await adapter.exists(path)) {
-				dotpaths.delete(path)
+				hiddenPaths.delete(path)
 				return
 			}
-			dotpaths.add(path)
+			hiddenPaths.add(path)
 			if (settings.value.enabled) { await showFile(context, path) }
 		}
 	}

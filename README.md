@@ -11,7 +11,7 @@
 [repository]: https://github.com/polyipseity/obsidian-show-dotfiles
 [trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-dotfiles/main/assets/trailer.png
 
-Show dotfiles in [Obsidian].
+Show hidden files in [Obsidian].
 
 [![Buy Me a Coffee/embed]][Buy Me a Coffee]
 
@@ -25,9 +25,9 @@ This file is automatically opened on first install. You can reopen it in setting
 
 ## Features
 
-- Show dotfiles that are forcefully hidden in vanilla Obsidian.
-- Toggle visibility of dotfiles.
-- Interact with dotfiles normally like normal files.
+- Show files that are forcefully hidden in vanilla Obsidian.
+- Toggle visibility of hidden files.
+- Interact with hidden files normally like normal files.
 
 ## Installation
 
