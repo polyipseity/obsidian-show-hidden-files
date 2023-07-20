@@ -58,7 +58,7 @@ Contributions are welcome!
 
 The todos here, ordered alphabetically, are things planned for the plugin. There are no guarantees that they will be completed. However, we are likely to accept contributions for them.
 
-- Add ability and option to show the config folder.
+- (none)
 
 ### Translating
 
