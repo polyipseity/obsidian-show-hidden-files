@@ -19,6 +19,8 @@ This file is automatically opened on update. You can reopen it in settings or co
 __Fixes__
 - Fix the command to export settings to clipboard. (`993dff6c94b7e70e53c42afdad3fa8e56324a3aa`)
 - Fix lifecycle management. (`46771b52d6db6c1523a959d8204bc921bd7121ca`)
+- Fix `updateView` not updating the inner title. (`45603f33109f10be0bc7c040fa1addc42153d92f`)
+- Fix failing to load the plugin if settings are malformed. (`45603f33109f10be0bc7c040fa1addc42153d92f`)
 
 __Full changelog__: [`1.0.3...main`](https://github.com/polyipseity/obsidian-show-dotfiles/compare/1.0.3...main)
 
