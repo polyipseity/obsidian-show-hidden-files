@@ -6,31 +6,24 @@ import {
 import type { ShowDotfilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 
-async function showFile(context: PluginContext, path: string): Promise<void> {
-	await revealPrivateAsync(
-		context,
-		[context.app.vault.adapter],
-		async adapter0 =>
-			adapter0.reconcileFileInternal(adapter0.getRealPath(path), path),
-		_0 => { },
-	)
-}
-
-async function hideFile(context: PluginContext, path: string): Promise<void> {
-	await revealPrivateAsync(
-		context,
-		[context.app.vault.adapter],
-		async adapter0 =>
-			adapter0.reconcileDeletion(adapter0.getRealPath(path), path),
-		_0 => { },
-	)
-}
-
-export function loadShowDotfiles(
+export async function loadShowDotfiles(
 	context: ShowDotfilesPlugin,
-): void {
+): Promise<void> {
 	const { app: { vault, vault: { adapter } }, settings } = context,
 		dotpaths = new Set<string>()
+	async function showAll(): Promise<void> {
+		await Promise.all([...dotpaths]
+			.map(async path => showFile(context, path)))
+	}
+	async function hideAll(): Promise<void> {
+		await Promise.all([...dotpaths]
+			.map(async path => hideFile(context, path)))
+	}
+	context.register(hideAll)
+	context.register(settings.onMutate(
+		setting => setting.enabled,
+		async cur => cur ? showAll() : hideAll(),
+	))
 	async function onRaw(path: string): Promise<void> {
 		const pathnames = path.split("/")
 		if (pathnames.some(pn => pn.startsWith("."))) {
@@ -71,16 +64,28 @@ export function loadShowDotfiles(
 			},
 		}))
 	}, _0 => { })
-	context.register(settings.onMutate(
-		setting => setting.enabled,
-		async cur => {
-			if (cur) {
-				await Promise.all([...dotpaths]
-					.map(async path => showFile(context, path)))
-			} else {
-				await Promise.all([...dotpaths]
-					.map(async path => hideFile(context, path)))
-			}
-		},
-	))
+	if (settings.value.enabled) {
+		await revealPrivateAsync(context, [adapter], async adapter0 =>
+			adapter0.listAll(), _0 => { })
+	}
+}
+
+async function showFile(context: PluginContext, path: string): Promise<void> {
+	await revealPrivateAsync(
+		context,
+		[context.app.vault.adapter],
+		async adapter0 =>
+			adapter0.reconcileFileInternal(adapter0.getRealPath(path), path),
+		_0 => { },
+	)
+}
+
+async function hideFile(context: PluginContext, path: string): Promise<void> {
+	await revealPrivateAsync(
+		context,
+		[context.app.vault.adapter],
+		async adapter0 =>
+			adapter0.reconcileDeletion(adapter0.getRealPath(path), path),
+		_0 => { },
+	)
 }

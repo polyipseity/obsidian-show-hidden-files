@@ -20,6 +20,7 @@ interface $DataAdapter {
 	readonly _exists: (fullPath: string, path: string) => Promise<boolean>
 	readonly getFullPath: (realPath: string) => string
 	readonly getRealPath: (path: string) => string
+	readonly listAll: () => Promise<void>
 	readonly reconcileDeletion: (realPath: string, path: string) => Promise<void>
 	readonly reconcileFileInternal: (
 		realPath: string,
