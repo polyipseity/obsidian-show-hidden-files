@@ -26,6 +26,7 @@ This file is automatically opened on first install. You can reopen it in setting
 ## Features
 
 - Show dotfiles that are forcefully hidden in vanilla Obsidian.
+- Toggle visibility of dotfiles.
 - Interact with dotfiles normally like normal files.
 
 ## Installation
@@ -48,7 +49,7 @@ This file is automatically opened on first install. You can reopen it in setting
 
 ## Usage
 
-- Enable the plugin and restart Obsidian.
+- Enable the plugin.
 
 ## Contributing
 
