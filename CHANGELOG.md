@@ -18,6 +18,7 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 __Features__
 - Add three commands to toggle visibility of hidden files. (`8ccce72c4d35c6aafbc02cec7770a711d278c4f4`)
+- Add setting `Show hidden files`. (`9e7dc20d087895eac06bd356451d77c9d417906a`)
 
 __Fixes__
 - Fix the command to export settings to clipboard. (`993dff6c94b7e70e53c42afdad3fa8e56324a3aa`)
