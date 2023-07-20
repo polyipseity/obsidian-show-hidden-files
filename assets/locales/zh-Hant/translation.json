@@ -31,6 +31,8 @@
 			"donate": "$t(generic.documentations.donate)",
 			"readme": "$t(generic.documentations.readme)"
 		},
-		"open-changelog-on-update": "更新時$t(generic.open)$t(generic.documentations.changelog)"
+		"open-changelog-on-update": "更新時$t(generic.open)$t(generic.documentations.changelog)",
+		"show-hidden-files": "$t(generic.show)$t(generic.hidden-file)",
+		"show-hidden-files-description": "可從命令面板切換。"
 	}
 }

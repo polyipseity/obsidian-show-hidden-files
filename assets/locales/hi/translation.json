@@ -33,6 +33,8 @@
 			"donate": "$t(generic.documentations.donate, capitalize)",
 			"readme": "$t(generic.documentations.readme, capitalize)"
 		},
-		"open-changelog-on-update": "$t(generic.open, capitalize) $t(generic.documentations.changelog) on update"
+		"open-changelog-on-update": "$t(generic.open, capitalize) $t(generic.documentations.changelog) on update",
+		"show-hidden-files": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
+		"show-hidden-files-description": "Togglable from the command palatte."
 	}
 }

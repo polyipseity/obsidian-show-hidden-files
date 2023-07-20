@@ -89,6 +89,25 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 					}),
 					() => { this.postMutate() },
 				))
+		}).newSetting(containerEl, setting => {
+			setting
+				.setName(i18n.t("settings.show-hidden-files"))
+				.setDesc(i18n.t("settings.show-hidden-files-description"))
+				.addToggle(linkSetting(
+					() => settings.value.showHiddenFiles,
+					async value => settings.mutate(settingsM => {
+						settingsM.showHiddenFiles = value
+					}),
+					() => { this.postMutate() },
+				))
+				.addExtraButton(resetButton(
+					i18n.t("asset:settings.show-hidden-files-icon"),
+					i18n.t("settings.reset"),
+					async () => settings.mutate(settingsM => {
+						settingsM.showHiddenFiles = Settings.DEFAULT.showHiddenFiles
+					}),
+					() => { this.postMutate() },
+				))
 		})
 		this.newNoticeTimeoutWidget(Settings.DEFAULT)
 	}
