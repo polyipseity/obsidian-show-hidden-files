@@ -81,11 +81,9 @@ export function loadShowHiddenFiles(
 			},
 		}))
 	}, () => { })
-	if (settings.value.showHiddenFiles) {
-		workspace.onLayoutReady(async () =>
-			revealPrivateAsync(context, [adapter], async adapter0 =>
-				adapter0.listAll(), () => { }))
-	}
+	workspace.onLayoutReady(async () =>
+		revealPrivateAsync(context, [adapter], async adapter0 =>
+			adapter0.listAll(), () => { }))
 	for (const { type, checkCallback } of deepFreeze([
 		{
 			checkCallback: (checking: boolean): boolean => {
