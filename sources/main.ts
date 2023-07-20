@@ -87,7 +87,7 @@ export class ShowDotfilesPlugin
 					Promise.resolve().then(() => {
 						loadSettings(this, loadDocumentations(this, isNil(loaded)))
 					}),
-					loadShowHiddenFiles(this),
+					Promise.resolve().then(() => { loadShowHiddenFiles(this) }),
 				])
 			} catch (error) {
 				self.console.error(error)

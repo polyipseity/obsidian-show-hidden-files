@@ -10,12 +10,12 @@ import {
 import type { ShowDotfilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 
-export async function loadShowHiddenFiles(
+export function loadShowHiddenFiles(
 	context: ShowDotfilesPlugin,
-): Promise<void> {
+): void {
 	const
 		{
-			app: { vault, vault: { adapter } },
+			app: { vault, vault: { adapter }, workspace },
 			language: { value: i18n },
 			settings,
 		} = context,
@@ -81,8 +81,9 @@ export async function loadShowHiddenFiles(
 		}))
 	}, _0 => { })
 	if (settings.value.showHiddenFiles) {
-		await revealPrivateAsync(context, [adapter], async adapter0 =>
-			adapter0.listAll(), _0 => { })
+		workspace.onLayoutReady(async () =>
+			revealPrivateAsync(context, [adapter], async adapter0 =>
+				adapter0.listAll(), _0 => { }))
 	}
 	for (const { type, checkCallback } of deepFreeze([
 		{
