@@ -61,7 +61,7 @@ export function loadShowHiddenFiles(
 				return async function fn(
 					this: typeof adapter,
 					...args: Parameters<typeof proto>
-				): ReturnType<typeof proto> {
+				): Promise<Awaited<ReturnType<typeof proto>>> {
 					if (settings.value.showHiddenFiles) {
 						const [realPath, path] = args,
 							pathnames = path.split("/")
