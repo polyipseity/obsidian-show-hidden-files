@@ -1,15 +1,15 @@
-# Show Dotfiles for Obsidian [![release](https://img.shields.io/github/v/release/polyipseity/obsidian-show-dotfiles)][latest release] [![Obsidian downloads](https://img.shields.io/badge/dynamic/json?logo=Obsidian&color=%238b6cef&label=downloads&query=$["show-dotfiles"].downloads&url=https://raw.githubusercontent.com/obsidianmd/obsidian-releases/master/community-plugin-stats.json)][community plugin]
+# Show Hidden Files for Obsidian [![release](https://img.shields.io/github/v/release/polyipseity/obsidian-show-hidden-files)][latest release] [![Obsidian downloads](https://img.shields.io/badge/dynamic/json?logo=Obsidian&color=%238b6cef&label=downloads&query=$["show-hidden-files"].downloads&url=https://raw.githubusercontent.com/obsidianmd/obsidian-releases/master/community-plugin-stats.json)][community plugin]
 
 [Buy Me a Coffee]: https://buymeacoffee.com/polyipseity
 [Buy Me a Coffee/embed]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=polyipseity&button_colour=40DCA5&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00
 [Obsidian]: https://obsidian.md/
-[changelog]: https://github.com/polyipseity/obsidian-show-dotfiles/blob/main/CHANGELOG.md
-[community plugin]: https://obsidian.md/plugins?id=show-dotfiles
-[latest release]: https://github.com/polyipseity/obsidian-show-dotfiles/releases/latest
+[changelog]: https://github.com/polyipseity/obsidian-show-hidden-files/blob/main/CHANGELOG.md
+[community plugin]: https://obsidian.md/plugins?id=show-hidden-files
+[latest release]: https://github.com/polyipseity/obsidian-show-hidden-files/releases/latest
 [other things]: https://github.com/polyipseity/obsidian-monorepo
 [plugin library]: https://github.com/polyipseity/obsidian-plugin-library
-[repository]: https://github.com/polyipseity/obsidian-show-dotfiles
-[trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-dotfiles/main/assets/trailer.png
+[repository]: https://github.com/polyipseity/obsidian-show-hidden-files
+[trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-hidden-files/main/assets/trailer.png
 
 Show hidden files in [Obsidian].
 
@@ -35,7 +35,7 @@ This file is automatically opened on first install. You can reopen it in setting
 	- ~~Community plugins~~
 		1. ~~Install the [plugin][community plugin] from community plugins directly.~~
 	- Manual
-		1. Create directory `show-dotfiles` under `.obsidian/plugins` of your vault.
+		1. Create directory `show-hidden-files` under `.obsidian/plugins` of your vault.
 		2. Place `manifest.json`, `main.js`, and `styles.css` from the [latest release] into the directory.
 	- Building (latest)
 		1. Clone this repository, including its submodules.

@@ -25,7 +25,7 @@
 		"show": "show",
 		"toggle": "toggle"
 	},
-	"name": "$t(generic.show, capitalize) Dotfiles",
+	"name": "$t(generic.show, capitalize) $t(generic.hidden-file_other, startCase)",
 	"settings": {
 		"documentation": "$t(generic.documentation, capitalize)",
 		"documentations": {

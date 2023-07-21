@@ -9,7 +9,7 @@ import sveltePreprocess from "svelte-preprocess"
 import { writeFile } from "node:fs/promises"
 
 const ARGV_PRODUCTION = 2,
-	COMMENT = "// repository: https://github.com/polyipseity/obsidian-show-dotfiles",
+	COMMENT = "// repository: https://github.com/polyipseity/obsidian-show-hidden-files",
 	DEV = argv[ARGV_PRODUCTION] === "dev",
 	PLUGIN_ID0 = await PLUGIN_ID,
 	BUILD = await context({

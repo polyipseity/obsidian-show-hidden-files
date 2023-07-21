@@ -8,7 +8,7 @@ import {
 	typedKeys,
 } from "@polyipseity/obsidian-plugin-library"
 import { DOMClasses2 } from "./magic.js"
-import type { ShowDotfilesPlugin } from "./main.js"
+import type { ShowHiddenFilesPlugin } from "./main.js"
 import changelogMd from "../CHANGELOG.md"
 import readmeMd from "../README.md"
 import semverLt from "semver/functions/lt.js"
@@ -53,7 +53,7 @@ export const DOCUMENTATION_KEYS = typedKeys<DocumentationKeys>()(DOCUMENTATIONS)
 
 class Loaded0 {
 	public constructor(
-		public readonly context: ShowDotfilesPlugin,
+		public readonly context: ShowHiddenFilesPlugin,
 		public readonly docMdView: DocumentationMarkdownView.Registered,
 	) { }
 
@@ -83,7 +83,7 @@ class Loaded0 {
 	}
 }
 export function loadDocumentations(
-	context: ShowDotfilesPlugin,
+	context: ShowHiddenFilesPlugin,
 	readme = false,
 ): loadDocumentations.Loaded {
 	const { version, language: { value: i18n }, settings } = context,

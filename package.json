@@ -40,7 +40,7 @@
 		"typescript": "^5.1.6",
 		"typescript-svelte-plugin": "^0.3.29"
 	},
-	"displayName": "Obsidian Show Dotfiles",
+	"displayName": "Obsidian Show Hidden Files",
 	"files": [
 		"main.js",
 		"manifest.json",
@@ -68,13 +68,13 @@
 	],
 	"license": "AGPL-3.0-or-later",
 	"main": "main.js",
-	"name": "obsidian-show-dotfiles",
+	"name": "obsidian-show-hidden-files",
 	"obsidian": {
 		"authorUrl": "https://github.com/polyipseity",
-		"id": "show-dotfiles",
+		"id": "show-hidden-files",
 		"isDesktopOnly": false,
 		"minAppVersion": "1.2.8",
-		"name": "Show Dotfiles"
+		"name": "Show Hidden Files"
 	},
 	"overrides": {
 		"tsconfig-paths": "^4.0.0"

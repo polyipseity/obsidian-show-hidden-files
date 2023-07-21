@@ -7,12 +7,12 @@ import {
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
-import type { ShowDotfilesPlugin } from "./main.js"
+import type { ShowHiddenFilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 import { constant } from "lodash-es"
 
 export function loadShowHiddenFiles(
-	context: ShowDotfilesPlugin,
+	context: ShowHiddenFilesPlugin,
 ): void {
 	const
 		{

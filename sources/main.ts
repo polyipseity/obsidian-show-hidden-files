@@ -17,7 +17,7 @@ import { loadIcons } from "./icons.js"
 import { loadSettings } from "./settings.js"
 import { loadShowHiddenFiles } from "./show-hidden-files.js"
 
-export class ShowDotfilesPlugin
+export class ShowHiddenFilesPlugin
 	extends Plugin
 	implements PluginContext<Settings> {
 	public readonly version
@@ -99,4 +99,4 @@ export class ShowDotfilesPlugin
 	}
 }
 // Needed for loading
-export default ShowDotfilesPlugin
+export default ShowHiddenFilesPlugin

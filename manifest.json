@@ -7,8 +7,8 @@
 	},
 	"version": "1.0.3",
 	"authorUrl": "https://github.com/polyipseity",
-	"id": "show-dotfiles",
+	"id": "show-hidden-files",
 	"isDesktopOnly": false,
 	"minAppVersion": "1.2.8",
-	"name": "Show Dotfiles"
+	"name": "Show Hidden Files"
 }
