@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import type { EventRef } from "obsidian"
-import type { Private } from "@polyipseity/obsidian-plugin-library"
+import type { EventRef, Stat } from "obsidian"
+import type { Platform, Private } from "@polyipseity/obsidian-plugin-library"
 
 declare const PRIVATE_KEY: unique symbol
 type PrivateKey = typeof PRIVATE_KEY
@@ -22,7 +22,16 @@ interface $DataAdapter {
 	readonly getRealPath: (path: string) => string
 	readonly listAll: () => Promise<void>
 	readonly reconcileDeletion: (realPath: string, path: string) => Promise<void>
-	readonly reconcileFileInternal: (
+	readonly reconcileFileInternal: <T extends Platform.Current>(
+		realPath: T extends Platform.Desktop ? string : never,
+		path: T extends Platform.Desktop ? string : never,
+	) => T extends Platform.Desktop ? Promise<void> : never
+	readonly reconcileFileChanged: <T extends Platform.Current>(
+		realPath: T extends Platform.Mobile ? string : never,
+		path: T extends Platform.Mobile ? string : never,
+		stat: T extends Platform.Mobile ? Stat : never,
+	) => T extends Platform.Mobile ? Promise<void> : never
+	readonly reconcileFolderCreation: (
 		realPath: string,
 		path: string,
 	) => Promise<void>

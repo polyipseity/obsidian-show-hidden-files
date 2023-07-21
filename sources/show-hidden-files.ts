@@ -1,8 +1,10 @@
 import {
+	Platform,
 	type PluginContext,
 	addCommand,
 	anyToError,
 	deepFreeze,
+	inSet,
 	printError,
 	revealPrivate,
 	revealPrivateAsync,
@@ -134,8 +136,35 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 	await revealPrivateAsync(
 		context,
 		[context.app.vault.adapter],
-		async adapter0 =>
-			adapter0.reconcileFileInternal(adapter0.getRealPath(path), path),
+		async adapter0 => {
+			const realPath = adapter0.getRealPath(path)
+			if (inSet(Platform.DESKTOP, Platform.CURRENT)) {
+				await adapter0.reconcileFileInternal<typeof Platform.CURRENT>(
+					realPath,
+					path,
+				)
+			} else if (inSet(Platform.MOBILE, Platform.CURRENT)) {
+				const stat = await adapter0.stat(path)
+				if (!stat) { return }
+				const { type } = stat
+				switch (type) {
+					case "file":
+						await adapter0.reconcileFileChanged<typeof Platform.CURRENT>(
+							realPath,
+							path,
+							stat,
+						)
+						break
+					case "folder":
+						await adapter0.reconcileFolderCreation(realPath, path)
+						break
+					default:
+						throw new Error(type)
+				}
+			} else {
+				throw new Error(Platform.CURRENT)
+			}
+		},
 		() => { },
 	)
 }
