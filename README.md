@@ -11,7 +11,7 @@
 [repository]: https://github.com/polyipseity/obsidian-show-hidden-files
 [trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-hidden-files/main/assets/trailer.png
 
-Show hidden files in [Obsidian].
+Show hidden files, like dotfiles, in [Obsidian].
 
 [![Buy Me a Coffee/embed]][Buy Me a Coffee]
 
