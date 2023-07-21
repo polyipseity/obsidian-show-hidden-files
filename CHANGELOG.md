@@ -15,6 +15,7 @@ This file is automatically opened on update. You can reopen it in settings or co
 ## Unreleased
 
 - Update minimum Obsidian version to v1.2.8. (`85d498d7cecf28b07e0562c4d9c1c793bf0344c0`)
+- Rename name "Show Dotfiles" to "Show Hidden Files". (`e7d9d3c459cdb3159a9da00109aaf100321ea742`)
 
 __Features__
 - Add three commands to toggle visibility of hidden files. (`8ccce72c4d35c6aafbc02cec7770a711d278c4f4`)
