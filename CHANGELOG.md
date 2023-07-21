@@ -14,7 +14,12 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
+__Full changelog__: [`2.0.0...main`](https://github.com/polyipseity/obsidian-show-hidden-files/compare/2.0.0...main)
+
+## 2.0.0 (2023-07-21)
+
 - Update minimum Obsidian version to v1.2.8. (`85d498d7cecf28b07e0562c4d9c1c793bf0344c0`)
+- Use a new safer approach to show hidden dotfiles. (`c8a40e0ecbcd8e3fbca819aee623855fe6b2287b`)
 - Rename name "Show Dotfiles" to "Show Hidden Files". (`e7d9d3c459cdb3159a9da00109aaf100321ea742`)
 
 __Features__
@@ -27,10 +32,7 @@ __Fixes__
 - Fix `updateView` not updating the inner title. (`45603f33109f10be0bc7c040fa1addc42153d92f`)
 - Fix failing to load the plugin if settings are malformed. (`45603f33109f10be0bc7c040fa1addc42153d92f`)
 
-__Improvements__
-- Use a new safer approach to show hidden dotfiles. (`c8a40e0ecbcd8e3fbca819aee623855fe6b2287b`)
-
-__Full changelog__: [`1.0.3...main`](https://github.com/polyipseity/obsidian-show-hidden-files/compare/1.0.3...main)
+__Full changelog__: [`1.0.3...2.0.0`](https://github.com/polyipseity/obsidian-show-hidden-files/compare/1.0.3...2.0.0)
 
 ## 1.0.3 (2023-07-01)
 
