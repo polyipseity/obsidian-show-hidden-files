@@ -116,7 +116,7 @@ function patchErrorMessage(context: ShowHiddenFilesPlugin): void {
 }
 
 function patchFileExplorer(context: ShowHiddenFilesPlugin): void {
-	// Affects: renaming file explorer
+	// Affects: renaming in file explorer
 	const { app: { workspace }, settings } = context
 	workspace.onLayoutReady(() => {
 		function patch(): boolean {
