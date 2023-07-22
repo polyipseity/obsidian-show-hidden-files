@@ -268,19 +268,20 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 		context,
 		[context.app.vault.adapter],
 		async adapter0 => {
-			const realPath = adapter0.getRealPath(path)
-			if (inSet(Platform.DESKTOP, Platform.CURRENT)) {
-				await adapter0.reconcileFileInternal<typeof Platform.CURRENT>(
+			const realPath = adapter0.getRealPath(path),
+				{ CURRENT, DESKTOP, MOBILE } = Platform
+			if (inSet(DESKTOP, CURRENT)) {
+				await adapter0.reconcileFileInternal<typeof CURRENT>(
 					realPath,
 					path,
 				)
-			} else if (inSet(Platform.MOBILE, Platform.CURRENT)) {
+			} else if (inSet(MOBILE, CURRENT)) {
 				const stat = await adapter0.stat(path)
 				if (!stat) { return }
 				const { type } = stat
 				switch (type) {
 					case "file":
-						await adapter0.reconcileFileChanged<typeof Platform.CURRENT>(
+						await adapter0.reconcileFileChanged<typeof CURRENT>(
 							realPath,
 							path,
 							stat,
@@ -293,7 +294,7 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 						throw new Error(type)
 				}
 			} else {
-				throw new Error(Platform.CURRENT)
+				throw new Error(CURRENT)
 			}
 		},
 		() => { },

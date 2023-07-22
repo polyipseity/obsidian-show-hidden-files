@@ -12,6 +12,11 @@ declare module "obsidian" {
 	interface Workspace extends Private<$Workspace, PrivateKey> { }
 }
 import type {
+	Deopaque,
+	Platform,
+	Private,
+} from "@polyipseity/obsidian-plugin-library"
+import type {
 	EventRef,
 	FileExplorerView,
 	FileItem,
@@ -20,7 +25,6 @@ import type {
 	View,
 	WorkspaceLeaf,
 } from "obsidian"
-import type { Platform, Private } from "@polyipseity/obsidian-plugin-library"
 import type { i18n } from "i18next"
 
 declare const PRIVATE_KEY: unique symbol
@@ -42,14 +46,14 @@ interface $DataAdapter {
 		path: string,
 	) => PromiseLike<void>
 	readonly reconcileFileChanged: <T extends Platform.Current>(
-		realPath: T extends Platform.Mobile ? string : never,
-		path: T extends Platform.Mobile ? string : never,
-		stat: T extends Platform.Mobile ? Stat : never,
-	) => T extends Platform.Mobile ? PromiseLike<void> : never
+		realPath: Deopaque<T> extends Platform.Mobile ? string : never,
+		path: Deopaque<T> extends Platform.Mobile ? string : never,
+		stat: Deopaque<T> extends Platform.Mobile ? Stat : never,
+	) => Deopaque<T> extends Platform.Mobile ? PromiseLike<void> : never
 	readonly reconcileFileInternal: <T extends Platform.Current>(
-		realPath: T extends Platform.Desktop ? string : never,
-		path: T extends Platform.Desktop ? string : never,
-	) => T extends Platform.Desktop ? PromiseLike<void> : never
+		realPath: Deopaque<T> extends Platform.Desktop ? string : never,
+		path: Deopaque<T> extends Platform.Desktop ? string : never,
+	) => Deopaque<T> extends Platform.Desktop ? PromiseLike<void> : never
 	readonly reconcileFolderCreation: (
 		realPath: string,
 		path: string,
