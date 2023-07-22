@@ -9,6 +9,8 @@ import {
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
+import type { Command } from "obsidian"
+import type { MarkOptional } from "ts-essentials"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 import { constant } from "lodash-es"
@@ -16,20 +18,19 @@ import { constant } from "lodash-es"
 export function loadShowHiddenFiles(
 	context: ShowHiddenFilesPlugin,
 ): void {
+	patchVault(context)
+	patchErrorMessage(context)
+	patchFileExplorer(context)
+	addCommands(context)
+}
+
+function patchVault(context: ShowHiddenFilesPlugin): void {
 	const
 		{
 			app: { vault, vault: { adapter }, workspace },
-			language: { value: i18n },
 			settings,
 		} = context,
 		hiddenPaths = new Set<string>()
-	function onErr(error: unknown): void {
-		printError(
-			anyToError(error),
-			() => i18n.t("errors.error-mutating-settings"),
-			context,
-		)
-	}
 	async function showAll(): Promise<void> {
 		await Promise.all([...hiddenPaths]
 			.map(async path => showFile(context, path)))
@@ -51,7 +52,8 @@ export function loadShowHiddenFiles(
 				return
 			}
 			hiddenPaths.add(path)
-			if (settings.value.showHiddenFiles) { await showFile(context, path) }
+			if (!settings.value.showHiddenFiles) { return }
+			await showFile(context, path)
 		}
 	}
 	revealPrivate(context, [vault], vault0 => {
@@ -86,46 +88,175 @@ export function loadShowHiddenFiles(
 	workspace.onLayoutReady(async () =>
 		revealPrivateAsync(context, [adapter], async adapter0 =>
 			adapter0.listAll(), () => { }))
-	for (const { type, checkCallback } of deepFreeze([
-		{
-			checkCallback: (checking: boolean): boolean => {
-				const ret = !settings.value.showHiddenFiles
-				if (ret && !checking) {
-					settings.mutate(set => { set.showHiddenFiles = true })
-						.then(async () => settings.write())
-						.catch(onErr)
-				}
-				return ret
+}
+
+function patchErrorMessage(context: ShowHiddenFilesPlugin): void {
+	// Affects: canvas: convert to file, renaming in editor
+	const { settings } = context
+	revealPrivate(context, [self], self0 => {
+		const { i18next } = self0
+		context.register(around(i18next, {
+			// eslint-disable-next-line id-length
+			t(proto) {
+				return function fn(
+					this: typeof i18next,
+					...args: Parameters<typeof proto>
+				): ReturnType<typeof proto> {
+					if (settings.value.showHiddenFiles) {
+						const [key] = args
+						if (key === "plugins.file-explorer.msg-bad-dotfile") {
+							return ""
+						}
+					}
+					return proto.apply(this, args)
+				} as typeof proto
 			},
-			type: "show",
-		},
-		{
-			checkCallback: (checking: boolean): boolean => {
-				const ret = settings.value.showHiddenFiles
-				if (ret && !checking) {
-					settings.mutate(set => { set.showHiddenFiles = false })
-						.then(async () => settings.write())
-						.catch(onErr)
+		}))
+	}, () => { })
+}
+
+function patchFileExplorer(context: ShowHiddenFilesPlugin): void {
+	// Affects: renaming file explorer
+	const { app: { workspace }, settings } = context
+	workspace.onLayoutReady(() => {
+		function patch(): boolean {
+			return revealPrivate(context, [workspace], workspace0 => {
+				const [leaf] = workspace0.getLeavesOfType("file-explorer")
+				if (!leaf) { return false }
+				const { view } = leaf
+				return revealPrivate(context, [view], view0 => {
+					context.register(around(
+						Object.getPrototypeOf(view0) as typeof view0,
+						{
+							finishRename(proto) {
+								return async function fn(
+									this: typeof view,
+									...args: Parameters<typeof proto>
+								): Promise<Awaited<ReturnType<typeof proto>>> {
+									if (!settings.value.showHiddenFiles) {
+										return proto.apply(this, args)
+									}
+									return revealPrivateAsync(context, [this], async this0 => {
+										const { fileBeingRenamed, fileItems } = this0
+										if (!fileBeingRenamed) {
+											await proto.apply(this, args)
+											return
+										}
+										const { path } = fileBeingRenamed,
+											{ [path]: fi } = fileItems
+										if (!fi) { throw new Error(path) }
+										const { innerEl } = fi,
+											filename = innerEl.getText()
+										if (!filename.startsWith(".")) {
+											await proto.apply(this, args)
+											return
+										}
+										const uuid = self.crypto.randomUUID(),
+											patch2 = around(fileBeingRenamed, {
+												getNewPathAfterRename(proto2) {
+													return function fn2(
+														this: typeof fileBeingRenamed,
+														...args2: Parameters<typeof proto2>
+													): ReturnType<typeof proto2> {
+														const [filename2] = args2
+														if (filename2 === uuid) {
+															args2[0] = filename
+														}
+														return proto2.apply(this, args2)
+													}
+												},
+											})
+										try {
+											const patch3 = around(innerEl, {
+												getText(proto2) {
+													return function fn2(
+														this: typeof innerEl,
+														..._0: Parameters<typeof proto2>
+													): ReturnType<typeof proto2> {
+														return uuid
+													}
+												},
+											})
+											try {
+												await proto.apply(this, args)
+											} finally {
+												patch3()
+											}
+										} finally {
+											patch2()
+										}
+									}, () => proto.apply(this, args))
+								}
+							},
+						},
+					))
+					return true
+				}, constant(false))
+			}, constant(false))
+		}
+		if (!patch()) {
+			const event = workspace.on("layout-change", () => {
+				if (patch()) {
+					workspace.offref(event)
 				}
-				return ret
-			},
-			type: "hide",
-		},
-		{
-			checkCallback: (checking: boolean): boolean => {
-				if (!checking) {
+			})
+			context.registerEvent(event)
+		}
+	})
+}
+
+function addCommands(context: ShowHiddenFilesPlugin): void {
+	const { language: { value: i18n }, settings } = context
+	function onErr(error: unknown): void {
+		printError(
+			anyToError(error),
+			() => i18n.t("errors.error-mutating-settings"),
+			context,
+		)
+	}
+	for (const [type, cmd] of deepFreeze([
+		[
+			"show",
+			{
+				checkCallback(checking: boolean): boolean {
+					const ret = !settings.value.showHiddenFiles
+					if (ret && !checking) {
+						settings.mutate(set => { set.showHiddenFiles = true })
+							.then(async () => settings.write())
+							.catch(onErr)
+					}
+					return ret
+				},
+			} satisfies MarkOptional<Command, keyof Command>,
+		],
+		[
+			"hide",
+			{
+				checkCallback(checking: boolean): boolean {
+					const ret = settings.value.showHiddenFiles
+					if (ret && !checking) {
+						settings.mutate(set => { set.showHiddenFiles = false })
+							.then(async () => settings.write())
+							.catch(onErr)
+					}
+					return ret
+				},
+			} satisfies MarkOptional<Command, keyof Command>,
+		],
+		[
+			"toggle",
+			{
+				callback(): void {
 					settings.mutate(set => {
 						set.showHiddenFiles = !set.showHiddenFiles
 					}).then(async () => settings.write())
 						.catch(onErr)
-				}
-				return true
-			},
-			type: "toggle",
-		},
+				},
+			} satisfies MarkOptional<Command, keyof Command>,
+		],
 	])) {
 		addCommand(context, () => i18n.t(`commands.show-hidden-files-${type}`), {
-			checkCallback,
+			...cmd,
 			icon: i18n.t(`asset:commands.show-hidden-files-${type}-icon`),
 			id: `show-hidden-files.${type}`,
 		})

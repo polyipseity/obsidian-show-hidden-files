@@ -1,6 +1,27 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import type { EventRef, Stat } from "obsidian"
+declare global {
+	interface Element extends Private<$Element, PrivateKey> { }
+	interface Window extends Private<$Window, PrivateKey> { }
+}
+declare module "obsidian" {
+	interface DataAdapter extends Private<$DataAdapter, PrivateKey> { }
+	interface FileExplorerView extends Private<$FileExplorerView, PrivateKey> { }
+	interface FileItem extends Private<$FileItem, PrivateKey> { }
+	interface TFile extends Private<$TFile, PrivateKey> { }
+	interface Vault extends Private<$Vault, PrivateKey> { }
+	interface Workspace extends Private<$Workspace, PrivateKey> { }
+}
+import type {
+	EventRef,
+	FileExplorerView,
+	FileItem,
+	Stat,
+	TFile,
+	View,
+	WorkspaceLeaf,
+} from "obsidian"
 import type { Platform, Private } from "@polyipseity/obsidian-plugin-library"
+import type { i18n } from "i18next"
 
 declare const PRIVATE_KEY: unique symbol
 type PrivateKey = typeof PRIVATE_KEY
@@ -8,11 +29,6 @@ declare module "@polyipseity/obsidian-plugin-library" {
 	interface PrivateKeys {
 		readonly [PRIVATE_KEY]: never
 	}
-}
-
-declare module "obsidian" {
-	interface DataAdapter extends Private<$DataAdapter, PrivateKey> { }
-	interface Vault extends Private<$Vault, PrivateKey> { }
 }
 
 interface $DataAdapter {
@@ -40,10 +56,38 @@ interface $DataAdapter {
 	) => PromiseLike<void>
 }
 
+interface $Element {
+	readonly getText: () => string
+}
+
+interface $FileExplorerView extends View {
+	readonly fileBeingRenamed: TFile | null
+	readonly fileItems: Readonly<Record<string, FileItem>>
+	readonly finishRename: () => PromiseLike<void>
+}
+
+interface $FileItem {
+	readonly innerEl: HTMLElement
+}
+
+interface $TFile {
+	readonly getNewPathAfterRename: (filename: string) => string
+}
+
 interface $Vault {
 	readonly on: (
 		name: "raw",
 		callback: (path: string) => unknown,
 		ctx?: unknown,
 	) => EventRef
+}
+
+interface $Window {
+	readonly i18next: i18n
+}
+
+interface $Workspace {
+	readonly getLeavesOfType: (viewType: "file-explorer") => (WorkspaceLeaf & {
+		readonly view: FileExplorerView
+	})[]
 }
