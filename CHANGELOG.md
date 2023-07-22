@@ -14,6 +14,9 @@ This file is automatically opened on update. You can reopen it in settings or co
 
 ## Unreleased
 
+__Features__
+- Add support for renaming to dotfiles. (`966e528c6a3309777eb09eb2470fdf63bfe40e1b`)
+
 __Full changelog__: [`2.0.0...main`](https://github.com/polyipseity/obsidian-show-hidden-files/compare/2.0.0...main)
 
 ## 2.0.0 (2023-07-21)
