@@ -18,8 +18,8 @@ import { PluginLocales } from "../assets/locales.js"
 
 export interface Settings extends PluginContext.Settings {
 	readonly language: Settings.DefaultableLanguage
-	readonly openChangelogOnUpdate: boolean
 	readonly showHiddenFiles: boolean
+	readonly openChangelogOnUpdate: boolean
 
 	readonly lastReadChangelogVersion: SemVerString
 }
