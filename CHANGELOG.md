@@ -1,5 +1,11 @@
 # obsidian-show-hidden-files
 
+## 2.1.1
+
+### Patch Changes
+
+- 8238eb0: Fix "Make a copy", "New file", and "New folder" not highlighting the new file or folder if the new file or folder is supposed to be hidden. The code for `patchVault` is also simplified.
+
 ## 2.1.0
 
 ### Minor Changes
