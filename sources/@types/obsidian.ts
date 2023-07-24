@@ -8,7 +8,6 @@ declare module "obsidian" {
 	interface FileExplorerView extends Private<$FileExplorerView, PrivateKey> { }
 	interface FileItem extends Private<$FileItem, PrivateKey> { }
 	interface TFile extends Private<$TFile, PrivateKey> { }
-	interface Vault extends Private<$Vault, PrivateKey> { }
 	interface Workspace extends Private<$Workspace, PrivateKey> { }
 }
 import type {
@@ -17,7 +16,6 @@ import type {
 	Private,
 } from "@polyipseity/obsidian-plugin-library"
 import type {
-	EventRef,
 	FileExplorerView,
 	FileItem,
 	Stat,
@@ -78,20 +76,14 @@ interface $TFile {
 	readonly getNewPathAfterRename: (filename: string) => string
 }
 
-interface $Vault {
-	readonly on: (
-		name: "raw",
-		callback: (path: string) => unknown,
-		ctx?: unknown,
-	) => EventRef
-}
-
 interface $Window {
 	readonly i18next: i18n
 }
 
 interface $Workspace {
-	readonly getLeavesOfType: (viewType: "file-explorer") => (WorkspaceLeaf & {
+	readonly getLeavesOfType: (
+		viewType: "file-explorer",
+	) => readonly (WorkspaceLeaf & {
 		readonly view: FileExplorerView
 	})[]
 }

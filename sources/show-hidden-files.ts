@@ -27,7 +27,7 @@ export function loadShowHiddenFiles(
 function patchVault(context: ShowHiddenFilesPlugin): void {
 	const
 		{
-			app: { vault, vault: { adapter }, workspace },
+			app: { vault: { adapter }, workspace },
 			settings,
 		} = context,
 		hiddenPaths = new Set<string>()
@@ -44,43 +44,33 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 		setting => setting.showHiddenFiles,
 		async cur => cur ? showAll() : hideAll(),
 	))
-	async function onRaw(path: string): Promise<void> {
-		const pathnames = path.split("/")
-		if (pathnames.some(pn => pn.startsWith("."))) {
-			if (!await adapter.exists(path)) {
-				hiddenPaths.delete(path)
-				return
-			}
-			hiddenPaths.add(path)
-			if (!settings.value.showHiddenFiles) { return }
-			await showFile(context, path)
-		}
-	}
-	revealPrivate(context, [vault], vault0 => {
-		context.registerEvent(vault0.on("raw", onRaw))
-		context.register(around(vault0.adapter, {
+	revealPrivate(context, [adapter], adapter0 => {
+		context.register(around(adapter0, {
 			reconcileDeletion(proto) {
 				return async function fn(
 					this: typeof adapter,
 					...args: Parameters<typeof proto>
 				): Promise<Awaited<ReturnType<typeof proto>>> {
-					if (settings.value.showHiddenFiles) {
-						const [realPath, path] = args,
-							pathnames = path.split("/")
-						if (pathnames.some(pn => pn.startsWith(".")) &&
-							// Cannot use `exists` as it causes an await loop
-							await revealPrivateAsync(
-								context,
-								[adapter],
-								async adapter0 =>
-									// eslint-disable-next-line no-underscore-dangle
-									adapter0._exists(adapter0.getFullPath(realPath), path),
-								constant(false),
-							)) {
-							return
+					const [realPath, path] = args
+					if (isHiddenPath(path)) {
+						// Cannot use `exists` as it causes an await loop
+						if (await revealPrivateAsync(
+							context,
+							[adapter],
+							async adapter2 =>
+								// eslint-disable-next-line no-underscore-dangle
+								adapter2._exists(adapter0.getFullPath(realPath), path),
+							constant(false),
+						)) {
+							hiddenPaths.add(path)
+							if (settings.value.showHiddenFiles) {
+								return showFile(context, path)
+							}
+						} else {
+							hiddenPaths.delete(path)
 						}
 					}
-					await proto.apply(this, args)
+					return proto.apply(this, args)
 				}
 			},
 		}))
@@ -147,7 +137,7 @@ function patchFileExplorer(context: ShowHiddenFilesPlugin): void {
 										if (!fi) { throw new Error(path) }
 										const { innerEl } = fi,
 											filename = innerEl.getText()
-										if (!filename.startsWith(".")) {
+										if (!isHiddenPathname(filename)) {
 											await proto.apply(this, args)
 											return
 										}
@@ -309,4 +299,12 @@ async function hideFile(context: PluginContext, path: string): Promise<void> {
 			adapter0.reconcileDeletion(adapter0.getRealPath(path), path),
 		() => { },
 	)
+}
+
+function isHiddenPath(path: string): boolean {
+	return path.split("/").some(isHiddenPathname)
+}
+
+function isHiddenPathname(pathname: string): boolean {
+	return pathname.startsWith(".")
 }
