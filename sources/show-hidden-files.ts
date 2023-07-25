@@ -1,3 +1,4 @@
+import type { Command, MobileStat } from "obsidian"
 import {
 	Platform,
 	type PluginContext,
@@ -9,7 +10,6 @@ import {
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
-import type { Command } from "obsidian"
 import type { MarkOptional } from "ts-essentials"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import { around } from "monkey-around"
@@ -266,30 +266,31 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 					path,
 				)
 			} else if (inSet(MOBILE, CURRENT)) {
-				// Cannot use `stat` as it causes an await loop
-				let stat = null
-				try {
-					stat = await adapter0.fs.stat<typeof CURRENT>(
-						adapter0.getFullRealPath(realPath),
-					)
-				} catch {
-					return
-				}
-				const { type } = stat
-				switch (type) {
-					case "file":
-						await adapter0.reconcileFileChanged<typeof CURRENT>(
-							realPath,
-							path,
-							stat,
+				const stat = await (async (): Promise<MobileStat | null> => {
+					try {
+						return await adapter0.fs.stat<typeof CURRENT>(
+							adapter0.getFullRealPath(realPath),
 						)
-						break
-					case "folder":
-						await adapter0.reconcileFolderCreation(realPath, path)
-						break
-					default:
-						throw new Error(type)
-				}
+					} catch { return null }
+				})()
+				if (!stat) { return }
+				await revealPrivateAsync(context, [stat], async stat0 => {
+					const { type } = stat0
+					switch (type) {
+						case "file":
+							await adapter0.reconcileFileChanged<typeof CURRENT>(
+								realPath,
+								path,
+								stat,
+							)
+							break
+						case "directory":
+							await adapter0.reconcileFolderCreation(realPath, path)
+							break
+						default:
+							throw new Error(type)
+					}
+				}, () => { })
 			} else {
 				throw new Error(CURRENT)
 			}

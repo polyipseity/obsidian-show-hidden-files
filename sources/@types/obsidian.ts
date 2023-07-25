@@ -7,6 +7,8 @@ declare module "obsidian" {
 	interface DataAdapter extends Private<$DataAdapter, PrivateKey> { }
 	interface FileExplorerView extends Private<$FileExplorerView, PrivateKey> { }
 	interface FileItem extends Private<$FileItem, PrivateKey> { }
+	interface Filesystem extends Private<$Filesystem, PrivateKey> { }
+	interface MobileStat extends Private<$MobileStat, PrivateKey> { }
 	interface TFile extends Private<$TFile, PrivateKey> { }
 	interface Workspace extends Private<$Workspace, PrivateKey> { }
 }
@@ -18,6 +20,8 @@ import type {
 import type {
 	FileExplorerView,
 	FileItem,
+	Filesystem,
+	MobileStat,
 	Stat,
 	TFile,
 	View,
@@ -36,11 +40,7 @@ declare module "@polyipseity/obsidian-plugin-library" {
 interface $DataAdapter {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	readonly _exists: (fullPath: string, path: string) => PromiseLike<boolean>
-	readonly fs: {
-		readonly stat: <T extends Platform.Current>(
-			fullRealPath: Deopaque<T> extends Platform.Mobile ? string : never,
-		) => Deopaque<T> extends Platform.Mobile ? PromiseLike<Stat> : never
-	}
+	readonly fs: Filesystem
 	readonly getFullPath: (path: string) => string
 	readonly getFullRealPath: (realPath: string) => string
 	readonly getRealPath: (path: string) => string
@@ -52,7 +52,7 @@ interface $DataAdapter {
 	readonly reconcileFileChanged: <T extends Platform.Current>(
 		realPath: Deopaque<T> extends Platform.Mobile ? string : never,
 		path: Deopaque<T> extends Platform.Mobile ? string : never,
-		stat: Deopaque<T> extends Platform.Mobile ? Stat : never,
+		stat: Deopaque<T> extends Platform.Mobile ? MobileStat : never,
 	) => Deopaque<T> extends Platform.Mobile ? PromiseLike<void> : never
 	readonly reconcileFileInternal: <T extends Platform.Current>(
 		realPath: Deopaque<T> extends Platform.Desktop ? string : never,
@@ -76,6 +76,16 @@ interface $FileExplorerView extends View {
 
 interface $FileItem {
 	readonly innerEl: HTMLElement
+}
+
+interface $Filesystem {
+	readonly stat: <T extends Platform.Current>(
+		fullRealPath: Deopaque<T> extends Platform.Mobile ? string : never,
+	) => Deopaque<T> extends Platform.Mobile ? PromiseLike<MobileStat> : never
+}
+
+interface $MobileStat extends Omit<Stat, "type"> {
+	readonly type: "directory" | "file"
 }
 
 interface $TFile {
