@@ -1,5 +1,11 @@
 # obsidian-show-hidden-files
 
+## 2.1.2
+
+### Patch Changes
+
+- 0aa7f2b: Attempt to fix `await` loop on mobile.
+
 ## 2.1.1
 
 ### Patch Changes
