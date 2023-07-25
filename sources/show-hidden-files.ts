@@ -77,7 +77,7 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 	}, () => { })
 	workspace.onLayoutReady(async () =>
 		revealPrivateAsync(context, [adapter], async adapter0 =>
-			adapter0.listAll(), () => { }))
+			adapter0.listRecursive(""), () => { }))
 }
 
 function patchErrorMessage(context: ShowHiddenFilesPlugin): void {
@@ -278,7 +278,7 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 					const { type } = stat0
 					switch (type) {
 						case "file":
-							await adapter0.reconcileFileChanged<typeof CURRENT>(
+							adapter0.reconcileFileChanged<typeof CURRENT>(
 								realPath,
 								path,
 								stat,

@@ -44,7 +44,7 @@ interface $DataAdapter {
 	readonly getFullPath: (path: string) => string
 	readonly getFullRealPath: (realPath: string) => string
 	readonly getRealPath: (path: string) => string
-	readonly listAll: () => PromiseLike<void>
+	readonly listRecursive: (path: string) => PromiseLike<void>
 	readonly reconcileDeletion: (
 		realPath: string,
 		path: string,
@@ -53,7 +53,8 @@ interface $DataAdapter {
 		realPath: Deopaque<T> extends Platform.Mobile ? string : never,
 		path: Deopaque<T> extends Platform.Mobile ? string : never,
 		stat: Deopaque<T> extends Platform.Mobile ? MobileStat : never,
-	) => Deopaque<T> extends Platform.Mobile ? PromiseLike<void> : never
+		// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+	) => Deopaque<T> extends Platform.Mobile ? void : never
 	readonly reconcileFileInternal: <T extends Platform.Current>(
 		realPath: Deopaque<T> extends Platform.Desktop ? string : never,
 		path: Deopaque<T> extends Platform.Desktop ? string : never,
