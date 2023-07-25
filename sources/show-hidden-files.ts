@@ -51,7 +51,7 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 					this: typeof adapter,
 					...args: Parameters<typeof proto>
 				): Promise<Awaited<ReturnType<typeof proto>>> {
-					const [realPath, path] = args
+					const [, path] = args
 					if (isHiddenPath(path)) {
 						// Cannot use `exists` as it causes an await loop
 						if (await revealPrivateAsync(
@@ -59,7 +59,7 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 							[adapter],
 							async adapter2 =>
 								// eslint-disable-next-line no-underscore-dangle
-								adapter2._exists(adapter0.getFullPath(realPath), path),
+								adapter2._exists(adapter0.getFullPath(path), path),
 							constant(false),
 						)) {
 							hiddenPaths.add(path)
@@ -266,7 +266,10 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 					path,
 				)
 			} else if (inSet(MOBILE, CURRENT)) {
-				const stat = await adapter0.stat(path)
+				// Cannot use `stat` as it causes an await loop
+				const stat = await adapter0.fs.stat<typeof CURRENT>(
+					adapter0.getFullRealPath(realPath),
+				)
 				if (!stat) { return }
 				const { type } = stat
 				switch (type) {
