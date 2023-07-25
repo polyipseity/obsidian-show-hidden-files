@@ -39,7 +39,7 @@ interface $DataAdapter {
 	readonly fs: {
 		readonly stat: <T extends Platform.Current>(
 			fullRealPath: Deopaque<T> extends Platform.Mobile ? string : never,
-		) => Deopaque<T> extends Platform.Mobile ? PromiseLike<Stat | null> : never
+		) => Deopaque<T> extends Platform.Mobile ? PromiseLike<Stat> : never
 	}
 	readonly getFullPath: (path: string) => string
 	readonly getFullRealPath: (realPath: string) => string

@@ -267,10 +267,14 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 				)
 			} else if (inSet(MOBILE, CURRENT)) {
 				// Cannot use `stat` as it causes an await loop
-				const stat = await adapter0.fs.stat<typeof CURRENT>(
-					adapter0.getFullRealPath(realPath),
-				)
-				if (!stat) { return }
+				let stat = null
+				try {
+					stat = await adapter0.fs.stat<typeof CURRENT>(
+						adapter0.getFullRealPath(realPath),
+					)
+				} catch {
+					return
+				}
 				const { type } = stat
 				switch (type) {
 					case "file":
