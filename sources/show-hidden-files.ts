@@ -20,33 +20,14 @@ interface Rule {
 	readonly op: "-" | "+"
 	readonly value: RegExp
 }
-
-class ShowingRules {
-	public rules
-	public readonly onChanged = new EventEmitterLite<readonly [
-		cur: this["rules"],
-		prev: this["rules"],
-	]>()
-
-	public constructor(context: ShowHiddenFilesPlugin) {
-		const { settings } = context
-		this.rules = ShowingRules.parseRules(settings.value.showingRules)
-		context.register(settings.onMutate(
-			setting => setting.showingRules,
-			async cur => {
-				const { rules } = this
-				await this.onChanged.emit(
-					this.rules = ShowingRules.parseRules(cur),
-					rules,
-				)
-			},
-		))
-	}
-
-	public static parseRules(rules: readonly string[]): readonly Rule[] {
-		return rules.map(rule => {
+type Rules0 = readonly Rule[]
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Rules extends Rules0 { }
+namespace Rules {
+	export function parse(strs: readonly string[]): Rules {
+		return strs.map(str => {
 			let op: Rule["op"] = "+",
-				rule2 = rule
+				rule2 = str
 			if (rule2.startsWith("+")) {
 				rule2 = rule2.slice("+".length)
 			} else if (rule2.startsWith("-")) {
@@ -75,12 +56,33 @@ class ShowingRules {
 		})
 	}
 
-	public test(path: string): boolean {
+	export function test(rules: Rules, path: string): boolean {
 		let ret = false
-		for (const { op, value } of this.rules) {
+		for (const { op, value } of rules) {
 			if (op === (ret ? "-" : "+") && value.test(path)) { ret = !ret }
 		}
 		return ret
+	}
+}
+
+class ShowingRules {
+	public rules
+	public readonly onChanged = new EventEmitterLite<readonly []>()
+
+	public constructor(context: ShowHiddenFilesPlugin) {
+		const { settings } = context
+		this.rules = Rules.parse(settings.value.showingRules)
+		context.register(settings.onMutate(
+			setting => setting.showingRules,
+			async cur => {
+				this.rules = Rules.parse(cur)
+				await this.onChanged.emit()
+			},
+		))
+	}
+
+	public test(path: string): boolean {
+		return Rules.test(this.rules, path)
 	}
 }
 
