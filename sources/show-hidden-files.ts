@@ -11,7 +11,7 @@ import {
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
-import { constant, escapeRegExp, isUndefined } from "lodash-es"
+import { constant, escapeRegExp, isUndefined, noop } from "lodash-es"
 import type { MarkOptional } from "ts-essentials"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import { around } from "monkey-around"
@@ -148,10 +148,10 @@ function patchVault(
 				}
 			},
 		}))
-	}, () => { })
+	}, noop)
 	workspace.onLayoutReady(async () =>
 		revealPrivateAsync(context, [adapter], async adapter0 =>
-			adapter0.listRecursive(""), () => { }))
+			adapter0.listRecursive(""), noop))
 }
 
 function patchErrorMessage(
@@ -178,7 +178,7 @@ function patchErrorMessage(
 				} as typeof proto
 			},
 		}))
-	}, () => { })
+	}, noop)
 }
 
 function patchFileExplorer(
@@ -369,12 +369,12 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 						default:
 							throw new Error(type)
 					}
-				}, () => { })
+				}, noop)
 			} else {
 				throw new Error(CURRENT)
 			}
 		},
-		() => { },
+		noop,
 	)
 }
 
@@ -384,7 +384,7 @@ async function hideFile(context: PluginContext, path: string): Promise<void> {
 		[context.app.vault.adapter],
 		async adapter0 =>
 			adapter0.reconcileDeletion(adapter0.getRealPath(path), path),
-		() => { },
+		noop,
 	)
 }
 
