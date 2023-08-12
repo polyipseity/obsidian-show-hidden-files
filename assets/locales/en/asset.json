@@ -13,6 +13,7 @@
 			"donate-icon": "heart",
 			"readme-icon": "file-question"
 		},
+		"rule": "ruler",
 		"show-hidden-files": {
 			"hide-icon": "eye-off",
 			"show-icon": "eye",
@@ -26,6 +27,8 @@
 			"readme-icon": "$t(asset:generic.documentations.readme-icon)"
 		},
 		"open-changelog-on-update-icon": "$t(asset:generic.documentations.changelog-icon)",
-		"show-hidden-files-icon": "$t(asset:generic.show-hidden-files.show-icon)"
+		"show-hidden-files-icon": "$t(asset:generic.show-hidden-files.show-icon)",
+		"showing-rules-edit-icon": "$t(asset:generic.edit-list-icon)",
+		"showing-rules-icon": "$t(asset:generic.rule)"
 	}
 }

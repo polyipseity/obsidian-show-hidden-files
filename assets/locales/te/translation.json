@@ -22,7 +22,11 @@
 		"hidden-file_one": "hidden file",
 		"hidden-file_other": "hidden files",
 		"hide": "hide",
+		"rule": "$t(generic.rule)",
+		"rule_one": "rule",
+		"rule_other": "rules",
 		"show": "show",
+		"show_gerund": "showing",
 		"toggle": "toggle"
 	},
 	"name": "$t(generic.show, capitalize) $t(generic.hidden-file_other, startCase)",
@@ -36,6 +40,10 @@
 		"interface": "Interface",
 		"open-changelog-on-update": "$t(generic.open, capitalize) $t(generic.documentations.changelog) on update",
 		"show-hidden-files": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
-		"show-hidden-files-description": "Toggleable from the command palatte."
+		"show-hidden-files-description": "Toggleable from the command palatte.",
+		"showing-rules": "$t(generic.show_gerund, capitalize) $t(generic.rule_other)",
+		"showing-rules-description": "$t(generic.list-description, capitalize)",
+		"showing-rules-edit": "$t(generic.edit, capitalize)",
+		"showing-rules-edit-description": "$t(generic.rule_other, capitalize) are executed from top to bottom. If no $t(generic.rule_other) match, the path is excluded. JavaScript regexp literals are supported. Prepend nothing or \"+\" for inclusion and \"-\" for exclusion."
 	}
 }

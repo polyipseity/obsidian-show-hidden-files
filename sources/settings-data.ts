@@ -6,6 +6,7 @@ import {
 	type SemVerString,
 	cloneAsWritable,
 	deepFreeze,
+	fixArray,
 	fixInSet,
 	fixTyped,
 	launderUnchecked,
@@ -19,6 +20,7 @@ import { PluginLocales } from "../assets/locales.js"
 export interface Settings extends PluginContext.Settings {
 	readonly language: Settings.DefaultableLanguage
 	readonly showHiddenFiles: boolean
+	readonly showingRules: readonly string[]
 
 	readonly openChangelogOnUpdate: boolean
 
@@ -46,6 +48,7 @@ export namespace Settings {
 		noticeTimeout: 5,
 		openChangelogOnUpdate: true,
 		showHiddenFiles: true,
+		showingRules: ["+/"],
 	})
 
 	export const DEFAULTABLE_LANGUAGES =
@@ -92,6 +95,12 @@ export namespace Settings {
 				unc,
 				"showHiddenFiles",
 				["boolean"],
+			),
+			showingRules: fixArray(
+				DEFAULT,
+				unc,
+				"showingRules",
+				["string"],
 			),
 		})
 	}

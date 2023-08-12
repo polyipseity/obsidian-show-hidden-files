@@ -1,10 +1,13 @@
 import {
 	AdvancedSettingTab,
+	ListModal,
+	cloneAsWritable,
 	closeSetting,
 	linkSetting,
 	registerSettingsCommands,
 	resetButton,
 } from "@polyipseity/obsidian-plugin-library"
+import { constant, identity } from "lodash-es"
 import { Settings } from "./settings-data.js"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import type { loadDocumentations } from "./documentations.js"
@@ -20,7 +23,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 		super.onLoad()
 		const {
 			containerEl,
-			context: { language: { value: i18n }, settings, version },
+			context, context: { language: { value: i18n }, settings, version },
 			docs,
 			ui,
 		} = this
@@ -82,6 +85,49 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 					i18n.t("settings.reset"),
 					async () => settings.mutate(settingsM => {
 						settingsM.showHiddenFiles = Settings.DEFAULT.showHiddenFiles
+					}),
+					() => { this.postMutate() },
+				))
+		}).newSetting(containerEl, setting => {
+			setting
+				.setName(i18n.t("settings.showing-rules"))
+				.setDesc(i18n.t("settings.showing-rules-description", {
+					count: settings.value.showingRules.length,
+					interpolation: { escapeValue: false },
+				}))
+				.addButton(button => {
+					button
+						.setIcon(i18n.t("asset:settings.showing-rules-edit-icon"))
+						.setTooltip(i18n.t("settings.showing-rules-edit"))
+						.onClick(() => {
+							new ListModal(
+								context,
+								ListModal.stringInputter<string>({
+									back: identity,
+									forth: identity,
+								}),
+								constant(""),
+								settings.value.showingRules,
+								{
+									callback: async (value): Promise<void> => {
+										await settings.mutate(settingsM => {
+											settingsM.showingRules = value
+										})
+										this.postMutate()
+									},
+									description: () =>
+										i18n.t("settings.showing-rules-edit-description"),
+									title: () => i18n.t("settings.showing-rules"),
+								},
+							).open()
+						})
+				})
+				.addExtraButton(resetButton(
+					i18n.t("asset:settings.showing-rules-icon"),
+					i18n.t("settings.reset"),
+					async () => settings.mutate(settingsM => {
+						settingsM.showingRules =
+							cloneAsWritable(Settings.DEFAULT.showingRules)
 					}),
 					() => { this.postMutate() },
 				))

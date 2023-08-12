@@ -20,6 +20,7 @@
 		"donate": "贊助",
 		"hidden-file": "$t(generic.hide)文件",
 		"hide": "隱藏",
+		"rule": "規則",
 		"show": "顯示",
 		"toggle": "切換"
 	},
@@ -34,6 +35,10 @@
 		"interface": "界面",
 		"open-changelog-on-update": "更新時$t(generic.open)$t(generic.documentations.changelog)",
 		"show-hidden-files": "$t(generic.show)$t(generic.hidden-file)",
-		"show-hidden-files-description": "可從命令面板切換。"
+		"show-hidden-files-description": "可從命令面板切換。",
+		"showing-rules": "$t(generic.show)$t(generic.rule)",
+		"showing-rules-description": "$t(generic.list-description)",
+		"showing-rules-edit": "$t(generic.edit)",
+		"showing-rules-edit-description": "$t(generic.rule)是從上到下執行的。如果沒有$t(generic.rule)匹配，則排除該路徑。支持JavaScript正則表達式。不前置任何文字或前置「+」表示包含，「-」表示排除。"
 	}
 }

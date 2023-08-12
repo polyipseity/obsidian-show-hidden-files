@@ -1,5 +1,6 @@
-import type { Command, MobileStat } from "obsidian"
+import { type Command, type MobileStat, normalizePath } from "obsidian"
 import {
+	EventEmitterLite,
 	Platform,
 	type PluginContext,
 	addCommand,
@@ -10,10 +11,78 @@ import {
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
+import { constant, escapeRegExp, isUndefined } from "lodash-es"
 import type { MarkOptional } from "ts-essentials"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import { around } from "monkey-around"
-import { constant } from "lodash-es"
+
+interface Rule {
+	readonly op: "-" | "+"
+	readonly value: RegExp
+}
+
+class ShowingRules {
+	public rules
+	public readonly onChanged = new EventEmitterLite<readonly [
+		cur: this["rules"],
+		prev: this["rules"],
+	]>()
+
+	public constructor(context: ShowHiddenFilesPlugin) {
+		const { settings } = context
+		this.rules = ShowingRules.parseRules(settings.value.showingRules)
+		context.register(settings.onMutate(
+			setting => setting.showingRules,
+			async cur => {
+				const { rules } = this
+				await this.onChanged.emit(
+					this.rules = ShowingRules.parseRules(cur),
+					rules,
+				)
+			},
+		))
+	}
+
+	public static parseRules(rules: readonly string[]): readonly Rule[] {
+		return rules.map(rule => {
+			let op: Rule["op"] = "+",
+				rule2 = rule
+			if (rule2.startsWith("+")) {
+				rule2 = rule2.slice("+".length)
+			} else if (rule2.startsWith("-")) {
+				op = "-"
+				rule2 = rule2.slice("-".length)
+			}
+			const [, pattern, flags] =
+				(/^\/(?<pattern>(?:\\\/|[^/])+)\/(?<flags>[dgimsuvy]*)$/u)
+					.exec(rule2) ?? []
+			if (!isUndefined(pattern) && !isUndefined(flags)) {
+				return {
+					op,
+					value: new RegExp(pattern, `${flags}u`),
+				}
+			}
+			rule2 = normalizePath(rule2)
+			return {
+				op,
+				value: rule2 === "/"
+					? /(?:)/u
+					: new RegExp(
+						`^${escapeRegExp(normalizePath(rule2))}(?:$|/)`,
+						"u",
+					),
+			}
+		})
+	}
+
+	public test(path: string): boolean {
+		let ret = false
+		for (const { op, value } of this.rules) {
+			if (op === (ret ? "-" : "+") && value.test(path)) { ret = !ret }
+		}
+		return ret
+	}
+}
 
 export function loadShowHiddenFiles(
 	context: ShowHiddenFilesPlugin,
@@ -30,7 +99,8 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 			app: { vault: { adapter }, workspace },
 			settings,
 		} = context,
-		hiddenPaths = new Set<string>()
+		hiddenPaths = new Set<string>(),
+		rules = new ShowingRules(context)
 	async function showAll(): Promise<void> {
 		await Promise.all([...hiddenPaths]
 			.map(async path => showFile(context, path)))
@@ -63,7 +133,7 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 							constant(false),
 						)) {
 							hiddenPaths.add(path)
-							if (settings.value.showHiddenFiles) {
+							if (settings.value.showHiddenFiles && rules.test(path)) {
 								return showFile(context, path)
 							}
 						} else {
@@ -75,6 +145,10 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 			},
 		}))
 	}, () => { })
+	context.register(rules.onChanged.listen(async () =>
+		Promise.all([...hiddenPaths].map(async path => rules.test(path)
+			? showFile(context, path)
+			: hideFile(context, path)))))
 	workspace.onLayoutReady(async () =>
 		revealPrivateAsync(context, [adapter], async adapter0 =>
 			adapter0.listRecursive(""), () => { }))
