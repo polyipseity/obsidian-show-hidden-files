@@ -49,7 +49,7 @@ namespace Rules {
 				value: rule2 === "/"
 					? /(?:)/u
 					: new RegExp(
-						`^${escapeRegExp(normalizePath(rule2))}(?:$|/)`,
+						`^${escapeRegExp(normalizePath(rule2))}(?:/|$)`,
 						"u",
 					),
 			}
@@ -65,13 +65,17 @@ namespace Rules {
 	}
 }
 
-class ShowingRules {
+class ShowingFilter {
 	public rules
 	public readonly onChanged = new EventEmitterLite<readonly []>()
 
-	public constructor(context: ShowHiddenFilesPlugin) {
+	public constructor(protected readonly context: ShowHiddenFilesPlugin) {
 		const { settings } = context
 		this.rules = Rules.parse(settings.value.showingRules)
+		context.register(settings.onMutate(
+			setting => setting.showHiddenFiles,
+			async () => this.onChanged.emit(),
+		))
 		context.register(settings.onMutate(
 			setting => setting.showingRules,
 			async cur => {
@@ -81,41 +85,39 @@ class ShowingRules {
 		))
 	}
 
-	public test(path: string): boolean {
-		return Rules.test(this.rules, path)
+	public test(path?: string): boolean {
+		const { context: { settings }, rules } = this
+		return settings.value.showHiddenFiles &&
+			(isUndefined(path) || Rules.test(rules, path))
 	}
 }
 
 export function loadShowHiddenFiles(
 	context: ShowHiddenFilesPlugin,
 ): void {
-	patchVault(context)
-	patchErrorMessage(context)
-	patchFileExplorer(context)
+	const filter = new ShowingFilter(context)
+	patchVault(context, filter)
+	patchErrorMessage(context, filter)
+	patchFileExplorer(context, filter)
 	addCommands(context)
 }
 
-function patchVault(context: ShowHiddenFilesPlugin): void {
+function patchVault(
+	context: ShowHiddenFilesPlugin,
+	filter: ShowingFilter,
+): void {
 	const
-		{
-			app: { vault: { adapter }, workspace },
-			settings,
-		} = context,
-		hiddenPaths = new Set<string>(),
-		rules = new ShowingRules(context)
-	async function showAll(): Promise<void> {
-		await Promise.all([...hiddenPaths]
-			.map(async path => showFile(context, path)))
-	}
+		{ app: { vault: { adapter }, workspace } } = context,
+		hiddenPaths = new Set<string>()
 	async function hideAll(): Promise<void> {
 		await Promise.all([...hiddenPaths]
 			.map(async path => hideFile(context, path)))
 	}
 	context.register(hideAll)
-	context.register(settings.onMutate(
-		setting => setting.showHiddenFiles,
-		async cur => cur ? showAll() : hideAll(),
-	))
+	context.register(filter.onChanged.listen(async () =>
+		Promise.all([...hiddenPaths].map(async path => filter.test(path)
+			? showFile(context, path)
+			: hideFile(context, path)))))
 	revealPrivate(context, [adapter], adapter0 => {
 		context.register(around(adapter0, {
 			reconcileDeletion(proto) {
@@ -135,7 +137,7 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 							constant(false),
 						)) {
 							hiddenPaths.add(path)
-							if (settings.value.showHiddenFiles && rules.test(path)) {
+							if (filter.test(path)) {
 								return showFile(context, path)
 							}
 						} else {
@@ -147,18 +149,16 @@ function patchVault(context: ShowHiddenFilesPlugin): void {
 			},
 		}))
 	}, () => { })
-	context.register(rules.onChanged.listen(async () =>
-		Promise.all([...hiddenPaths].map(async path => rules.test(path)
-			? showFile(context, path)
-			: hideFile(context, path)))))
 	workspace.onLayoutReady(async () =>
 		revealPrivateAsync(context, [adapter], async adapter0 =>
 			adapter0.listRecursive(""), () => { }))
 }
 
-function patchErrorMessage(context: ShowHiddenFilesPlugin): void {
+function patchErrorMessage(
+	context: ShowHiddenFilesPlugin,
+	filter: ShowingFilter,
+): void {
 	// Affects: canvas: convert to file, renaming in editor
-	const { settings } = context
 	revealPrivate(context, [self], self0 => {
 		const { i18next } = self0
 		context.register(around(i18next, {
@@ -168,7 +168,7 @@ function patchErrorMessage(context: ShowHiddenFilesPlugin): void {
 					this: typeof i18next,
 					...args: Parameters<typeof proto>
 				): ReturnType<typeof proto> {
-					if (settings.value.showHiddenFiles) {
+					if (filter.test()) {
 						const [key] = args
 						if (key === "plugins.file-explorer.msg-bad-dotfile") {
 							return ""
@@ -181,9 +181,12 @@ function patchErrorMessage(context: ShowHiddenFilesPlugin): void {
 	}, () => { })
 }
 
-function patchFileExplorer(context: ShowHiddenFilesPlugin): void {
+function patchFileExplorer(
+	context: ShowHiddenFilesPlugin,
+	filter: ShowingFilter,
+): void {
 	// Affects: renaming in file explorer
-	const { app: { workspace }, settings } = context
+	const { app: { workspace } } = context
 	workspace.onLayoutReady(() => {
 		function patch(): boolean {
 			return revealPrivate(context, [workspace], workspace0 => {
@@ -199,7 +202,7 @@ function patchFileExplorer(context: ShowHiddenFilesPlugin): void {
 									this: typeof view,
 									...args: Parameters<typeof proto>
 								): Promise<Awaited<ReturnType<typeof proto>>> {
-									if (!settings.value.showHiddenFiles) {
+									if (!filter.test()) {
 										return proto.apply(this, args)
 									}
 									return revealPrivateAsync(context, [this], async this0 => {
