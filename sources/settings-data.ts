@@ -20,6 +20,7 @@ import { PluginLocales } from "../assets/locales.js"
 export interface Settings extends PluginContext.Settings {
 	readonly language: Settings.DefaultableLanguage
 	readonly showHiddenFiles: boolean
+	readonly showConfigurationFolder: boolean
 	readonly showingRules: readonly string[]
 
 	readonly openChangelogOnUpdate: boolean
@@ -47,6 +48,7 @@ export namespace Settings {
 		language: "",
 		noticeTimeout: 5,
 		openChangelogOnUpdate: true,
+		showConfigurationFolder: true,
 		showHiddenFiles: true,
 		showingRules: ["+/"],
 	})
@@ -90,6 +92,12 @@ export namespace Settings {
 			recovery: Object.fromEntries(Object
 				.entries(launderUnchecked(unc.recovery))
 				.map(([key, value]) => [key, String(value)])),
+			showConfigurationFolder: fixTyped(
+				DEFAULT,
+				unc,
+				"showConfigurationFolder",
+				["boolean"],
+			),
 			showHiddenFiles: fixTyped(
 				DEFAULT,
 				unc,

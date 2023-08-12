@@ -10,6 +10,7 @@ declare module "obsidian" {
 	interface Filesystem extends Private<$Filesystem, PrivateKey> { }
 	interface MobileStat extends Private<$MobileStat, PrivateKey> { }
 	interface TFile extends Private<$TFile, PrivateKey> { }
+	interface Vault extends Private<$Vault, PrivateKey> { }
 	interface Workspace extends Private<$Workspace, PrivateKey> { }
 }
 import type {
@@ -91,6 +92,11 @@ interface $MobileStat extends Omit<Stat, "type"> {
 
 interface $TFile {
 	readonly getNewPathAfterRename: (filename: string) => string
+}
+
+interface $Vault {
+	readonly configDir: string
+	readonly setConfigDir: (dirname: string) => void
 }
 
 interface $Window {

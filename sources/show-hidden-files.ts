@@ -70,10 +70,14 @@ class ShowingFilter {
 	public readonly onChanged = new EventEmitterLite<readonly []>()
 
 	public constructor(protected readonly context: ShowHiddenFilesPlugin) {
-		const { settings } = context
+		const { context: { app: { vault }, settings } } = this
 		this.rules = Rules.parse(settings.value.showingRules)
 		context.register(settings.onMutate(
 			setting => setting.showHiddenFiles,
+			async () => this.onChanged.emit(),
+		))
+		context.register(settings.onMutate(
+			setting => setting.showConfigurationFolder,
 			async () => this.onChanged.emit(),
 		))
 		context.register(settings.onMutate(
@@ -83,12 +87,32 @@ class ShowingFilter {
 				await this.onChanged.emit()
 			},
 		))
+		revealPrivate(context, [vault], vault0 => {
+			// eslint-disable-next-line consistent-this, @typescript-eslint/no-this-alias
+			const this2 = this
+			context.register(around(vault0, {
+				setConfigDir(proto) {
+					return function fn(
+						this: typeof vault0,
+						...args: Parameters<typeof proto>
+					): ReturnType<typeof proto> {
+						proto.apply(this, args)
+						this2.onChanged.emit().catch(error => { self.console.error(error) })
+					}
+				},
+			}))
+		}, noop)
 	}
 
 	public test(path?: string): boolean {
-		const { context: { settings }, rules } = this
-		return settings.value.showHiddenFiles &&
-			(isUndefined(path) || Rules.test(rules, path))
+		const { context, context: { app: { vault }, settings }, rules } = this
+		return settings.value.showHiddenFiles && (isUndefined(path) ||
+			(revealPrivate(context, [vault], vault0 => new RegExp(
+				`^${escapeRegExp(vault0.configDir)}(?:/|$)`,
+				"u",
+			).test(path), constant(false))
+				? settings.value.showConfigurationFolder
+				: Rules.test(rules, path)))
 	}
 }
 

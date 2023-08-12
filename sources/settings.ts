@@ -69,69 +69,92 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 			Settings.DEFAULT,
 			Settings.fix,
 		)
-		ui.newSetting(containerEl, setting => {
-			setting
-				.setName(i18n.t("settings.show-hidden-files"))
-				.setDesc(i18n.t("settings.show-hidden-files-description"))
-				.addToggle(linkSetting(
-					() => settings.value.showHiddenFiles,
-					async value => settings.mutate(settingsM => {
-						settingsM.showHiddenFiles = value
-					}),
-					() => { this.postMutate() },
-				))
-				.addExtraButton(resetButton(
-					i18n.t("asset:settings.show-hidden-files-icon"),
-					i18n.t("settings.reset"),
-					async () => settings.mutate(settingsM => {
-						settingsM.showHiddenFiles = Settings.DEFAULT.showHiddenFiles
-					}),
-					() => { this.postMutate() },
-				))
-		}).newSetting(containerEl, setting => {
-			setting
-				.setName(i18n.t("settings.showing-rules"))
-				.setDesc(i18n.t("settings.showing-rules-description", {
-					count: settings.value.showingRules.length,
-					interpolation: { escapeValue: false },
-				}))
-				.addButton(button => {
-					button
-						.setIcon(i18n.t("asset:settings.showing-rules-edit-icon"))
-						.setTooltip(i18n.t("settings.showing-rules-edit"))
-						.onClick(() => {
-							new ListModal(
-								context,
-								ListModal.stringInputter<string>({
-									back: identity,
-									forth: identity,
-								}),
-								constant(""),
-								settings.value.showingRules,
-								{
-									callback: async (value): Promise<void> => {
-										await settings.mutate(settingsM => {
-											settingsM.showingRules = value
-										})
-										this.postMutate()
+		ui
+			.newSetting(containerEl, setting => {
+				setting
+					.setName(i18n.t("settings.show-hidden-files"))
+					.setDesc(i18n.t("settings.show-hidden-files-description"))
+					.addToggle(linkSetting(
+						() => settings.value.showHiddenFiles,
+						async value => settings.mutate(settingsM => {
+							settingsM.showHiddenFiles = value
+						}),
+						() => { this.postMutate() },
+					))
+					.addExtraButton(resetButton(
+						i18n.t("asset:settings.show-hidden-files-icon"),
+						i18n.t("settings.reset"),
+						async () => settings.mutate(settingsM => {
+							settingsM.showHiddenFiles = Settings.DEFAULT.showHiddenFiles
+						}),
+						() => { this.postMutate() },
+					))
+			})
+			.newSetting(containerEl, setting => {
+				setting
+					.setName(i18n.t("settings.show-configuration-folder"))
+					.setDesc(i18n.t("settings.show-configuration-folder-description"))
+					.addToggle(linkSetting(
+						() => settings.value.showConfigurationFolder,
+						async value => settings.mutate(settingsM => {
+							settingsM.showConfigurationFolder = value
+						}),
+						() => { this.postMutate() },
+					))
+					.addExtraButton(resetButton(
+						i18n.t("asset:settings.show-configuration-folder-icon"),
+						i18n.t("settings.reset"),
+						async () => settings.mutate(settingsM => {
+							settingsM.showConfigurationFolder =
+								Settings.DEFAULT.showConfigurationFolder
+						}),
+						() => { this.postMutate() },
+					))
+			})
+			.newSetting(containerEl, setting => {
+				setting
+					.setName(i18n.t("settings.showing-rules"))
+					.setDesc(i18n.t("settings.showing-rules-description", {
+						count: settings.value.showingRules.length,
+						interpolation: { escapeValue: false },
+					}))
+					.addButton(button => {
+						button
+							.setIcon(i18n.t("asset:settings.showing-rules-edit-icon"))
+							.setTooltip(i18n.t("settings.showing-rules-edit"))
+							.onClick(() => {
+								new ListModal(
+									context,
+									ListModal.stringInputter<string>({
+										back: identity,
+										forth: identity,
+									}),
+									constant(""),
+									settings.value.showingRules,
+									{
+										callback: async (value): Promise<void> => {
+											await settings.mutate(settingsM => {
+												settingsM.showingRules = value
+											})
+											this.postMutate()
+										},
+										description: () =>
+											i18n.t("settings.showing-rules-edit-description"),
+										title: () => i18n.t("settings.showing-rules"),
 									},
-									description: () =>
-										i18n.t("settings.showing-rules-edit-description"),
-									title: () => i18n.t("settings.showing-rules"),
-								},
-							).open()
-						})
-				})
-				.addExtraButton(resetButton(
-					i18n.t("asset:settings.showing-rules-icon"),
-					i18n.t("settings.reset"),
-					async () => settings.mutate(settingsM => {
-						settingsM.showingRules =
-							cloneAsWritable(Settings.DEFAULT.showingRules)
-					}),
-					() => { this.postMutate() },
-				))
-		})
+								).open()
+							})
+					})
+					.addExtraButton(resetButton(
+						i18n.t("asset:settings.showing-rules-icon"),
+						i18n.t("settings.reset"),
+						async () => settings.mutate(settingsM => {
+							settingsM.showingRules =
+								cloneAsWritable(Settings.DEFAULT.showingRules)
+						}),
+						() => { this.postMutate() },
+					))
+			})
 		this.newSectionWidget(() => i18n.t("settings.interface"))
 		ui.newSetting(containerEl, setting => {
 			setting
