@@ -10,6 +10,7 @@ import {
 	printError,
 	revealPrivate,
 	revealPrivateAsync,
+	Rules,
 } from "@polyipseity/obsidian-plugin-library"
 import { constant, escapeRegExp, isUndefined, noop } from "lodash-es"
 import type { MarkOptional } from "ts-essentials"
@@ -19,17 +20,7 @@ import { around } from "monkey-around"
 
 class ShowingRules extends SettingRules<Settings> {
 	public constructor(context: ShowHiddenFilesPlugin) {
-		super(context, setting => setting.showingRules, str => {
-			const path = normalizePath(str)
-			return str
-				? /^\b$/u
-				: path === "/"
-					? /(?:)/u
-					: new RegExp(
-						`^${escapeRegExp(path)}(?:/|$)`,
-						"u",
-					)
-		})
+		super(context, setting => setting.showingRules, Rules.pathInterpreter)
 		const { context: { app: { vault }, settings } } = this
 		context.register(settings.onMutate(
 			setting => setting.showHiddenFiles,

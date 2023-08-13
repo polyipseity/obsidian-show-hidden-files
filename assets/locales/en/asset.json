@@ -13,7 +13,6 @@
 			"donate-icon": "heart",
 			"readme-icon": "file-question"
 		},
-		"rule": "ruler",
 		"show-hidden-files": {
 			"hide-icon": "eye-off",
 			"show-icon": "eye",
@@ -30,6 +29,6 @@
 		"show-configuration-folder-icon": "folder-cog",
 		"show-hidden-files-icon": "$t(asset:generic.show-hidden-files.show-icon)",
 		"showing-rules-edit-icon": "$t(asset:generic.edit-list-icon)",
-		"showing-rules-icon": "$t(asset:generic.rule)"
+		"showing-rules-icon": "$t(asset:generic.rule-icon)"
 	}
 }
