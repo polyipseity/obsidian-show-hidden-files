@@ -1,13 +1,12 @@
 import {
 	AdvancedSettingTab,
-	ListModal,
 	cloneAsWritable,
 	closeSetting,
 	linkSetting,
 	registerSettingsCommands,
 	resetButton,
+	rulesList,
 } from "@polyipseity/obsidian-plugin-library"
-import { constant, identity } from "lodash-es"
 import { Settings } from "./settings-data.js"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import type { loadDocumentations } from "./documentations.js"
@@ -123,13 +122,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 							.setIcon(i18n.t("asset:settings.showing-rules-edit-icon"))
 							.setTooltip(i18n.t("settings.showing-rules-edit"))
 							.onClick(() => {
-								new ListModal(
+								rulesList(
 									context,
-									ListModal.stringInputter<string>({
-										back: identity,
-										forth: identity,
-									}),
-									constant(""),
 									settings.value.showingRules,
 									{
 										callback: async (value): Promise<void> => {
@@ -138,8 +132,6 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 											})
 											this.postMutate()
 										},
-										description: () =>
-											i18n.t("settings.showing-rules-edit-description"),
 										title: () => i18n.t("settings.showing-rules"),
 									},
 								).open()

@@ -1,8 +1,8 @@
 import { type Command, type MobileStat, normalizePath } from "obsidian"
 import {
-	EventEmitterLite,
 	Platform,
 	type PluginContext,
+	SettingRules,
 	addCommand,
 	anyToError,
 	deepFreeze,
@@ -13,65 +13,24 @@ import {
 } from "@polyipseity/obsidian-plugin-library"
 import { constant, escapeRegExp, isUndefined, noop } from "lodash-es"
 import type { MarkOptional } from "ts-essentials"
+import type { Settings } from "./settings-data.js"
 import type { ShowHiddenFilesPlugin } from "./main.js"
 import { around } from "monkey-around"
 
-interface Rule {
-	readonly op: "-" | "+"
-	readonly value: RegExp
-}
-type Rules0 = readonly Rule[]
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Rules extends Rules0 { }
-namespace Rules {
-	export function parse(strs: readonly string[]): Rules {
-		return strs.map(str => {
-			let op: Rule["op"] = "+",
-				rule2 = str
-			if (rule2.startsWith("+")) {
-				rule2 = rule2.slice("+".length)
-			} else if (rule2.startsWith("-")) {
-				op = "-"
-				rule2 = rule2.slice("-".length)
-			}
-			const [, pattern, flags] =
-				(/^\/(?<pattern>(?:\\\/|[^/])+)\/(?<flags>[dgimsuvy]*)$/u)
-					.exec(rule2) ?? []
-			if (!isUndefined(pattern) && !isUndefined(flags)) {
-				return {
-					op,
-					value: new RegExp(pattern, `${flags}u`),
-				}
-			}
-			rule2 = normalizePath(rule2)
-			return {
-				op,
-				value: rule2 === "/"
+class ShowingRules extends SettingRules<Settings> {
+	public constructor(context: ShowHiddenFilesPlugin) {
+		super(context, setting => setting.showingRules, str => {
+			const path = normalizePath(str)
+			return str
+				? /^\b$/u
+				: path === "/"
 					? /(?:)/u
 					: new RegExp(
-						`^${escapeRegExp(normalizePath(rule2))}(?:/|$)`,
+						`^${escapeRegExp(path)}(?:/|$)`,
 						"u",
-					),
-			}
+					)
 		})
-	}
-
-	export function test(rules: Rules, path: string): boolean {
-		let ret = false
-		for (const { op, value } of rules) {
-			if (op === (ret ? "-" : "+") && value.test(path)) { ret = !ret }
-		}
-		return ret
-	}
-}
-
-class ShowingFilter {
-	public rules
-	public readonly onChanged = new EventEmitterLite<readonly []>()
-
-	public constructor(protected readonly context: ShowHiddenFilesPlugin) {
 		const { context: { app: { vault }, settings } } = this
-		this.rules = Rules.parse(settings.value.showingRules)
 		context.register(settings.onMutate(
 			setting => setting.showHiddenFiles,
 			async () => this.onChanged.emit(),
@@ -79,13 +38,6 @@ class ShowingFilter {
 		context.register(settings.onMutate(
 			setting => setting.showConfigurationFolder,
 			async () => this.onChanged.emit(),
-		))
-		context.register(settings.onMutate(
-			setting => setting.showingRules,
-			async cur => {
-				this.rules = Rules.parse(cur)
-				await this.onChanged.emit()
-			},
 		))
 		revealPrivate(context, [vault], vault0 => {
 			// eslint-disable-next-line consistent-this, @typescript-eslint/no-this-alias
@@ -104,22 +56,22 @@ class ShowingFilter {
 		}, noop)
 	}
 
-	public test(path?: string): boolean {
-		const { context, context: { app: { vault }, settings }, rules } = this
-		return settings.value.showHiddenFiles && (isUndefined(path) ||
+	public override test(str?: string): boolean {
+		const { context, context: { app: { vault }, settings } } = this
+		return settings.value.showHiddenFiles && (isUndefined(str) ||
 			(revealPrivate(context, [vault], vault0 => new RegExp(
 				`^${escapeRegExp(vault0.configDir)}(?:/|$)`,
 				"u",
-			).test(path), constant(false))
+			).test(str), constant(false))
 				? settings.value.showConfigurationFolder
-				: Rules.test(rules, path)))
+				: super.test(str)))
 	}
 }
 
 export function loadShowHiddenFiles(
 	context: ShowHiddenFilesPlugin,
 ): void {
-	const filter = new ShowingFilter(context)
+	const filter = new ShowingRules(context)
 	patchVault(context, filter)
 	patchErrorMessage(context, filter)
 	patchFileExplorer(context, filter)
@@ -128,7 +80,7 @@ export function loadShowHiddenFiles(
 
 function patchVault(
 	context: ShowHiddenFilesPlugin,
-	filter: ShowingFilter,
+	filter: ShowingRules,
 ): void {
 	const
 		{ app: { vault: { adapter }, workspace } } = context,
@@ -180,7 +132,7 @@ function patchVault(
 
 function patchErrorMessage(
 	context: ShowHiddenFilesPlugin,
-	filter: ShowingFilter,
+	filter: ShowingRules,
 ): void {
 	// Affects: canvas: convert to file, renaming in editor
 	revealPrivate(context, [self], self0 => {
@@ -207,7 +159,7 @@ function patchErrorMessage(
 
 function patchFileExplorer(
 	context: ShowHiddenFilesPlugin,
-	filter: ShowingFilter,
+	filter: ShowingRules,
 ): void {
 	// Affects: renaming in file explorer
 	const { app: { workspace } } = context

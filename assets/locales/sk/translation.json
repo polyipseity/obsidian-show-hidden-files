@@ -22,9 +22,6 @@
 		"hidden-file_one": "hidden file",
 		"hidden-file_other": "hidden files",
 		"hide": "hide",
-		"rule": "$t(generic.rule)",
-		"rule_one": "rule",
-		"rule_other": "rules",
 		"show": "show",
 		"show_gerund": "showing",
 		"toggle": "toggle"
@@ -45,7 +42,6 @@
 		"show-hidden-files-description": "Toggleable from the command palatte.",
 		"showing-rules": "$t(generic.show_gerund, capitalize) $t(generic.rule_other)",
 		"showing-rules-description": "$t(generic.list-description, capitalize)",
-		"showing-rules-edit": "$t(generic.edit, capitalize)",
-		"showing-rules-edit-description": "$t(generic.rule_other, capitalize) are executed from top to bottom. If no $t(generic.rule_other) match, the path is excluded. JavaScript regexp literals are supported. Prepend nothing or \"+\" for inclusion and \"-\" for exclusion."
+		"showing-rules-edit": "$t(generic.edit, capitalize)"
 	}
 }
