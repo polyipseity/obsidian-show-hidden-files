@@ -1,7 +1,8 @@
-import { type Command, type MobileStat, normalizePath } from "obsidian"
+import type { Command, MobileStat } from "obsidian"
 import {
 	Platform,
 	type PluginContext,
+	Rules,
 	SettingRules,
 	addCommand,
 	anyToError,
@@ -10,7 +11,6 @@ import {
 	printError,
 	revealPrivate,
 	revealPrivateAsync,
-	Rules,
 } from "@polyipseity/obsidian-plugin-library"
 import { constant, escapeRegExp, isUndefined, noop } from "lodash-es"
 import type { MarkOptional } from "ts-essentials"
