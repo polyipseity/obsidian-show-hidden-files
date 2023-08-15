@@ -12,7 +12,7 @@ import {
 	revealPrivate,
 	revealPrivateAsync,
 } from "@polyipseity/obsidian-plugin-library"
-import { constant, escapeRegExp, isUndefined, noop } from "lodash-es"
+import { constant, escapeRegExp, noop } from "lodash-es"
 import type { MarkOptional } from "ts-essentials"
 import type { Settings } from "./settings-data.js"
 import type { ShowHiddenFilesPlugin } from "./main.js"
@@ -49,7 +49,7 @@ class ShowingRules extends SettingRules<Settings> {
 
 	public override test(str?: string): boolean {
 		const { context, context: { app: { vault }, settings } } = this
-		return settings.value.showHiddenFiles && (isUndefined(str) ||
+		return settings.value.showHiddenFiles && (str === void 0 ||
 			(revealPrivate(context, [vault], vault0 => new RegExp(
 				`^${escapeRegExp(vault0.configDir)}(?:/|$)`,
 				"u",
