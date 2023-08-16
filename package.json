@@ -99,7 +99,7 @@
 	"sideEffects": false,
 	"style": "styles.css",
 	"type": "module",
-	"version": "2.1.2",
+	"version": "2.2.0",
 	"workspaces": [
 		".",
 		"build/*"
