@@ -1,5 +1,12 @@
 # obsidian-show-hidden-files
 
+## 2.2.0
+
+### Minor Changes
+
+- 6ddd1e9: Add setting "Show configuration folder". Fixes [GH#2](https://github.com/polyipseity/obsidian-show-hidden-files/issues/2).
+- 9bb810a: Add setting "Showing rules" for filtering hidden files to be shown.
+
 ## 2.1.2
 
 ### Patch Changes
