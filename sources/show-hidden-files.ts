@@ -34,12 +34,12 @@ class ShowingRules extends SettingRules<Settings> {
 			// eslint-disable-next-line consistent-this, @typescript-eslint/no-this-alias
 			const this2 = this
 			context.register(around(vault0, {
-				setConfigDir(proto) {
+				setConfigDir(next) {
 					return function fn(
 						this: typeof vault0,
-						...args: Parameters<typeof proto>
-					): ReturnType<typeof proto> {
-						proto.apply(this, args)
+						...args: Parameters<typeof next>
+					): ReturnType<typeof next> {
+						next.apply(this, args)
 						this2.onChanged.emit().catch(error => { self.console.error(error) })
 					}
 				},
@@ -87,11 +87,11 @@ function patchVault(
 			: hideFile(context, path)))))
 	revealPrivate(context, [adapter], adapter0 => {
 		context.register(around(adapter0, {
-			reconcileDeletion(proto) {
+			reconcileDeletion(next) {
 				return async function fn(
 					this: typeof adapter,
-					...args: Parameters<typeof proto>
-				): Promise<Awaited<ReturnType<typeof proto>>> {
+					...args: Parameters<typeof next>
+				): Promise<Awaited<ReturnType<typeof next>>> {
 					const [, path] = args
 					if (isHiddenPath(path)) {
 						// Cannot use `exists` as it causes an await loop
@@ -111,7 +111,7 @@ function patchVault(
 							hiddenPaths.delete(path)
 						}
 					}
-					return proto.apply(this, args)
+					return next.apply(this, args)
 				}
 			},
 		}))
@@ -130,19 +130,19 @@ function patchErrorMessage(
 		const { i18next } = self0
 		context.register(around(i18next, {
 			// eslint-disable-next-line id-length
-			t(proto) {
+			t(next) {
 				return function fn(
 					this: typeof i18next,
-					...args: Parameters<typeof proto>
-				): ReturnType<typeof proto> {
+					...args: Parameters<typeof next>
+				): ReturnType<typeof next> {
 					if (filter.test()) {
 						const [key] = args
 						if (key === "plugins.file-explorer.msg-bad-dotfile") {
 							return ""
 						}
 					}
-					return proto.apply(this, args)
-				} as typeof proto
+					return next.apply(this, args)
+				} as typeof next
 			},
 		}))
 	}, noop)
@@ -164,18 +164,18 @@ function patchFileExplorer(
 					context.register(around(
 						Object.getPrototypeOf(view0) as typeof view0,
 						{
-							finishRename(proto) {
+							finishRename(next) {
 								return async function fn(
 									this: typeof view,
-									...args: Parameters<typeof proto>
-								): Promise<Awaited<ReturnType<typeof proto>>> {
+									...args: Parameters<typeof next>
+								): Promise<Awaited<ReturnType<typeof next>>> {
 									if (!filter.test()) {
-										return proto.apply(this, args)
+										return next.apply(this, args)
 									}
 									return revealPrivateAsync(context, [this], async this0 => {
 										const { fileBeingRenamed, fileItems } = this0
 										if (!fileBeingRenamed) {
-											await proto.apply(this, args)
+											await next.apply(this, args)
 											return
 										}
 										const { path } = fileBeingRenamed,
@@ -184,7 +184,7 @@ function patchFileExplorer(
 										const { innerEl } = fi,
 											filename = innerEl.getText()
 										if (!isHiddenPathname(filename)) {
-											await proto.apply(this, args)
+											await next.apply(this, args)
 											return
 										}
 										const uuid = self.crypto.randomUUID(),
@@ -214,14 +214,14 @@ function patchFileExplorer(
 												},
 											})
 											try {
-												await proto.apply(this, args)
+												await next.apply(this, args)
 											} finally {
 												patch3()
 											}
 										} finally {
 											patch2()
 										}
-									}, () => proto.apply(this, args))
+									}, () => next.apply(this, args))
 								}
 							},
 						},
