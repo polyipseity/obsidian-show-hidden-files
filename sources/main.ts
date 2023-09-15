@@ -4,12 +4,13 @@ import {
 	type PluginContext,
 	SI_PREFIX_SCALE,
 	SettingsManager,
+	StorageSettingsManager,
 	createI18n,
 	semVerString,
 } from "@polyipseity/obsidian-plugin-library"
+import { LocalSettings, Settings } from "./settings-data.js"
 import { PLUGIN_UNLOAD_DELAY } from "./magic.js"
 import { PluginLocales } from "../assets/locales.js"
-import { Settings } from "./settings-data.js"
 import { isNil } from "lodash-es"
 import { loadDocumentations } from "./documentations.js"
 import { loadSettings } from "./settings.js"
@@ -17,9 +18,10 @@ import { loadShowHiddenFiles } from "./show-hidden-files.js"
 
 export class ShowHiddenFilesPlugin
 	extends Plugin
-	implements PluginContext<Settings> {
+	implements PluginContext<Settings, LocalSettings> {
 	public readonly version
 	public readonly language: LanguageManager
+	public readonly localSettings: StorageSettingsManager<LocalSettings>
 	public readonly settings: SettingsManager<Settings>
 
 	public constructor(app: App, manifest: PluginManifest) {
@@ -42,6 +44,7 @@ export class ShowHiddenFilesPlugin
 				},
 			),
 		)
+		this.localSettings = new StorageSettingsManager(this, LocalSettings.fix)
 		this.settings = new SettingsManager(this, Settings.fix)
 	}
 
@@ -60,9 +63,10 @@ export class ShowHiddenFilesPlugin
 				const loaded: unknown = await this.loadData(),
 					{
 						language,
+						localSettings,
 						settings,
 					} = this,
-					earlyChildren = [language, settings],
+					earlyChildren = [language, localSettings, settings],
 					// Placeholder to resolve merge conflicts more easily
 					children: never[] = []
 				for (const child of earlyChildren) { child.unload() }

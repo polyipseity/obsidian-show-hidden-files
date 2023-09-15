@@ -22,7 +22,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 		super.onLoad()
 		const {
 			containerEl,
-			context, context: { language: { value: i18n }, settings, version },
+			context,
+			context: { language: { value: i18n }, localSettings, settings, version },
 			docs,
 			ui,
 		} = this
@@ -59,7 +60,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 							closeSetting(containerEl)
 						})
 					if (version === null ||
-						semverLt(settings.value.lastReadChangelogVersion, version)) {
+						semverLt(localSettings.value.lastReadChangelogVersion, version)) {
 						button.setCta()
 					}
 				})
