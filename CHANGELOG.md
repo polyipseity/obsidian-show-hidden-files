@@ -1,5 +1,15 @@
 # obsidian-show-hidden-files
 
+## 2.3.0
+
+### Minor Changes
+
+- c18231b: Move settings `recovery` and `lastReadChangelogVersion` to `localStorage`. (6d612c570926387ee6b5991475cb993517a39d45)
+
+### Patch Changes
+
+- 1411e12: Remove debug statements. (f9fc1874e2c0b0b6c486ae6a13e52bf09cef588d)
+
 ## 2.2.0
 
 ### Minor Changes
