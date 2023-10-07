@@ -1,5 +1,11 @@
 # obsidian-show-hidden-files
 
+## 2.3.1
+
+### Patch Changes
+
+- c932954: Add information about interactions with other plugins to readme. Fixes [GH#3](https://github.com/polyipseity/obsidian-show-hidden-files/issues/3).
+
 ## 2.3.0
 
 ### Minor Changes
