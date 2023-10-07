@@ -50,6 +50,7 @@ This file is automatically opened on first install. You can reopen it in setting
 ## Usage
 
 - Enable the plugin.
+- Note that other plugins will treat visible hidden files as normal files. This may cause issues such as treating plugin JavaScript files as user scripts. To resolve such issues, exclude those hidden files in the other plugins' settings or hide those hidden files in this plugin's settings.
 
 ## Contributing
 
