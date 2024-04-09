@@ -12,14 +12,14 @@ importers:
         specifier: ^1.24.0
         version: 1.24.0(@capacitor/core@5.2.0)(@codemirror/state@6.0.0)(@codemirror/view@6.0.0)(esbuild@0.20.2)(typescript@5.4.4)
       i18next:
-        specifier: ^23.11.0
-        version: 23.11.0
+        specifier: ^23.11.1
+        version: 23.11.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
       monkey-around:
-        specifier: ^2.3.0
-        version: 2.3.0
+        specifier: ^3.0.0
+        version: 3.0.0
       obsidian:
         specifier: ~1.2.8
         version: 1.2.8(@codemirror/state@6.0.0)(@codemirror/view@6.0.0)
@@ -652,7 +652,7 @@ packages:
       deep-equal: 2.2.2
       esbuild: 0.20.2
       file-saver: 2.0.5
-      i18next: 23.11.0
+      i18next: 23.11.1
       i18next-resources-to-backend: 1.1.4
       import-meta-resolve: 3.0.0
       lodash-es: 4.17.21
@@ -2010,8 +2010,8 @@ packages:
       '@babel/runtime': 7.23.6
     dev: false
 
-  /i18next@23.11.0:
-    resolution: {integrity: sha512-VwFtlgy2LDbY0Qs6VfekIm6mv5/JmSJrtBf4aszl7Vby8+GcBlri0/7dkMZXmzTfiBMPUPBOmYCdQK7K4emkGQ==}
+  /i18next@23.11.1:
+    resolution: {integrity: sha512-mXw4A24BiPZKRsbb9ewgSvjYd6fxFCNwJyfK6nYfSTIAX2GkCWcb598m3DFkDZmqADatvuASrKo6qwORz3VwTQ==}
     dependencies:
       '@babel/runtime': 7.23.6
     dev: false
@@ -2479,6 +2479,10 @@ packages:
 
   /monkey-around@2.3.0:
     resolution: {integrity: sha512-QWcCUWjqE/MCk9cXlSKZ1Qc486LD439xw/Ak8Nt6l2PuL9+yrc9TJakt7OHDuOqPRYY4nTWBAEFKn32PE/SfXA==}
+    dev: false
+
+  /monkey-around@3.0.0:
+    resolution: {integrity: sha512-jL6uY2lEAoaHxZep1cNRkCZjoIWY4g5VYCjriEWmcyHU7w8NU1+JH57xE251UVTohK0lCxMjv0ZV4ByDLIXEpw==}
     dev: false
 
   /ms@2.1.2:

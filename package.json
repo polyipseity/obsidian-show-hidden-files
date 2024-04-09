@@ -5,9 +5,9 @@
 	},
 	"dependencies": {
 		"@polyipseity/obsidian-plugin-library": "^1.24.0",
-		"i18next": "^23.11.0",
+		"i18next": "^23.11.1",
 		"lodash-es": "^4.17.21",
-		"monkey-around": "^2.3.0",
+		"monkey-around": "^3.0.0",
 		"obsidian": "~1.2.8",
 		"semver": "^7.6.0",
 		"ts-essentials": "^9.4.2"
