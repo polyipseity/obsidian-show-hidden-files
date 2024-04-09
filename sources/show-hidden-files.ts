@@ -40,7 +40,9 @@ class ShowingRules extends SettingRules<Settings> {
 						...args: Parameters<typeof next>
 					): ReturnType<typeof next> {
 						next.apply(this, args)
-						this2.onChanged.emit().catch(error => { self.console.error(error) })
+						this2.onChanged.emit().catch((error: unknown) => {
+							self.console.error(error)
+						})
 					}
 				},
 			}))
