@@ -39,7 +39,7 @@
 		"show-configuration-folder": "$t(generic.show, capitalize) configuration folder",
 		"show-configuration-folder-description": "Overrides \"$t(settings.showing-rules)\".",
 		"show-hidden-files": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
-		"show-hidden-files-description": "Toggleable from the command palatte.",
+		"show-hidden-files-description": "Toggleable from the command palette.",
 		"showing-rules": "$t(generic.show_gerund, capitalize) $t(generic.rule_other)",
 		"showing-rules-description": "$t(generic.list-description, capitalize)",
 		"showing-rules-edit": "$t(generic.edit, capitalize)"
