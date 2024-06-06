@@ -1,5 +1,11 @@
 # obsidian-show-hidden-files <!-- markdownlint-disable MD024 -->
 
+## 2.3.3
+
+### Patch Changes
+
+- 11b0175: (63711193053ae1b850d816b84244f9152b53a407) Fix requiring `@capacitor`.
+
 ## 2.3.2
 
 ### Patch Changes
