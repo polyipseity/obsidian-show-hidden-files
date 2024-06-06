@@ -1,13 +1,11 @@
 import type { Command, MobileStat } from "obsidian"
 import {
-	Platform,
 	type PluginContext,
 	Rules,
 	SettingRules,
 	addCommand,
 	anyToError,
 	deepFreeze,
-	inSet,
 	printError,
 	revealPrivate,
 	revealPrivateAsync,
@@ -307,30 +305,26 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 		[context.app.vault.adapter],
 		async adapter0 => {
 			const realPath = adapter0.getRealPath(path),
-				{ CURRENT, DESKTOP, MOBILE } = Platform
-			if (inSet(DESKTOP, CURRENT)) {
-				await adapter0.reconcileFileInternal<typeof CURRENT>(
+				{ fs } = adapter0
+			if ("reconcileFileInternal" in adapter0) {
+				await adapter0.reconcileFileInternal(
 					realPath,
 					path,
 				)
-			} else if (inSet(MOBILE, CURRENT)) {
-				const stat = await (async (): Promise<MobileStat | null> => {
-					try {
-						return await adapter0.fs.stat<typeof CURRENT>(
-							adapter0.getFullRealPath(realPath),
-						)
-					} catch { return null }
-				})()
+			} else if ("stat" in fs && "reconcileFileChanged" in adapter0) {
+				const fsStat = fs.stat.bind(fs),
+					adapterRFC = adapter0.reconcileFileChanged.bind(adapter0),
+					stat = await (async (): Promise<MobileStat | null> => {
+						try {
+							return await fsStat(adapter0.getFullRealPath(realPath))
+						} catch { return null }
+					})()
 				if (!stat) { return }
 				await revealPrivateAsync(context, [stat], async stat0 => {
 					const { type } = stat0
 					switch (type) {
 						case "file":
-							adapter0.reconcileFileChanged<typeof CURRENT>(
-								realPath,
-								path,
-								stat,
-							)
+							adapterRFC(realPath, path, stat)
 							break
 						case "directory":
 							await adapter0.reconcileFolderCreation(realPath, path)
@@ -340,7 +334,7 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
 					}
 				}, noop)
 			} else {
-				throw new Error(CURRENT)
+				throw new Error()
 			}
 		},
 		noop,

@@ -14,11 +14,6 @@ declare module "obsidian" {
 	interface Workspace extends Private<$Workspace, PrivateKey> { }
 }
 import type {
-	Deopaque,
-	Platform,
-	Private,
-} from "@polyipseity/obsidian-plugin-library"
-import type {
 	FileExplorerView,
 	FileItem,
 	Filesystem,
@@ -28,6 +23,7 @@ import type {
 	View,
 	WorkspaceLeaf,
 } from "obsidian"
+import type { Private } from "@polyipseity/obsidian-plugin-library"
 import type { i18n } from "i18next"
 
 declare const PRIVATE_KEY: unique symbol
@@ -50,16 +46,15 @@ interface $DataAdapter {
 		realPath: string,
 		path: string,
 	) => PromiseLike<void>
-	readonly reconcileFileChanged: <T extends Platform.Current>(
-		realPath: Deopaque<T> extends Platform.Mobile ? string : never,
-		path: Deopaque<T> extends Platform.Mobile ? string : never,
-		stat: Deopaque<T> extends Platform.Mobile ? MobileStat : never,
-		// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-	) => Deopaque<T> extends Platform.Mobile ? void : never
-	readonly reconcileFileInternal: <T extends Platform.Current>(
-		realPath: Deopaque<T> extends Platform.Desktop ? string : never,
-		path: Deopaque<T> extends Platform.Desktop ? string : never,
-	) => Deopaque<T> extends Platform.Desktop ? PromiseLike<void> : never
+	readonly reconcileFileChanged?: (
+		realPath: string,
+		path: string,
+		stat: MobileStat,
+	) => void
+	readonly reconcileFileInternal?: (
+		realPath: string,
+		path: string,
+	) => PromiseLike<void>
 	readonly reconcileFolderCreation: (
 		realPath: string,
 		path: string,
@@ -81,9 +76,9 @@ interface $FileItem {
 }
 
 interface $Filesystem {
-	readonly stat: <T extends Platform.Current>(
-		fullRealPath: Deopaque<T> extends Platform.Mobile ? string : never,
-	) => Deopaque<T> extends Platform.Mobile ? PromiseLike<MobileStat> : never
+	readonly stat?: (
+		fullRealPath: string,
+	) => PromiseLike<MobileStat>
 }
 
 interface $MobileStat extends Omit<Stat, "type"> {
