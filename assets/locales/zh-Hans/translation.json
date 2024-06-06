@@ -36,7 +36,7 @@
 		"show-configuration-folder": "$t(generic.show)配置文件夹",
 		"show-configuration-folder-description": "覆盖「$t(settings.showing-rules)」。",
 		"show-hidden-files": "$t(generic.show)$t(generic.hidden-file)",
-		"show-hidden-files-description": "可从命令面板切换。",
+		"show-hidden-files-description-HTML": "请也启用<code>文件与链接 > 检测所有类型文件</code>以正常工作。可从命令面板切换。",
 		"showing-rules": "$t(generic.show)$t(generic.rule)",
 		"showing-rules-description": "$t(generic.list-description)",
 		"showing-rules-edit": "$t(generic.edit)"

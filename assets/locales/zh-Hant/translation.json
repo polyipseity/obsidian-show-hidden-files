@@ -36,7 +36,7 @@
 		"show-configuration-folder": "$t(generic.show)設定資料夾",
 		"show-configuration-folder-description": "覆蓋「$t(settings.showing-rules)」。",
 		"show-hidden-files": "$t(generic.show)$t(generic.hidden-file)",
-		"show-hidden-files-description": "可從命令面板切換。",
+		"show-hidden-files-description-HTML": "請也啟用<code>檔案與連結 > 偵測所有的副檔名</code>以正常運作。可從命令面板切換。",
 		"showing-rules": "$t(generic.show)$t(generic.rule)",
 		"showing-rules-description": "$t(generic.list-description)",
 		"showing-rules-edit": "$t(generic.edit)"

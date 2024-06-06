@@ -2,6 +2,8 @@ import {
 	AdvancedSettingTab,
 	cloneAsWritable,
 	closeSetting,
+	createChildElement,
+	createDocumentFragment,
 	linkSetting,
 	registerSettingsCommands,
 	resetButton,
@@ -71,9 +73,15 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 		)
 		ui
 			.newSetting(containerEl, setting => {
+				const { settingEl } = setting
 				setting
 					.setName(i18n.t("settings.show-hidden-files"))
-					.setDesc(i18n.t("settings.show-hidden-files-description"))
+					.setDesc(createDocumentFragment(settingEl.ownerDocument, frag => {
+						createChildElement(frag, "span", ele => {
+							ele.innerHTML =
+								i18n.t("settings.show-hidden-files-description-HTML")
+						})
+					}))
 					.addToggle(linkSetting(
 						() => settings.value.showHiddenFiles,
 						async value => settings.mutate(settingsM => {
