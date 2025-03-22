@@ -1,5 +1,11 @@
 # obsidian-show-hidden-files <!-- markdownlint-disable MD024 -->
 
+## 2.4.0
+
+### Minor Changes
+
+- f164545: Update template, and Obsidian API to 1.4.11.
+
 ## 2.3.3
 
 ### Patch Changes
