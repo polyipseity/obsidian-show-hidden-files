@@ -131,6 +131,7 @@ function patchErrorMessage(
 		context.register(around(i18next, {
 			// eslint-disable-next-line id-length
 			t(next) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 				return function fn(
 					this: typeof i18next,
 					...args: Parameters<typeof next>
@@ -162,7 +163,8 @@ function patchFileExplorer(
 				const { view } = leaf
 				return revealPrivate(context, [view], view0 => {
 					context.register(around(
-						Object.getPrototypeOf(view0) as typeof view0,
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+						Object.getPrototypeOf(view0) as unknown as typeof view0,
 						{
 							finishRename(next) {
 								return async function fn(
@@ -204,11 +206,11 @@ function patchFileExplorer(
 											})
 										try {
 											const patch3 = around(innerEl, {
-												getText(proto2) {
+												getText(_proto2) {
 													return function fn2(
 														this: typeof innerEl,
-														..._0: Parameters<typeof proto2>
-													): ReturnType<typeof proto2> {
+														..._0: Parameters<typeof _proto2>
+													): ReturnType<typeof _proto2> {
 														return uuid
 													}
 												},

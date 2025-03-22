@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 declare global {
 	interface Element extends Private<$Element, PrivateKey> { }
 	interface Window extends Private<$Window, PrivateKey> { }
