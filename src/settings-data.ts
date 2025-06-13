@@ -62,7 +62,11 @@ export namespace Settings {
 		openChangelogOnUpdate: true,
 		showConfigurationFolder: true,
 		showHiddenFiles: true,
-		showingRules: ["+/"],
+		showingRules: [
+			"+/",
+			"-/\\.git(?:\\/|$)/u",
+			"-/\\.venv(?:\\/|$)/u",
+		],
 	})
 
 	export const DEFAULTABLE_LANGUAGES =
