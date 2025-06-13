@@ -44,14 +44,34 @@ This file is automatically opened on first install. You can reopen it in setting
         4. Run `npm run obsidian:install <vault directory>` in the root directory.
     - [Obsidian42 - BRAT](https://obsidian.md/plugins?id=obsidian42-brat) (latest)
         - See [their readme](https://github.com/TfTHacker/obsidian42-brat#readme).
-2. Enable plugin.
+2. Enable plugin. _Before you enable, please check [§ Usage](#usage)._
 3. (optional) Configure plugin settings.
 
 ## Usage
 
+- Before enabling the plugin, check if your vault contains dot folders with a lot of files \(e.g. 100+ files\). If yes, Obsidian will likely freeze \(for a long time\) when you enable the plugin, as Obsidian scans all files in the dot folders.
+
+    By default, the plugin excludes folders and files named `.git` or `.venv` at any level of the vault file tree. If your dot folders are excluded by the defaults, you can simply enable the plugin without freezing Obsidian. The defaults can be edited in plugin settings.
+
+    If not, you should manually create `.obsidian/plugins/show-hidden-files/data.json`, with the following contents as an example \(excluding the comments\):
+
+    ```JSON5
+    {
+        "showingRules": [
+            "+/", // Needed to include all hidden files and folders.
+            // Add dot folders with a lot of files, e.g.:
+            "-/\\.git(?:\\/|$)/u",
+            "-/\\.venv(?:\\/|$)/u",
+            "-/\\.aDotFolderWithManyFiles(?:\\/|$)/u",
+        ]
+    }
+    ```
+
+    The example excludes folders and files named `.git`, `.venv`, or `.aDotFolderWithManyFiles` at any level of the vault file tree. You can instead use `"-.aDotFolderWithManyFiles/"` to exclude a folder or file named `.aDotFolderWithManyFiles` at the vault root only.
+
 - Enable the plugin.
-- Please also enable `Files & links > Detect all file extensions` to work properly.
-- Note that other plugins will treat visible hidden files as normal files. This may cause issues such as treating plugin JavaScript files as user scripts. To resolve such issues, exclude those hidden files in the other plugins' settings or hide those hidden files in this plugin's settings.
+- Please also enable `Files & links > Detect all file extensions` for the plugin to work properly.
+- Other plugins will treat visible hidden files as normal files. This may cause issues such as treating plugin JavaScript files as user scripts. To resolve such issues, exclude those hidden files in the other plugins' settings or hide those hidden files in this plugin's settings.
 
 ## Contributing
 
