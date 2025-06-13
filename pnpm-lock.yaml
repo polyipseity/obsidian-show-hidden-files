@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@polyipseity/obsidian-plugin-library':
-        specifier: ^1.28.0
-        version: 1.28.0(@codemirror/state@6.5.2)(@codemirror/view@6.37.1)(esbuild@0.25.5)(typescript@5.8.3)
+        specifier: ^1.29.0
+        version: 1.29.0(@codemirror/state@6.5.2)(@codemirror/view@6.37.1)(esbuild@0.25.5)(typescript@5.8.3)
       espree:
         specifier: ^10.4.0
         version: 10.4.0
@@ -470,8 +470,8 @@ packages:
     resolution: {integrity: sha512-YLT9Zo3oNPJoBjBc4q8G2mjU4tqIbf5CEOORbUUr48dCD9q3umJ3IPlVqOqDakPfd2HuwccBaqlGhN4Gmr5OWg==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@polyipseity/obsidian-plugin-library@1.28.0':
-    resolution: {integrity: sha512-SgAYhDSgMW9XQ+ZNDJB1g14qFnhqOkK09aMqpNWaz77MTZnnB1urpK6lCg6fq35xtO8UwQIUIpjFvbWadkRahA==}
+  '@polyipseity/obsidian-plugin-library@1.29.0':
+    resolution: {integrity: sha512-QhEv+3JdASYndHOrkXwfABGcUEfUqtlGQcC4NGsO3q9VHyJGN2i23QJmBcDBmP825yNCjGbcSJEtBZulc984fQ==}
     peerDependencies:
       esbuild: '>=0.17.0'
     peerDependenciesMeta:
@@ -1282,14 +1282,6 @@ packages:
   i18next-resources-to-backend@1.2.1:
     resolution: {integrity: sha512-okHbVA+HZ7n1/76MsfhPqDou0fptl2dAlhRDu2ideXloRRduzHsqDOznJBef+R3DFZnbvWoBW+KxJ7fnFjd6Yw==}
 
-  i18next@24.2.3:
-    resolution: {integrity: sha512-lfbf80OzkocvX7nmZtu7nSTNbrTYR52sLWxPtlXX1zAhVw8WEnFk4puUkCR4B1dNQwbSpEHHHemcZu//7EcB7A==}
-    peerDependencies:
-      typescript: ^5
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   i18next@25.2.1:
     resolution: {integrity: sha512-+UoXK5wh+VlE1Zy5p6MjcvctHXAhRwQKCxiJD8noKZzIXmnAX8gdHX5fLPA3MEVxEN4vbZkQFy8N0LyD9tUqPw==}
     peerDependencies:
@@ -1519,8 +1511,8 @@ packages:
   lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
 
-  lucide@0.483.0:
-    resolution: {integrity: sha512-qccwC6H5QACYO6MMKnMJ5vg7ecGiWSrpgHrQFOdp/n+AnhndQjq0vTBsMX2KfXeMLSLbeFDa+6QtVhx3kS3RlQ==}
+  lucide@0.514.0:
+    resolution: {integrity: sha512-GQ3Rzj1qFANBvTmhe8RM3vR491RGnSjHsivA5wSuEj5taLwH1Sv4N7n6ae3ENGsYRzdrkVXZo4ieUbD1WOXmoA==}
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -2519,7 +2511,7 @@ snapshots:
 
   '@pkgr/core@0.2.7': {}
 
-  '@polyipseity/obsidian-plugin-library@1.28.0(@codemirror/state@6.5.2)(@codemirror/view@6.37.1)(esbuild@0.25.5)(typescript@5.8.3)':
+  '@polyipseity/obsidian-plugin-library@1.29.0(@codemirror/state@6.5.2)(@codemirror/view@6.37.1)(esbuild@0.25.5)(typescript@5.8.3)':
     dependencies:
       '@capacitor/core': 7.3.0
       '@capacitor/filesystem': 7.1.1(@capacitor/core@7.3.0)
@@ -2530,11 +2522,11 @@ snapshots:
       deep-equal: 2.2.3
       espree: 10.4.0
       file-saver: 2.0.5
-      i18next: 24.2.3(typescript@5.8.3)
+      i18next: 25.2.1(typescript@5.8.3)
       i18next-resources-to-backend: 1.2.1
       import-meta-resolve: 4.1.0
       lodash-es: 4.17.21
-      lucide: 0.483.0
+      lucide: 0.514.0
       lz-string: 1.5.0
       moment: 2.30.1
       monkey-around: 3.0.0
@@ -3500,12 +3492,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.27.6
 
-  i18next@24.2.3(typescript@5.8.3):
-    dependencies:
-      '@babel/runtime': 7.27.6
-    optionalDependencies:
-      typescript: 5.8.3
-
   i18next@25.2.1(typescript@5.8.3):
     dependencies:
       '@babel/runtime': 7.27.6
@@ -3732,7 +3718,7 @@ snapshots:
 
   lodash.startcase@4.4.0: {}
 
-  lucide@0.483.0: {}
+  lucide@0.514.0: {}
 
   lz-string@1.5.0: {}
 
