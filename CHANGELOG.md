@@ -1,5 +1,12 @@
 # obsidian-show-hidden-files <!-- markdownlint-disable MD024 -->
 
+## 2.4.1
+
+### Patch Changes
+
+- 634a6fa: Improve documentation for dot folders with many files. Fixes [GH#12](https://github.com/polyipseity/obsidian-show-hidden-files/issues/12).
+- 1f8e10d: Improve "Showing Rules" defaults. Fixes [GH#12](https://github.com/polyipseity/obsidian-show-hidden-files/issues/12).
+
 ## 2.4.0
 
 ### Minor Changes
