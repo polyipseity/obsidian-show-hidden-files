@@ -1,5 +1,11 @@
 # obsidian-show-hidden-files <!-- markdownlint-disable MD024 -->
 
+## 2.5.0
+
+### Minor Changes
+
+- 7d5f1ee: Add French (fr) translation. ([GH#16](https://github.com/polyipseity/obsidian-show-hidden-files/pull/16) by [@punkyard](https://github.com/punkyard))
+
 ## 2.4.1
 
 ### Patch Changes
