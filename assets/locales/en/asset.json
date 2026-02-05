@@ -1,34 +1,34 @@
 {
-	"commands": {
-		"open-documentation-changelog-icon": "$t(asset:generic.documentations.changelog-icon)",
-		"open-documentation-donate-icon": "$t(asset:generic.documentations.donate-icon)",
-		"open-documentation-readme-icon": "$t(asset:generic.documentations.readme-icon)",
-		"show-hidden-files-hide-icon": "$t(asset:generic.show-hidden-files.hide-icon)",
-		"show-hidden-files-show-icon": "$t(asset:generic.show-hidden-files.show-icon)",
-		"show-hidden-files-toggle-icon": "$t(asset:generic.show-hidden-files.toggle-icon)"
-	},
-	"generic": {
-		"documentations": {
-			"changelog-icon": "file-text",
-			"donate-icon": "heart",
-			"readme-icon": "file-question"
-		},
-		"show-hidden-files": {
-			"hide-icon": "eye-off",
-			"show-icon": "eye",
-			"toggle-icon": "view"
-		}
-	},
-	"settings": {
-		"documentations": {
-			"changelog-icon": "$t(asset:generic.documentations.changelog-icon)",
-			"donate-icon": "$t(asset:generic.documentations.donate-icon)",
-			"readme-icon": "$t(asset:generic.documentations.readme-icon)"
-		},
-		"open-changelog-on-update-icon": "$t(asset:generic.documentations.changelog-icon)",
-		"show-configuration-folder-icon": "folder-cog",
-		"show-hidden-files-icon": "$t(asset:generic.show-hidden-files.show-icon)",
-		"showing-rules-edit-icon": "$t(asset:generic.edit-list-icon)",
-		"showing-rules-icon": "$t(asset:generic.rule-icon)"
-	}
+  "commands": {
+    "open-documentation-changelog-icon": "$t(asset:generic.documentations.changelog-icon)",
+    "open-documentation-donate-icon": "$t(asset:generic.documentations.donate-icon)",
+    "open-documentation-readme-icon": "$t(asset:generic.documentations.readme-icon)",
+    "show-hidden-files-hide-icon": "$t(asset:generic.show-hidden-files.hide-icon)",
+    "show-hidden-files-show-icon": "$t(asset:generic.show-hidden-files.show-icon)",
+    "show-hidden-files-toggle-icon": "$t(asset:generic.show-hidden-files.toggle-icon)"
+  },
+  "generic": {
+    "documentations": {
+      "changelog-icon": "file-text",
+      "donate-icon": "heart",
+      "readme-icon": "file-question"
+    },
+    "show-hidden-files": {
+      "hide-icon": "eye-off",
+      "show-icon": "eye",
+      "toggle-icon": "view"
+    }
+  },
+  "settings": {
+    "documentations": {
+      "changelog-icon": "$t(asset:generic.documentations.changelog-icon)",
+      "donate-icon": "$t(asset:generic.documentations.donate-icon)",
+      "readme-icon": "$t(asset:generic.documentations.readme-icon)"
+    },
+    "open-changelog-on-update-icon": "$t(asset:generic.documentations.changelog-icon)",
+    "show-configuration-folder-icon": "folder-cog",
+    "show-hidden-files-icon": "$t(asset:generic.show-hidden-files.show-icon)",
+    "showing-rules-edit-icon": "$t(asset:generic.edit-list-icon)",
+    "showing-rules-icon": "$t(asset:generic.rule-icon)"
+  }
 }

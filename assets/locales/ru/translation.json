@@ -1,47 +1,47 @@
 {
-	"commands": {
-		"open-documentation-changelog": "$t(generic.open, capitalize) $t(generic.documentations.changelog)",
-		"open-documentation-donate": "$t(generic.open, capitalize) $t(generic.documentations.donate)",
-		"open-documentation-readme": "$t(generic.open, capitalize) $t(generic.documentations.readme)",
-		"show-hidden-files-hide": "$t(generic.hide, capitalize) $t(generic.hidden-file_other)",
-		"show-hidden-files-show": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
-		"show-hidden-files-toggle": "$t(generic.toggle, capitalize) $t(generic.hidden-file_other)"
-	},
-	"errors": {
-		"error-mutating-settings": "Error mutating settings"
-	},
-	"generic": {
-		"documentation": "documentation",
-		"documentations": {
-			"changelog": "changelog",
-			"donate": "$t(generic.donate)",
-			"readme": "readme"
-		},
-		"donate": "donate",
-		"hidden-file": "$t(generic.hidden-file_one)",
-		"hidden-file_one": "hidden file",
-		"hidden-file_other": "hidden files",
-		"hide": "hide",
-		"show": "show",
-		"show_gerund": "showing",
-		"toggle": "toggle"
-	},
-	"name": "$t(generic.show, capitalize) $t(generic.hidden-file_other, startCase)",
-	"settings": {
-		"documentation": "$t(generic.documentation, capitalize)",
-		"documentations": {
-			"changelog": "$t(generic.documentations.changelog, capitalize)",
-			"donate": "$t(generic.documentations.donate, capitalize)",
-			"readme": "$t(generic.documentations.readme, capitalize)"
-		},
-		"interface": "Interface",
-		"open-changelog-on-update": "$t(generic.open, capitalize) $t(generic.documentations.changelog) on update",
-		"show-configuration-folder": "$t(generic.show, capitalize) configuration folder",
-		"show-configuration-folder-description": "Overrides \"$t(settings.showing-rules)\".",
-		"show-hidden-files": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
-		"show-hidden-files-description-HTML": "Please also enable <code>Files & links > Detect all file extensions</code> to work properly. Toggleable from the command palette.",
-		"showing-rules": "$t(generic.show_gerund, capitalize) $t(generic.rule_other)",
-		"showing-rules-description": "$t(generic.list-description, capitalize)",
-		"showing-rules-edit": "$t(generic.edit, capitalize)"
-	}
+  "commands": {
+    "open-documentation-changelog": "$t(generic.open, capitalize) $t(generic.documentations.changelog)",
+    "open-documentation-donate": "$t(generic.open, capitalize) $t(generic.documentations.donate)",
+    "open-documentation-readme": "$t(generic.open, capitalize) $t(generic.documentations.readme)",
+    "show-hidden-files-hide": "$t(generic.hide, capitalize) $t(generic.hidden-file_other)",
+    "show-hidden-files-show": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
+    "show-hidden-files-toggle": "$t(generic.toggle, capitalize) $t(generic.hidden-file_other)"
+  },
+  "errors": {
+    "error-mutating-settings": "Error mutating settings"
+  },
+  "generic": {
+    "documentation": "documentation",
+    "documentations": {
+      "changelog": "changelog",
+      "donate": "$t(generic.donate)",
+      "readme": "readme"
+    },
+    "donate": "donate",
+    "hidden-file": "$t(generic.hidden-file_one)",
+    "hidden-file_one": "hidden file",
+    "hidden-file_other": "hidden files",
+    "hide": "hide",
+    "show": "show",
+    "show_gerund": "showing",
+    "toggle": "toggle"
+  },
+  "name": "$t(generic.show, capitalize) $t(generic.hidden-file_other, startCase)",
+  "settings": {
+    "documentation": "$t(generic.documentation, capitalize)",
+    "documentations": {
+      "changelog": "$t(generic.documentations.changelog, capitalize)",
+      "donate": "$t(generic.documentations.donate, capitalize)",
+      "readme": "$t(generic.documentations.readme, capitalize)"
+    },
+    "interface": "Interface",
+    "open-changelog-on-update": "$t(generic.open, capitalize) $t(generic.documentations.changelog) on update",
+    "show-configuration-folder": "$t(generic.show, capitalize) configuration folder",
+    "show-configuration-folder-description": "Overrides \"$t(settings.showing-rules)\".",
+    "show-hidden-files": "$t(generic.show, capitalize) $t(generic.hidden-file_other)",
+    "show-hidden-files-description-HTML": "Please also enable <code>Files & links > Detect all file extensions</code> to work properly. Toggleable from the command palette.",
+    "showing-rules": "$t(generic.show_gerund, capitalize) $t(generic.rule_other)",
+    "showing-rules-description": "$t(generic.list-description, capitalize)",
+    "showing-rules-edit": "$t(generic.edit, capitalize)"
+  }
 }

@@ -15,10 +15,12 @@ import type { loadDocumentations } from "./documentations.js"
 import semverLt from "semver/functions/lt.js"
 
 export class SettingTab extends AdvancedSettingTab<Settings> {
-	public constructor(
-		protected override readonly context: ShowHiddenFilesPlugin,
-		protected readonly docs: loadDocumentations.Loaded,
-	) { super(context) }
+  public constructor(
+    protected override readonly context: ShowHiddenFilesPlugin,
+    protected readonly docs: loadDocumentations.Loaded,
+  ) {
+    super(context);
+  }
 
 	protected override onLoad(): void {
 		super.onLoad()
@@ -180,15 +182,15 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 		this.newNoticeTimeoutWidget(Settings.DEFAULT)
 	}
 
-	protected override snapshot0(): Partial<Settings> {
-		return Settings.persistent(this.context.settings.value)
-	}
+  protected override snapshot0(): Partial<Settings> {
+    return Settings.persistent(this.context.settings.value);
+  }
 }
 
 export function loadSettings(
-	context: ShowHiddenFilesPlugin,
-	docs: loadDocumentations.Loaded,
+  context: ShowHiddenFilesPlugin,
+  docs: loadDocumentations.Loaded,
 ): void {
-	context.addSettingTab(new SettingTab(context, docs))
-	registerSettingsCommands(context)
+  context.addSettingTab(new SettingTab(context, docs));
+  registerSettingsCommands(context);
 }
