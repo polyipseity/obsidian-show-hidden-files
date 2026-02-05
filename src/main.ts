@@ -15,7 +15,7 @@ import { PluginLocales } from "../assets/locales.js";
 import { isNil } from "lodash-es";
 import { loadDocumentations } from "./documentations.js";
 import { loadSettings } from "./settings.js";
-import { loadShowHiddenFiles } from "./show-hidden-files.js"
+import { loadShowHiddenFiles } from "./show-hidden-files.js";
 
 export class ShowHiddenFilesPlugin
   extends Plugin
@@ -39,7 +39,7 @@ export class ShowHiddenFilesPlugin
         defaultNS: PluginLocales.DEFAULT_NAMESPACE,
         fallbackLng: PluginLocales.FALLBACK_LANGUAGES,
         returnNull: PluginLocales.RETURN_NULL,
-      }),
+      })
     );
     this.localSettings = new StorageSettingsManager(this, LocalSettings.fix);
     this.settings = new SettingsManager(this, Settings.fix);
@@ -85,7 +85,9 @@ export class ShowHiddenFilesPlugin
           Promise.resolve().then(() => {
             loadSettings(this, loadDocumentations(this, isNil(loaded)));
           }),
-					Promise.resolve().then(() => { loadShowHiddenFiles(this) }),
+          Promise.resolve().then(() => {
+            loadShowHiddenFiles(this);
+          }),
         ]);
       } catch (error) {
         self.console.error(error);

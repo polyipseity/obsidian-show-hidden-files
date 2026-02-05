@@ -6,7 +6,7 @@ import {
   type SemVerString,
   cloneAsWritable,
   deepFreeze,
-	fixArray,
+  fixArray,
   fixInSet,
   fixTyped,
   launderUnchecked,
@@ -28,7 +28,7 @@ export namespace LocalSettings {
       lastReadChangelogVersion: opaqueOrDefault(
         semVerString,
         String(unc.lastReadChangelogVersion),
-        NULL_SEM_VER_STRING,
+        NULL_SEM_VER_STRING
       ),
     });
   }
@@ -36,9 +36,9 @@ export namespace LocalSettings {
 
 export interface Settings extends PluginContext.Settings {
   readonly language: Settings.DefaultableLanguage;
-	readonly showHiddenFiles: boolean
-	readonly showConfigurationFolder: boolean
-	readonly showingRules: readonly string[]
+  readonly showHiddenFiles: boolean;
+  readonly showConfigurationFolder: boolean;
+  readonly showingRules: readonly string[];
 
   readonly openChangelogOnUpdate: boolean;
 }
@@ -59,13 +59,9 @@ export namespace Settings {
     language: "",
     noticeTimeout: 5,
     openChangelogOnUpdate: true,
-		showConfigurationFolder: true,
-		showHiddenFiles: true,
-		showingRules: [
-			"+/",
-			"-/\\.git(?:\\/|$)/u",
-			"-/\\.venv(?:\\/|$)/u",
-		],
+    showConfigurationFolder: true,
+    showHiddenFiles: true,
+    showingRules: ["+/", "-/\\.git(?:\\/|$)/u", "-/\\.venv(?:\\/|$)/u"],
   });
 
   export const DEFAULTABLE_LANGUAGES = deepFreeze([
@@ -85,24 +81,14 @@ export namespace Settings {
       openChangelogOnUpdate: fixTyped(DEFAULT, unc, "openChangelogOnUpdate", [
         "boolean",
       ]),
-			showConfigurationFolder: fixTyped(
-				DEFAULT,
-				unc,
-				"showConfigurationFolder",
-				["boolean"],
-			),
-			showHiddenFiles: fixTyped(
-				DEFAULT,
-				unc,
-				"showHiddenFiles",
-				["boolean"],
-			),
-			showingRules: fixArray(
-				DEFAULT,
-				unc,
-				"showingRules",
-				["string"],
-			),
+      showConfigurationFolder: fixTyped(
+        DEFAULT,
+        unc,
+        "showConfigurationFolder",
+        ["boolean"]
+      ),
+      showHiddenFiles: fixTyped(DEFAULT, unc, "showHiddenFiles", ["boolean"]),
+      showingRules: fixArray(DEFAULT, unc, "showingRules", ["string"]),
     });
   }
 }
