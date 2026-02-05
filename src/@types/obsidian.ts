@@ -43,20 +43,20 @@ interface $DataAdapter {
   readonly listRecursive: (path: string) => PromiseLike<void>;
   readonly reconcileDeletion: (
     realPath: string,
-    path: string
+    path: string,
   ) => PromiseLike<void>;
   readonly reconcileFileChanged?: (
     realPath: string,
     path: string,
-    stat: MobileStat
+    stat: MobileStat,
   ) => void;
   readonly reconcileFileInternal?: (
     realPath: string,
-    path: string
+    path: string,
   ) => PromiseLike<void>;
   readonly reconcileFolderCreation: (
     realPath: string,
-    path: string
+    path: string,
   ) => PromiseLike<void>;
 }
 
@@ -97,7 +97,7 @@ interface $Window {
 
 interface $Workspace {
   readonly getLeavesOfType: (
-    viewType: "file-explorer"
+    viewType: "file-explorer",
   ) => readonly (WorkspaceLeaf & {
     readonly view: FileExplorerView;
   })[];

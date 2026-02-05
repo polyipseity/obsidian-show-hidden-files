@@ -28,7 +28,7 @@ export namespace LocalSettings {
       lastReadChangelogVersion: opaqueOrDefault(
         semVerString,
         String(unc.lastReadChangelogVersion),
-        NULL_SEM_VER_STRING
+        NULL_SEM_VER_STRING,
       ),
     });
   }
@@ -85,7 +85,7 @@ export namespace Settings {
         DEFAULT,
         unc,
         "showConfigurationFolder",
-        ["boolean"]
+        ["boolean"],
       ),
       showHiddenFiles: fixTyped(DEFAULT, unc, "showHiddenFiles", ["boolean"]),
       showingRules: fixArray(DEFAULT, unc, "showingRules", ["string"]),

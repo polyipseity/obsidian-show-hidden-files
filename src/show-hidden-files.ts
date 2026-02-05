@@ -28,14 +28,14 @@ class ShowingRules extends SettingRules<Settings> {
     context.register(
       settings.onMutate(
         (setting) => setting.showHiddenFiles,
-        async () => this.onChanged.emit()
-      )
+        async () => this.onChanged.emit(),
+      ),
     );
     context.register(
       settings.onMutate(
         (setting) => setting.showConfigurationFolder,
-        async () => this.onChanged.emit()
-      )
+        async () => this.onChanged.emit(),
+      ),
     );
     revealPrivate(
       context,
@@ -56,10 +56,10 @@ class ShowingRules extends SettingRules<Settings> {
                 });
               };
             },
-          })
+          }),
         );
       },
-      noop
+      noop,
     );
   }
 
@@ -79,9 +79,9 @@ class ShowingRules extends SettingRules<Settings> {
           [vault],
           (vault0) =>
             new RegExp(`^${escapeRegExp(vault0.configDir)}(?:/|$)`, "u").test(
-              str
+              str,
             ),
-          constant(false)
+          constant(false),
         )
           ? settings.value.showConfigurationFolder
           : super.test(str)))
@@ -99,7 +99,7 @@ export function loadShowHiddenFiles(context: ShowHiddenFilesPlugin): void {
 
 function patchVault(
   context: ShowHiddenFilesPlugin,
-  filter: ShowingRules
+  filter: ShowingRules,
 ): void {
   const {
       app: {
@@ -110,7 +110,7 @@ function patchVault(
     hiddenPaths = new Set<string>();
   async function hideAll(): Promise<void> {
     await Promise.all(
-      [...hiddenPaths].map(async (path) => hideFile(context, path))
+      [...hiddenPaths].map(async (path) => hideFile(context, path)),
     );
   }
   context.register(hideAll);
@@ -118,10 +118,10 @@ function patchVault(
     filter.onChanged.listen(async () =>
       Promise.all(
         [...hiddenPaths].map(async (path) =>
-          filter.test(path) ? showFile(context, path) : hideFile(context, path)
-        )
-      )
-    )
+          filter.test(path) ? showFile(context, path) : hideFile(context, path),
+        ),
+      ),
+    ),
   );
   revealPrivate(
     context,
@@ -143,7 +143,7 @@ function patchVault(
                     [adapter],
                     async (adapter2) =>
                       adapter2._exists(adapter0.getFullPath(path), path),
-                    constant(false)
+                    constant(false),
                   )
                 ) {
                   hiddenPaths.add(path);
@@ -157,24 +157,24 @@ function patchVault(
               return next.apply(this, args);
             };
           },
-        })
+        }),
       );
     },
-    noop
+    noop,
   );
   workspace.onLayoutReady(async () =>
     revealPrivateAsync(
       context,
       [adapter],
       async (adapter0) => adapter0.listRecursive(""),
-      noop
-    )
+      noop,
+    ),
   );
 }
 
 function patchErrorMessage(
   context: ShowHiddenFilesPlugin,
-  filter: ShowingRules
+  filter: ShowingRules,
 ): void {
   // Affects: canvas: convert to file, renaming in editor
   revealPrivate(
@@ -198,16 +198,16 @@ function patchErrorMessage(
               return next.apply(this, args);
             } as typeof next;
           },
-        })
+        }),
       );
     },
-    noop
+    noop,
   );
 }
 
 function patchFileExplorer(
   context: ShowHiddenFilesPlugin,
-  filter: ShowingRules
+  filter: ShowingRules,
 ): void {
   // Affects: renaming in file explorer
   const {
@@ -297,19 +297,19 @@ function patchFileExplorer(
                               patch2();
                             }
                           },
-                          () => next.apply(this, args)
+                          () => next.apply(this, args),
                         );
                       };
                     },
-                  }
-                )
+                  },
+                ),
               );
               return true;
             },
-            constant(false)
+            constant(false),
           );
         },
-        constant(false)
+        constant(false),
       );
     }
     if (!patch()) {
@@ -332,7 +332,7 @@ function addCommands(context: ShowHiddenFilesPlugin): void {
     printError(
       anyToError(error),
       () => i18n.t("errors.error-mutating-settings"),
-      context
+      context,
     );
   }
   for (const [type, cmd] of deepFreeze([
@@ -430,13 +430,13 @@ async function showFile(context: PluginContext, path: string): Promise<void> {
                 throw new Error(type);
             }
           },
-          noop
+          noop,
         );
       } else {
         throw new Error();
       }
     },
-    noop
+    noop,
   );
 }
 
@@ -446,7 +446,7 @@ async function hideFile(context: PluginContext, path: string): Promise<void> {
     [context.app.vault.adapter],
     async (adapter0) =>
       adapter0.reconcileDeletion(adapter0.getRealPath(path), path),
-    noop
+    noop,
   );
 }
 

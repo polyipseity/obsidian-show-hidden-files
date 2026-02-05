@@ -17,7 +17,7 @@ import semverLt from "semver/functions/lt.js";
 export class SettingTab extends AdvancedSettingTab<Settings> {
   public constructor(
     protected override readonly context: ShowHiddenFilesPlugin,
-    protected readonly docs: loadDocumentations.Loaded
+    protected readonly docs: loadDocumentations.Loaded,
   ) {
     super(context);
   }
@@ -43,7 +43,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
         language
           ? i18n.t(`language:${language}`)
           : i18n.t("settings.language-default"),
-      Settings.DEFAULT
+      Settings.DEFAULT,
     );
     ui.newSetting(containerEl, (setting) => {
       setting
@@ -55,7 +55,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
             .setCta()
             .onClick(() => {
               docs.open("donate");
-            })
+            }),
         )
         .addButton((button) =>
           button
@@ -65,7 +65,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
             .onClick(() => {
               docs.open("readme");
               closeSetting(containerEl);
-            })
+            }),
         )
         .addButton((button) => {
           button
@@ -92,10 +92,10 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
           createDocumentFragment(settingEl.ownerDocument, (frag) => {
             createChildElement(frag, "span", (ele) => {
               ele.innerHTML = i18n.t(
-                "settings.show-hidden-files-description-HTML"
+                "settings.show-hidden-files-description-HTML",
               );
             });
-          })
+          }),
         )
         .addToggle(
           linkSetting(
@@ -106,8 +106,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
               }),
             () => {
               this.postMutate();
-            }
-          )
+            },
+          ),
         )
         .addExtraButton(
           resetButton(
@@ -119,8 +119,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
               }),
             () => {
               this.postMutate();
-            }
-          )
+            },
+          ),
         );
     })
       .newSetting(containerEl, (setting) => {
@@ -136,8 +136,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
                 }),
               () => {
                 this.postMutate();
-              }
-            )
+              },
+            ),
           )
           .addExtraButton(
             resetButton(
@@ -150,8 +150,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
                 }),
               () => {
                 this.postMutate();
-              }
-            )
+              },
+            ),
           );
       })
       .newSetting(containerEl, (setting) => {
@@ -161,7 +161,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
             i18n.t("settings.showing-rules-description", {
               count: settings.value.showingRules.length,
               interpolation: { escapeValue: false },
-            })
+            }),
           )
           .addButton((button) => {
             button
@@ -186,13 +186,13 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
               async () =>
                 settings.mutate((settingsM) => {
                   settingsM.showingRules = cloneAsWritable(
-                    Settings.DEFAULT.showingRules
+                    Settings.DEFAULT.showingRules,
                   );
                 }),
               () => {
                 this.postMutate();
-              }
-            )
+              },
+            ),
           );
       });
     this.newSectionWidget(() => i18n.t("settings.interface"));
@@ -208,8 +208,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
               }),
             () => {
               this.postMutate();
-            }
-          )
+            },
+          ),
         )
         .addExtraButton(
           resetButton(
@@ -222,8 +222,8 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
               }),
             () => {
               this.postMutate();
-            }
-          )
+            },
+          ),
         );
     });
     this.newNoticeTimeoutWidget(Settings.DEFAULT);
@@ -236,7 +236,7 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
 
 export function loadSettings(
   context: ShowHiddenFilesPlugin,
-  docs: loadDocumentations.Loaded
+  docs: loadDocumentations.Loaded,
 ): void {
   context.addSettingTab(new SettingTab(context, docs));
   registerSettingsCommands(context);
