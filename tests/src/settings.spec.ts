@@ -39,6 +39,12 @@ interface ButtonFull {
 function makeSettingMock(capturedButtons: ButtonFull[]): Setting {
   const base: Setting = {
     setName: vi.fn(() => base),
+    setDesc: vi.fn(() => base),
+    // Provide a lightweight settingEl with ownerDocument so code that
+    // accesses `settingEl.ownerDocument` doesn't throw on our mocks
+    settingEl: {
+      ownerDocument: globalThis.document ?? ({} as Document),
+    } as unknown as Setting["settingEl"],
     addButton(cb: (b: ButtonFull) => void) {
       const createButton = (): ButtonFull => {
         let _click: (() => void) | undefined;
@@ -95,8 +101,13 @@ describe("SettingTab onLoad behavior", () => {
     // @ts-expect-error: protected
     const { ui } = tab;
     ui.newSetting = (_cont: unknown, f: (s: Setting) => unknown) => {
+      const chain = { newSetting: () => chain } as unknown as UpdatableUI;
       f(makeSettingMock(capturedButtons));
-      return {} as UpdatableUI;
+      chain.newSetting = (_cont2: unknown, f2: (s: Setting) => unknown) => {
+        f2(makeSettingMock(capturedButtons));
+        return chain;
+      };
+      return chain as UpdatableUI;
     };
 
     // Spy on closeSetting
@@ -155,8 +166,13 @@ describe("SettingTab CTA when semverLt true", () => {
     // @ts-expect-error: protected
     const { ui } = tab;
     ui.newSetting = (_cont: unknown, f: (s: Setting) => unknown) => {
+      const chain = { newSetting: () => chain } as unknown as UpdatableUI;
       f(makeSettingMock(capturedButtons));
-      return {} as UpdatableUI;
+      chain.newSetting = (_cont2: unknown, f2: (s: Setting) => unknown) => {
+        f2(makeSettingMock(capturedButtons));
+        return chain;
+      };
+      return chain as UpdatableUI;
     };
 
     // @ts-expect-error: protected

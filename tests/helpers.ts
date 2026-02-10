@@ -9,7 +9,7 @@
  */
 
 import { vi } from "vitest";
-import { PLACEHOLDERPlugin } from "../src/main.js";
+import { ShowHiddenFilesPlugin as PLACEHOLDERPlugin } from "../src/main.js";
 import type { loadDocumentations } from "../src/documentations.js";
 import { DeepPartial } from "ts-essentials";
 import { LocalSettings } from "./settings-data.js";
@@ -110,7 +110,12 @@ export function makePluginContext(
       write: vi.fn().mockResolvedValue(undefined),
     },
     settings: {
-      value: { openChangelogOnUpdate: true },
+      value: {
+        openChangelogOnUpdate: true,
+        showingRules: [],
+        showHiddenFiles: false,
+        showConfigurationFolder: false,
+      },
       mutate: vi.fn().mockResolvedValue(undefined),
       write: vi.fn().mockResolvedValue(undefined),
     },
