@@ -1,4 +1,4 @@
-# obsidian-show-hidden-files <!-- markdownlint-disable MD024 -->
+# obsidian-show-hidden-files <!-- markdownlint-disable-file MD024 -->
 
 ## 2.5.0
 
