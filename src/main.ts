@@ -66,7 +66,7 @@ export class ShowHiddenFilesPlugin
           child.unload();
         }
         for (const child of earlyChildren) {
-          // Delay unloading as there are unload tasks that cannot be awaited
+          // Delay unloading since there are unload tasks that cannot be awaited
           this.register(() => {
             const id = self.setTimeout(() => {
               child.unload();
