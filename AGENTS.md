@@ -267,7 +267,7 @@ This section contains concise, actionable rules and project-specific examples to
 - Start by inspecting `src/main.ts`, `src/settings-data.ts`, and `assets/locales.ts` to learn core patterns: Manager classes (LanguageManager, SettingsManager), `.fix()` validators, and `PluginLocales` usage.
 - Settings pattern: always prefer `.fix()` functions (see `Settings.fix`/`LocalSettings.fix`) to validate/normalize external inputs before persisting or mutating settings.
 - I18n: use `createI18n(PluginLocales.RESOURCES, ...)` and `language.value.t(...)` for translations. Never hardcode translatable strings—use existing translation keys in `assets/locales/`.
-- Build/Dev pattern: `scripts/build.mjs` uses esbuild `context()`; pass `dev` as argv[2] to enable watch mode. Tests mock `esbuild` in `tests/scripts/build.test.mjs`—use those tests as canonical examples for safe refactors.
+- Build/Dev pattern: `scripts/build.mjs` uses esbuild `context()`; pass `dev` as `argv[2]` to enable watch mode. Tests mock `esbuild` in `tests/scripts/build.test.mjs`—use those tests as canonical examples for safe refactors.
 - Script behavior: `scripts/obsidian-install.mjs` exits 1 with a short error message when `manifest.json` is missing. Make changes in scripts with tests mirroring error conditions (see `tests/scripts/obsidian-install.test.mjs`).
 - Test conventions: `*.spec.*` = unit (fast, isolated); `*.test.*` = integration (may use filesystem or child processes). Follow the one-test-file-per-source-file convention and place tests under `tests/` mirroring `src/`.
 - Formatting & linting: run `pnpm run format` and `pnpm run check` before committing. CI uses `pnpm install --frozen-lockfile`.
@@ -275,7 +275,98 @@ This section contains concise, actionable rules and project-specific examples to
 - Localization rule for agents: when adding text keys, update `assets/locales/en/translation.json` first and add tests or localization notes. Follow `.github/instructions/localization.instructions.md`.
 - PR checklist (brief): add/modify tests, run `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}"` locally for fast checks, run `pnpm run check`, add changeset when changing public API or version, and update `AGENTS.md` if you changed infra or agent-visible patterns.
 
-> Note: Keep suggestions and changes small and well-scoped. Prefer to add tests first for behavioral changes and follow the test naming conventions above.
+### Copilot / Chat assistant guidelines (detailed)
+
+- Read `AGENTS.md` first — it is authoritative. Do **not** create `​.github/copilot-instructions.md`; add Copilot/Chat guidance here or under `.github/instructions/`.
+
+- Required response structure (always):
+  1. **Summary (1–2 lines)** — what changed and why. ✅
+  2. **Changed files** — list `path/to/file` (use backticks). 🔧
+  3. **Tests added/modified** — list test paths. ✅
+  4. **Commands to verify** — exact commands to run (build/test/lint). ▶️
+  5. **Risk / impact (one line)** — backwards-compat, migration notes. ⚠️
+  6. **Next steps / ask** — e.g. "ready for review" or a single clarifying question.
+
+  Keep the whole reply concise and impersonal. Use headings and `code` formatting for filenames/commands.
+
+- Example reply skeleton:
+
+  Summary
+  - Short sentence explaining goal
+
+  Changed files
+  - `src/foo.ts`
+  - `tests/foo.spec.ts`
+
+  Tests
+  - Added `tests/foo.spec.ts` (unit)
+
+  Commands to run
+  - `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
+  - `pnpm run check`
+
+  Notes
+  - One-line risk/impact
+  - Next step: request review or ask clarifying Q
+
+- When to ask clarifying questions
+  - Requirements are ambiguous or multiple valid approaches exist
+  - No test provided and the change affects public API or settings
+  - User has not specified a priority or compatibility constraint
+  Ask 1–2 focused questions and propose a sensible default (mark it as recommended).
+
+- Memory & session usage
+  - Check `/memories/` before creating new entries. Use `/memories/session/` for in-conversation notes.
+  - Persist only concise, high-value facts (preferences, recurring decisions). Keep entries short and named clearly.
+
+- Safety and refusals
+  - If user requests disallowed/harmful content reply exactly: `Sorry, I can't assist with that.`
+  - If a change would violate repo policy (i18n, tests, TS rules), refuse and offer the correct alternative with code-level guidance.
+
+- Pre-edit checklist (must follow for code changes)
+  1. Add a failing test that reproduces desired behavior (unit or integration).
+  2. Run the relevant tests non-interactively (`vitest run` / `--run`).
+  3. Implement the minimal fix; update/add tests.
+  4. Run `pnpm run check` and `pnpm run format`.
+  5. Add a changeset if the public API changed.
+  6. Provide a Conventional Commit message and PR description.
+
+- Quick agent tips
+  - Prefer small, focused PRs with one behavioral change per PR.
+  - Never use `any` or `as` in new TS code; add runtime guards when accepting unknown input.
+  - Always add/modify localization keys in `assets/locales/en/translation.json` first and add a test.
+
+Example prompts (recommended) — extended with ideal-answer samples (use these as templates):
+
+1. Prompt: `Add a unit test for src/show-hidden-files.ts that reproduces a toggle bug, then implement the minimal fix and include the test.`
+   Ideal answer: Summary + Changed files: `src/show-hidden-files.ts`, `tests/src/show-hidden-files.spec.ts` + Tests added + Commands: `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run` + Risk: low + Next: ready for review.
+
+2. Prompt: `Add a new i18n key showHidden.label, update UI to use language.value.t(...), and add a localization test.`
+   Ideal answer: Summary + Changed files: `assets/locales/en/translation.json`, `src/show-hidden-files.ts`, `tests/assets/locales.spec.ts` + Added localization test + Commands to run + Risk: doc-only / low.
+
+3. Prompt: `Refactor settings-data.fix() to normalize empty strings to defaults; add unit tests that assert the normalized output.`
+   Ideal answer: Summary + Changed files: `src/settings-data.ts`, `tests/src/settings-data.spec.ts` + Tests: failing test then fix + Commands + Risk: behavioural change (covered by tests).
+
+4. Prompt: `Add an integration test for scripts/obsidian-install.mjs validating missing manifest behavior.`
+   Ideal answer: Summary + Changed files: `scripts/obsidian-install.mjs`, `tests/scripts/obsidian-install.test.mjs` + Test asserts non-zero exit & short error message + Commands: `pnpm exec vitest run "tests/scripts/*.test.mjs" --run` + Risk: low.
+
+5. Prompt: `Convert wildcard imports in src/magic.ts to explicit imports and update references.`
+   Ideal answer: Summary + Changed files: `src/magic.ts` + Tests updated if needed + Commands + Risk: refactor-only; add unit tests if behavior changes.
+
+6. Prompt: `Add a unit test for malformed persisted settings being fixed by Settings.fix().`
+   Ideal answer: Summary + Changed files: `src/settings-data.ts`, `tests/src/settings-data.spec.ts` + Test covers `.fix()` + Commands + Risk: low.
+
+7. Prompt: `Introduce a changeset for a public API change and update README migration notes.`
+   Ideal answer: Summary + Files: `changeset/*`, `README.md` + Commands: `pnpm changeset` + Tests: none (docs + changeset) + Risk: high — document migration steps.
+
+8. Prompt: `Add README instructions for running the plugin in a local Obsidian vault.`
+   Ideal answer: Summary + Changed files: `README.md` + Commands to verify locally + Risk: docs-only.
+
+> Keep responses short, structured, and actionable. When responding, follow the required response template (Summary, Changed files, Tests, Commands to run, Risk/impact, Next steps). If unsure about details, ask one focused question and propose a recommended default.
+
+For a short checklist and quick reference see `.github/instructions/copilot.instructions.md`.
+
+See also a short FAQ for agents: `.github/instructions/agents-faq.instructions.md`.
 
 ---
 

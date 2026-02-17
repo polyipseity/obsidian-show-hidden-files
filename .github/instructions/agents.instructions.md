@@ -9,6 +9,7 @@ description: Concise, project-specific rules for AI coding agents working in thi
 This short guide contains focused rules and examples to help AI coding agents make safe, high-quality changes quickly.
 
 - Read `AGENTS.md` first; it contains higher-level policies and workflows.
+- See the `Copilot / Chat assistant guidelines` section in `AGENTS.md` for the required chat-response format, examples, and refusal rules.
 - Tests first: preserve or extend existing tests. For any behavioral change, add a test that fails before implementing the change.
 - Follow existing patterns rather than introducing new architecture:
   - Use `LanguageManager` and `SettingsManager` as shown in `src/main.ts` for i18n and settings lifecycle.
