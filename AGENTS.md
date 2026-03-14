@@ -17,21 +17,20 @@ This guide provides clear, actionable instructions for AI coding agents working 
 
 ## 2. Developer Workflows
 
-> **Note:** Prefer `pnpm` for development workflows. Use `npm` only when `pnpm` is unavailable.
+> **Note:** Prefer `bun` for development workflows.
 
 - **Setup**
-  - `pnpm install` — install dependencies and set up Git hooks (preferred).
-  - Fallback: `npm install` (only if pnpm is not available).
+  - `bun install` — install dependencies and set up Git hooks (preferred).
 
 - **Build & Install**
-  - `pnpm build` — production build (runs checks then builds).
-  - `pnpm dev` — development/watch build.
-  - `pnpm obsidian:install <vault>` — build and install the plugin to a vault.
-  - `pnpm run obsidian:install:force <vault>` — force install using `build:force` (skips format).
+  - `bun run build` — production build (runs checks then builds).
+  - `bun run dev` — development/watch build.
+  - `bun run obsidian:install <vault>` — build and install the plugin to a vault.
+  - `bun run obsidian:install:force <vault>` — force install using `build:force` (skips format).
 
 - Note: `scripts/obsidian-install.mjs` now fails gracefully when `manifest.json` is missing or invalid and prints a concise error message rather than emitting a full stack trace. This makes local tests and CI logs cleaner and eases assertions for failure cases.
-  - `pnpm run check` — eslint + prettier(check) + markdownlint.
-  - `pnpm run format` — eslint --fix, prettier --write, markdownlint --fix.
+  - `bun run check` — eslint + prettier(check) + markdownlint.
+  - `bun run format` — eslint --fix, prettier --write, markdownlint --fix.
 
 - **Versioning**
   - Use `changesets` for PRs; version lifecycle scripts are configured (`version` / `postversion`).
@@ -43,11 +42,11 @@ This guide provides clear, actionable instructions for AI coding agents working 
 
 ## Scripts (package.json) 🔧
 
-Quick reference for scripts in `package.json`. Use `pnpm` (preferred).
+Quick reference for scripts in `package.json`. Use `bun` (preferred).
 
 - `build` — runs `format` then `build:force`.
 - `build:force` — runs `node scripts/build.mjs` (internal build implementation).
-- `build:dev` — runs `build:force` in dev mode (`pnpm run build:force -- dev`).
+- `build:dev` — runs `build:force` in dev mode (`bun run build:force -- dev`).
 - `obsidian:install` — runs `build` then `node scripts/obsidian-install.mjs` (install to vault).
 - `obsidian:install:force` — runs `build:force` then `node scripts/obsidian-install.mjs`.
 - `check` — runs `check:eslint`, `check:prettier`, `check:md`.
@@ -62,7 +61,7 @@ Quick reference for scripts in `package.json`. Use `pnpm` (preferred).
 - `prepare` — runs `husky` to set up Git hooks.
 - `version` / `postversion` — version lifecycle scripts (`node scripts/version.mjs`, `node scripts/version-post.mjs`).
 
-> CI tip: Use `pnpm install --frozen-lockfile` in CI for deterministic installs.
+> CI tip: Use `bun install --frozen-lockfile` in CI for deterministic installs.
 
 ## Testing ✅
 
@@ -93,15 +92,15 @@ Helpful local resources:
 - `tests/README.md` — Examples and recommended patterns for `vi` usage (async stubs, fake timers, spying globals).
 
 - **Run locally:**
-  - Full (default): `pnpm test` / `npm run test` — runs both unit and integration tests with coverage.
-  - Unit-only (Vitest CLI): `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --coverage` — fast, good for PR iteration.
-  - Integration-only (Vitest CLI): `pnpm exec vitest run "tests/**/*.test.{js,ts,mjs}" --coverage` — use for longer-running integration suites.
-  - Interactive / watch: `pnpm run test:watch` or `npm run test:watch`.
+  - Full (default): `bun run test` — runs both unit and integration tests with coverage.
+  - Unit-only (Vitest CLI): `bun x vitest run "tests/**/*.spec.{js,ts,mjs}" --coverage` — fast, good for PR iteration.
+  - Integration-only (Vitest CLI): `bun x vitest run "tests/**/*.test.{js,ts,mjs}" --coverage` — use for longer-running integration suites.
+  - Interactive / watch: `bun run test:watch`.
 
-  > **Agent note — vitest CLI:** `vitest` without a subcommand defaults to interactive/watch mode. **Agents must never run Vitest in watch mode**; always use `vitest run <options>` or add the `--run` option so tests execute non-interactively (example: `pnpm exec vitest --run "tests/**/*.spec.{js,ts,mjs}"`).
+  > **Agent note — vitest CLI:** `vitest` without a subcommand defaults to interactive/watch mode. **Agents must never run Vitest in watch mode**; always use `vitest run <options>` or add the `--run` option so tests execute non-interactively (example: `bun x vitest --run "tests/**/*.spec.{js,ts,mjs}"`).
 
 - **Git hooks & CI:**
-  - Pre-push: `.husky/pre-push` runs `npm run test` (equivalently `pnpm test`) — failing tests will block pushes.
+  - Pre-push: `.husky/pre-push` runs `bun run test` — failing tests will block pushes.
   - CI: CI jobs run the full test suite (both unit and integration). If adding slow or flaky integration tests, mark them clearly (folder or filename) and justify in the PR description; prefer to keep the default suite fast.
 
 - **Guidelines for agents & contributors:**
@@ -113,7 +112,7 @@ Helpful local resources:
 
 - **PR checklist (for agents):**
   1. Add/modify tests to cover behavior changes and follow the **one test file per source file** convention.
-  2. Run `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}"` locally for fast verification and `pnpm test` for the full suite.
+  2. Run `bun x vitest run "tests/**/*.spec.{js,ts,mjs}"` locally for fast verification and `bun run test` for the full suite.
   3. Keep tests parallelizable and idempotent.
   4. Document any infra changes in `AGENTS.md`.  
 
@@ -162,7 +161,7 @@ type JsonValue = string | number | boolean | null | JsonObject | JsonArray;
 - **Header should be ≤ 72 characters (use 72 as a human-friendly buffer; tooling still accepts up to 100).**
 - **Body lines must be hard-wrapped at 100 characters** (enforced by commitlint/husky). Prefer 72 for messages intended for humans.
 - See `.agents/instructions/commit-message.instructions.md` for up-to-date rules, examples, and a short agent-oriented summary.
-- Run `npm run commitlint` locally to validate message format before pushing; Husky will run checks on `prepare`/pre-push as configured.
+- Run `bun run commitlint` locally to validate message format before pushing; Husky will run checks on `prepare`/pre-push as configured.
 
   **Example (compliant):**
 
@@ -202,9 +201,7 @@ type JsonValue = string | number | boolean | null | JsonObject | JsonArray;
 
 ```sh
 # Preferred
-pnpm obsidian:install D:/path/to/vault
-# Or (if pnpm is not available)
-npm run obsidian:install D:/path/to/vault
+bun run obsidian:install D:/path/to/vault
 ```
 
 **Localization Reference:**
@@ -270,10 +267,10 @@ This section contains concise, actionable rules and project-specific examples to
 - Build/Dev pattern: `scripts/build.mjs` uses esbuild `context()`; pass `dev` as `argv[2]` to enable watch mode. Tests mock `esbuild` in `tests/scripts/build.test.mjs`—use those tests as canonical examples for safe refactors.
 - Script behavior: `scripts/obsidian-install.mjs` exits 1 with a short error message when `manifest.json` is missing. Make changes in scripts with tests mirroring error conditions (see `tests/scripts/obsidian-install.test.mjs`).
 - Test conventions: `*.spec.*` = unit (fast, isolated); `*.test.*` = integration (may use filesystem or child processes). Follow the one-test-file-per-source-file convention and place tests under `tests/` mirroring `src/`.
-- Formatting & linting: run `pnpm run format` and `pnpm run check` before committing. CI uses `pnpm install --frozen-lockfile`.
-- Commit rules for agents: use Conventional Commits; run `npm run commitlint` locally when appropriate. Keep headers ≤100 chars and wrap bodies at 100 chars.
+- Formatting & linting: run `bun run format` and `bun run check` before committing. CI uses `bun install`.
+- Commit rules for agents: use Conventional Commits; run `bun run commitlint` locally when appropriate. Keep headers ≤100 chars and wrap bodies at 100 chars.
 - Localization rule for agents: when adding text keys, update `assets/locales/en/translation.json` first and add tests or localization notes. Follow `.agents/instructions/localization.instructions.md`.
-- PR checklist (brief): add/modify tests, run `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}"` locally for fast checks, run `pnpm run check`, add changeset when changing public API or version, and update `AGENTS.md` if you changed infra or agent-visible patterns.
+- PR checklist (brief): add/modify tests, run `bun x vitest run "tests/**/*.spec.{js,ts,mjs}"` locally for fast checks, run `bun run check`, add changeset when changing public API or version, and update `AGENTS.md` if you changed infra or agent-visible patterns.
 
 ### Copilot / Chat assistant guidelines (detailed)
 
