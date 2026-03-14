@@ -299,8 +299,8 @@ This section contains concise, actionable rules and project-specific examples to
   - Added `tests/foo.spec.ts` (unit)
 
   Commands to run
-  - `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
-  - `pnpm run check`
+  - `bun exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
+  - `bun run check`
 
   Notes
   - One-line risk/impact
@@ -323,7 +323,7 @@ This section contains concise, actionable rules and project-specific examples to
   1. Add a failing test that reproduces desired behavior (unit or integration).
   2. Run the relevant tests non-interactively (`vitest run` / `--run`).
   3. Implement the minimal fix; update/add tests.
-  4. Run `pnpm run check` and `pnpm run format`.
+  4. Run `bun run check` and `bun run format`.
   5. Add a changeset if the public API changed.
   6. Provide a Conventional Commit message and PR description.
 
@@ -335,7 +335,7 @@ This section contains concise, actionable rules and project-specific examples to
 Example prompts (recommended) — extended with ideal-answer samples (use these as templates):
 
 1. Prompt: `Add a unit test for src/show-hidden-files.ts that reproduces a toggle bug, then implement the minimal fix and include the test.`
-   Ideal answer: Summary + Changed files: `src/show-hidden-files.ts`, `tests/src/show-hidden-files.spec.ts` + Tests added + Commands: `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run` + Risk: low + Next: ready for review.
+   Ideal answer: Summary + Changed files: `src/show-hidden-files.ts`, `tests/src/show-hidden-files.spec.ts` + Tests added + Commands: `bun exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run` + Risk: low + Next: ready for review.
 
 2. Prompt: `Add a new i18n key showHidden.label, update UI to use language.value.t(...), and add a localization test.`
    Ideal answer: Summary + Changed files: `assets/locales/en/translation.json`, `src/show-hidden-files.ts`, `tests/assets/locales.spec.ts` + Added localization test + Commands to run + Risk: doc-only / low.
@@ -344,7 +344,7 @@ Example prompts (recommended) — extended with ideal-answer samples (use these 
    Ideal answer: Summary + Changed files: `src/settings-data.ts`, `tests/src/settings-data.spec.ts` + Tests: failing test then fix + Commands + Risk: behavioural change (covered by tests).
 
 4. Prompt: `Add an integration test for scripts/obsidian-install.mjs validating missing manifest behavior.`
-   Ideal answer: Summary + Changed files: `scripts/obsidian-install.mjs`, `tests/scripts/obsidian-install.test.mjs` + Test asserts non-zero exit & short error message + Commands: `pnpm exec vitest run "tests/scripts/*.test.mjs" --run` + Risk: low.
+   Ideal answer: Summary + Changed files: `scripts/obsidian-install.mjs`, `tests/scripts/obsidian-install.test.mjs` + Test asserts non-zero exit & short error message + Commands: `bun exec vitest run "tests/scripts/*.test.mjs" --run` + Risk: low.
 
 5. Prompt: `Convert wildcard imports in src/magic.ts to explicit imports and update references.`
    Ideal answer: Summary + Changed files: `src/magic.ts` + Tests updated if needed + Commands + Risk: refactor-only; add unit tests if behavior changes.
@@ -353,7 +353,7 @@ Example prompts (recommended) — extended with ideal-answer samples (use these 
    Ideal answer: Summary + Changed files: `src/settings-data.ts`, `tests/src/settings-data.spec.ts` + Test covers `.fix()` + Commands + Risk: low.
 
 7. Prompt: `Introduce a changeset for a public API change and update README migration notes.`
-   Ideal answer: Summary + Files: `changeset/*`, `README.md` + Commands: `pnpm changeset` + Tests: none (docs + changeset) + Risk: high — document migration steps.
+   Ideal answer: Summary + Files: `changeset/*`, `README.md` + Commands: `bun changeset` + Tests: none (docs + changeset) + Risk: high — document migration steps.
 
 8. Prompt: `Add README instructions for running the plugin in a local Obsidian vault.`
    Ideal answer: Summary + Changed files: `README.md` + Commands to verify locally + Risk: docs-only.

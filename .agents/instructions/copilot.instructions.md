@@ -25,8 +25,8 @@ Tests
 
 Commands to run
 
-- `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
-- `pnpm run check`
+- `bun exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
+- `bun run check`
 
 Notes
 
@@ -55,7 +55,7 @@ Ideal answer (short):
 - Summary: Fix toggle bug in `show-hidden-files`.
 - Changed files: `src/show-hidden-files.ts`, `tests/src/show-hidden-files.spec.ts`.
 - Tests: add failing test, then fix; assert behavior.
-- Commands: `pnpm exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
+- Commands: `bun exec vitest run "tests/**/*.spec.{js,ts,mjs}" --run`
 - Risk: low; Next: ready for review.
 
 Prompt: `Add a new i18n key showHidden.label, update UI to use language.value.t(...), and add a localization test.`
@@ -64,7 +64,7 @@ Ideal answer (short):
 - Summary: Add translation + use in UI.
 - Changed files: `assets/locales/en/translation.json`, `src/...`, `tests/assets/locales.spec.ts`.
 - Tests: localization key exists & UI uses it.
-- Commands: `pnpm exec vitest run tests/assets/locales.spec.ts --run`
+- Commands: `bun exec vitest run tests/assets/locales.spec.ts --run`
 - Risk: docs-only.
 
 Prompt: `Refactor settings-data.fix() to normalize empty strings to defaults; add unit tests.`
@@ -73,7 +73,7 @@ Ideal answer (short):
 - Summary: Add `.fix()` normalization and tests.
 - Changed files: `src/settings-data.ts`, `tests/src/settings-data.spec.ts`.
 - Tests: failing test added then fixed.
-- Commands: `pnpm exec vitest run "tests/src/settings-data.spec.ts" --run`
+- Commands: `bun exec vitest run "tests/src/settings-data.spec.ts" --run`
 - Risk: behavioral change (covered by tests).
 
 ## Refusals
@@ -85,5 +85,5 @@ Ideal answer (short):
 1. Add a failing test reproducing the issue.
 2. Run tests with `--run` (non-interactive).
 3. Implement minimal fix and update tests.
-4. Run `pnpm run check` and `pnpm run format`.
+4. Run `bun run check` and `bun run format`.
 5. Add a changeset for API-impacting changes.
