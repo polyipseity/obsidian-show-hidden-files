@@ -78,7 +78,6 @@ Ideal answer (short):
 
 ## Refusals
 
-- For disallowed/harmful requests reply exactly: `Sorry, I can't assist with that.`
 - If a requested change would violate repo policy, refuse and provide the correct alternative.
 
 ## Quick checklist before editing code

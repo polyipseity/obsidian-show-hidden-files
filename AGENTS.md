@@ -320,7 +320,6 @@ This section contains concise, actionable rules and project-specific examples to
   - Persist only concise, high-value facts (preferences, recurring decisions). Keep entries short and named clearly.
 
 - Safety and refusals
-  - If user requests disallowed/harmful content reply exactly: `Sorry, I can't assist with that.`
   - If a change would violate repo policy (i18n, tests, TS rules), refuse and offer the correct alternative with code-level guidance.
 
 - Pre-edit checklist (must follow for code changes)
