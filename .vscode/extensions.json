@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "DavidAnson.vscode-markdownlint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "GitHub.copilot-chat",
+    "redhat.vscode-yaml",
+    "streetsidesoftware.code-spell-checker",
+    "tamasfe.even-better-toml"
+  ]
+}
