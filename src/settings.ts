@@ -3,7 +3,6 @@ import {
   cloneAsWritable,
   closeSetting,
   createChildElement,
-  createDocumentFragment,
   linkSetting,
   registerSettingsCommands,
   resetButton,
@@ -87,26 +86,23 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
     });
     this.newAllSettingsWidget(Settings.DEFAULT, Settings.fix);
     ui.newSetting(containerEl, (setting) => {
-      const { settingEl } = setting;
+      const { descEl } = setting;
       const { key: statusKey, cls: statusClass } =
         syncProtectionStatus(context);
+      // `descEl` is populated directly instead of via `setDesc(fragment)` because Obsidian's
+      // settings tab can render in its own window, where `instanceof DocumentFragment` checks
+      // against a fragment created in the main window's realm fail, printing "[object
+      // DocumentFragment]" instead of appending the content.
+      createChildElement(descEl, "span", (ele) => {
+        setSanitizedInnerHTML(ele, i18n.t("settings.protect-sync-description"));
+      });
+      createChildElement(descEl, "br", () => {});
+      createChildElement(descEl, "span", (ele) => {
+        ele.textContent = i18n.t(statusKey);
+        ele.classList.add(statusClass);
+      });
       setting
         .setName(i18n.t("settings.protect-sync"))
-        .setDesc(
-          createDocumentFragment(settingEl.ownerDocument, (frag) => {
-            createChildElement(frag, "span", (ele) => {
-              setSanitizedInnerHTML(
-                ele,
-                i18n.t("settings.protect-sync-description"),
-              );
-            });
-            createChildElement(frag, "br", () => {});
-            createChildElement(frag, "span", (ele) => {
-              ele.textContent = i18n.t(statusKey);
-              ele.classList.add(statusClass);
-            });
-          }),
-        )
         .addToggle(
           linkSetting(
             () => settings.value.protectSync,
@@ -134,19 +130,16 @@ export class SettingTab extends AdvancedSettingTab<Settings> {
         );
     })
       .newSetting(containerEl, (setting) => {
-        const { settingEl } = setting;
+        const { descEl } = setting;
+        // See the `descEl` comment above for why this is not `setDesc(fragment)`.
+        createChildElement(descEl, "span", (ele) => {
+          setSanitizedInnerHTML(
+            ele,
+            i18n.t("settings.show-hidden-files-description-HTML"),
+          );
+        });
         setting
           .setName(i18n.t("settings.show-hidden-files"))
-          .setDesc(
-            createDocumentFragment(settingEl.ownerDocument, (frag) => {
-              createChildElement(frag, "span", (ele) => {
-                setSanitizedInnerHTML(
-                  ele,
-                  i18n.t("settings.show-hidden-files-description-HTML"),
-                );
-              });
-            }),
-          )
           .addToggle(
             linkSetting(
               () => settings.value.showHiddenFiles,
